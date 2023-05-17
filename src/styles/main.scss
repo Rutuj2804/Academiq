@@ -1,0 +1,13 @@
+@import "./variables";
+
+@import "./fonts/index";
+
+@import "./components/index";
+@import "./modules/index";
+@import "./pages/index";
+
+* {
+    margin: 0%;
+    padding: 0%;
+    box-sizing: border-box;
+}
