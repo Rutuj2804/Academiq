@@ -20,6 +20,6 @@ export const settingsSlice = createSlice({
     },
 });
 
-export const { changeSidebar } = settingsSlice.actions;
+export const { changeSidebar, changeTheme } = settingsSlice.actions;
 
 export default settingsSlice.reducer;

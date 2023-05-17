@@ -9,7 +9,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
     children,
 }) => {
 
-    const authenticated = false
+    const authenticated = true
     
     if (!authenticated) {
         return <Navigate to="/home" replace />

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateRoute from "./routes/PrivateRoute";
 import { authRoutes, regularRoutes } from "./routes/routesData";
+import Layout from "./hocs/Layout";
 
 const App = () => {
     return (
@@ -11,7 +12,11 @@ const App = () => {
                         <Route
                             key={i}
                             path={r.path}
-                            element={<PrivateRoute>{r.element}</PrivateRoute>}
+                            element={
+                                <PrivateRoute>
+                                    <Layout>{r.element}</Layout>
+                                </PrivateRoute>
+                            }
                         />
                     ))}
                     {authRoutes.map((r, i) => (

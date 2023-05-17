@@ -1,0 +1,15 @@
+.navbar__Wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10x 0;
+    .left {
+        display: flex;
+        align-items: center;
+    }
+    .right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
