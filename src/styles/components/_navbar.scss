@@ -1,15 +1,26 @@
 .navbar__Wrapper {
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10x 0;
+    padding: 10px 20px;
+    background-color: $white;
+    z-index: 8;
+    // box-shadow: $shadow;
     .left {
         display: flex;
         align-items: center;
+        .logo {
+            font-weight: 700;
+            font-size: 22px;
+        }
     }
     .right {
         display: flex;
         align-items: center;
         gap: 10px;
+        button {
+            color: $black;
+        }
     }
 }

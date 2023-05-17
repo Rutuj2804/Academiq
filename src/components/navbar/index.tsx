@@ -1,7 +1,7 @@
 import { MenuRounded, SettingsRounded } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux"
-import { setSettings } from "../../store/layout/slice";
+import { setSettings, setSidebar } from "../../store/layout/slice";
 import { RootState } from "../../store";
 
 const Navbar = () => {
@@ -9,16 +9,12 @@ const Navbar = () => {
     const dispatch = useDispatch()
 
     const settings = useSelector((state: RootState)=> state.layout.settings)
+    const sidebar = useSelector((state: RootState)=> state.layout.sidebar)
 
     return (
-        <div className="container navbar__Wrapper">
+        <div className="navbar__Wrapper">
             <div className="left">
-                <div className="menu">
-                    <IconButton>
-                        <MenuRounded />
-                    </IconButton>
-                </div>
-                <div className="logo">Throtle</div>
+                {!sidebar && <div className="logo">Academiq</div>}
             </div>
             <div className="right">
                 <div className="settings">
@@ -27,7 +23,7 @@ const Navbar = () => {
                     </IconButton>
                 </div>
                 <div className="menu">
-                    <IconButton>
+                    <IconButton onClick={()=>dispatch(setSidebar(!sidebar))}>
                         <MenuRounded />
                     </IconButton>
                 </div>
