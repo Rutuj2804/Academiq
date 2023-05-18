@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store";
 import { sidebarLayout } from "../../store/settings/types";
 import { IconButton } from "@mui/material";
-import { CloseRounded } from "@mui/icons-material";
-import { setSidebar } from "../../store/layout/slice";
+import Logo from "../logo";
 
 const Sidebar = () => {
 
@@ -23,12 +22,7 @@ const Sidebar = () => {
         >
             <div className="top">
                 <div className="logo">
-                    Academiq
-                </div>
-                <div className="close">
-                    <IconButton onClick={()=>dispatch(setSidebar(false))}>
-                        <CloseRounded />
-                    </IconButton>
+                    <Logo mode="LIGHT" />
                 </div>
             </div>
         </div>

@@ -7,7 +7,8 @@
     transform: translateX(0);
     transition: all 0.2s linear;
     z-index: 8;
-    // box-shadow: $shadow;
+    background: hsla(212, 100%, 97%, 1);
+    background: linear-gradient(135deg, hsla(212, 100%, 97%, 1) 0%, hsla(0, 0%, 100%, 1) 100%);
 
     .top {
         display: flex;
@@ -15,9 +16,7 @@
         justify-content: center;
         position: relative;
         .logo {
-            font-weight: 700;
-            font-size: 22px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
         .close {
             position: absolute;

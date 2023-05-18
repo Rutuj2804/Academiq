@@ -1,0 +1,14 @@
+.logo__Wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
+    h4 {
+        font-weight: 600;
+        margin-bottom: 0%;
+    }
+    svg {
+        font-size: 30px;
+        color: $blue;
+    }
+}

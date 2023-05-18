@@ -1,0 +1,50 @@
+.messages__Wrapper {
+    position: fixed;
+    bottom: 10px;
+    width: 350px;
+    min-height: 30px;
+    z-index: 14;
+    background-color: transparent;
+
+    &.left {
+        left: calc(100% - 360px);
+    }
+
+    &.right {
+        left: 10px;
+    }
+
+    .messages__Box {
+        .messageUnit__Wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 3px;
+            margin-bottom: 5px;
+            &.success {
+                background-color: $green;
+                .close {
+                    button {
+                        background-color: $white;
+                        color: $green;
+                    }
+                }
+            }
+            &.error {
+                background-color: $red;
+                .close {
+                    button {
+                        background-color: $white;
+                        color: $red;
+                    }
+                }
+            }
+            .text {
+                font-size: 14px;
+                color: $white;
+            }
+            
+        }
+    }
+}

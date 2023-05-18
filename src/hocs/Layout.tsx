@@ -6,6 +6,7 @@ import Background from "../components/background";
 import { useSelector } from "react-redux"
 import { RootState } from "../store";
 import { sidebarLayout } from "../store/settings/types";
+import Messages from "../modules/messages";
 
 interface CProps {
     children: React.ReactNode;
@@ -23,6 +24,7 @@ const Layout = ({ children }: CProps) => {
             <Background />
             <div className={sidebar ? `layout__space-${sidebarStyle === sidebarLayout[0] ? "left" : "right"}` : `layout__expand`}>
                 <Navbar />
+                <Messages />
                 {children}
             </div>
         </div>

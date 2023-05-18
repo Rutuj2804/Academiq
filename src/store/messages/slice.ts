@@ -1,23 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from '@reduxjs/toolkit'
-import { MessageState, errorType } from "./types";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { Message, MessageState } from "./types";
 
 const initialState: MessageState = {
-    text: "",
-    type: errorType[1]
+    messages: [
+        { _id: "1", text: "This is Success Message", type: "SUCCESS" },
+        { _id: "2", text: "This is ERROR Message", type: "ERROR" },
+    ],
 };
 
 export const messageSlice = createSlice({
     name: "message",
     initialState,
     reducers: {
-        setMessage: (state, action: PayloadAction<MessageState>) => {
-            state.text = action.payload.text
-            state.type = action.payload.type
-        }
+        setMessage: (state, action: PayloadAction<Message>) => {
+            state.messages = [...state.messages, action.payload];
+        },
+        removeMessage: (state, action: PayloadAction<string>) => {
+            state.messages = state.messages.filter(
+                (m) => m._id !== action.payload
+            );
+        },
     },
 });
 
-export const { setMessage } = messageSlice.actions;
+export const { setMessage, removeMessage } = messageSlice.actions;
 
 export default messageSlice.reducer;
