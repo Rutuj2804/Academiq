@@ -4,9 +4,9 @@ import { RootState } from "../../store";
 
 const Background = () => {
 
-    const background = useSelector((state:RootState)=>state.layout.background)
+    const layout = useSelector((state:RootState)=>state.layout)
 
-    return <div className={background ? "background__Wrapper" : ""}></div>;
+    return <div className={layout.background || layout.background_modules ? "background__Wrapper" : ""}></div>;
 };
 
 export default Background;

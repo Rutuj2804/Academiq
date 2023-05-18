@@ -7,20 +7,19 @@ import {
 } from "@mui/icons-material";
 import { Badge, IconButton, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { setSettings, setSidebar } from "../../store/layout/slice";
+import { setSearch, setSettings, setSidebar } from "../../store/layout/slice";
 import { RootState } from "../../store";
 import Logo from "../logo";
 
 const Navbar = () => {
     const dispatch = useDispatch();
 
-    const settings = useSelector((state: RootState) => state.layout.settings);
-    const sidebar = useSelector((state: RootState) => state.layout.sidebar);
+    const layout = useSelector((state: RootState) => state.layout);
 
     return (
         <div className="navbar__Wrapper">
             <div className="left">
-                {!sidebar && (
+                {!layout.sidebar && (
                     <div className="logo">
                         <Logo mode="LIGHT" />
                     </div>
@@ -29,7 +28,9 @@ const Navbar = () => {
             <div className="right">
                 <div className="search">
                     <Tooltip title="Search">
-                        <IconButton>
+                        <IconButton
+                            onClick={() => dispatch(setSearch(!layout.search))}
+                        >
                             <SearchRounded />
                         </IconButton>
                     </Tooltip>
@@ -55,7 +56,9 @@ const Navbar = () => {
                 <div className="settings">
                     <Tooltip title="Settings">
                         <IconButton
-                            onClick={() => dispatch(setSettings(!settings))}
+                            onClick={() =>
+                                dispatch(setSettings(!layout.settings))
+                            }
                         >
                             <SettingsRounded />
                         </IconButton>
@@ -64,7 +67,9 @@ const Navbar = () => {
                 <div className="menu">
                     <Tooltip title="Menu">
                         <IconButton
-                            onClick={() => dispatch(setSidebar(!sidebar))}
+                            onClick={() =>
+                                dispatch(setSidebar(!layout.sidebar))
+                            }
                         >
                             <MenuRounded />
                         </IconButton>

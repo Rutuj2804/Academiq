@@ -6,6 +6,9 @@ const initialState: LayoutState = {
     sidebar: true,
     settings: false,
     background: false,
+    background_modules: false,
+    search: false,
+    popup: false
 };
 
 export const layoutSlice = createSlice({
@@ -17,12 +20,18 @@ export const layoutSlice = createSlice({
             else state.background = false;
             state.settings = action.payload;
         },
+        setSearch: (state, action: PayloadAction<boolean>) => {
+            if (action.payload) state.background_modules = true;
+            else state.background_modules = false;
+            state.popup = action.payload
+            state.search = action.payload;
+        },
         setSidebar: (state, action: PayloadAction<boolean>) => {
             state.sidebar = action.payload;
         },
     },
 });
 
-export const { setSettings, setSidebar } = layoutSlice.actions;
+export const { setSettings, setSidebar, setSearch } = layoutSlice.actions;
 
 export default layoutSlice.reducer;

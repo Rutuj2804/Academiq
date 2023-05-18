@@ -1,0 +1,27 @@
+.popup__Wrapper {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100vh;
+    z-index: 12;
+    .standard__Popup {
+        background-color: $white;
+        min-width: 600px;
+        border-radius: 5px;
+        padding: 15px;
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .title {
+                h4 {
+                    margin-bottom: 0%;
+                }
+            }
+        }
+    }
+}
