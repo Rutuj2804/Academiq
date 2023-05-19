@@ -3,10 +3,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { Message, MessageState } from "./types";
 
 const initialState: MessageState = {
-    messages: [
-        { _id: "1", text: "This is Success Message", type: "SUCCESS" },
-        { _id: "2", text: "This is ERROR Message", type: "ERROR" },
-    ],
+    messages: [],
 };
 
 export const messageSlice = createSlice({

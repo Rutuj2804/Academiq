@@ -1,0 +1,20 @@
+.section__Wrapper {
+    padding: 10px 20px;
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left {
+            h4 {
+                font-weight: 400;
+            }
+            .breadcrumps {
+                font-size: 12px;
+                color: $gray;
+            }
+        }
+        .right {
+            font-size: 45px;
+        }
+    }
+}

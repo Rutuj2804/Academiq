@@ -4,6 +4,7 @@ import { RootState } from "../../store";
 import { sidebarLayout } from "../../store/settings/types";
 import Logo from "../logo";
 import { sideBarData } from "../../assets/data/sidebar";
+import { useNavigate } from "react-router-dom";
 
 interface LinkCProps {
     name: string;
@@ -18,6 +19,9 @@ interface SectionNavigationCProps {
 }
 
 const SectionNavigation = ({ links, title }: SectionNavigationCProps) => {
+
+    const navigate = useNavigate()
+
     return (
         <div className="sectionNavigation__Wrapper">
             <div className="navigation__top">
@@ -26,7 +30,7 @@ const SectionNavigation = ({ links, title }: SectionNavigationCProps) => {
             </div>
             <div className="navigation__body">
                 {links.map((r, i) => (
-                    <div key={i} className="link">
+                    <div key={i} className="link" onClick={()=>navigate(r.link)}>
                         <div className="left">
                             <div className="icon">{r.icon}</div>
                             <p>{r.name}</p>

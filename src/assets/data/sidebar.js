@@ -43,19 +43,19 @@ export const sideBarData = [
         links: [
             {
                 name: "Classes",
-                link: "/class",
+                link: "/classes",
                 icon: <BsBox />,
                 notifications: 18,
             },
             {
                 name: "Activities",
-                link: "/activity",
+                link: "/activities",
                 icon: <BsActivity />,
                 notifications: 3,
             },
             {
                 name: "Schedule",
-                link: "/schedule",
+                link: "/schedules",
                 icon: <BsCalendarEvent />,
                 notifications: 1,
             },
@@ -106,7 +106,7 @@ export const sideBarData = [
             },
             {
                 name: "Calls",
-                link: "/call",
+                link: "/calls",
                 icon: <BsPersonVideo />,
                 notifications: 0,
             },

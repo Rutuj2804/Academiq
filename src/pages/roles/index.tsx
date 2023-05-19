@@ -5,7 +5,7 @@ import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 
-const Dashboard = () => {
+const RolesDefinition = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate()
@@ -17,8 +17,8 @@ const Dashboard = () => {
     useEffect(() => {
         dispatch(
             setBreadcrumps({
-                name: ["GENERAL", "Dashboard"],
-                link: "/dashboard",
+                name: ["RESPONSIBILITIES", "Roles Definition"],
+                link: "/roles",
             })
         );
     }, [dispatch]);
@@ -39,4 +39,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default RolesDefinition;
