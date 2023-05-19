@@ -1,14 +1,47 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { sidebarLayout } from "../../store/settings/types";
-import { IconButton } from "@mui/material";
 import Logo from "../logo";
+import { sideBarData } from "../../assets/data/sidebar";
+
+interface LinkCProps {
+    name: string;
+    icon: React.ReactNode;
+    link: string;
+    notifications: number;
+}
+
+interface SectionNavigationCProps {
+    links: LinkCProps[];
+    title: string;
+}
+
+const SectionNavigation = ({ links, title }: SectionNavigationCProps) => {
+    return (
+        <div className="sectionNavigation__Wrapper">
+            <div className="navigation__top">
+                <div className="left">{title}</div>
+                <div className="right"></div>
+            </div>
+            <div className="navigation__body">
+                {links.map((r, i) => (
+                    <div key={i} className="link">
+                        <div className="left">
+                            <div className="icon">{r.icon}</div>
+                            <p>{r.name}</p>
+                        </div>
+                        {r.notifications ? (
+                            <div className="right">{r.notifications}</div>
+                        ) : null}
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 const Sidebar = () => {
-
-    const dispatch = useDispatch()
-
     const sidebar = useSelector((state: RootState) => state.layout.sidebar);
     const sidebarStyle = useSelector(
         (state: RootState) => state.settings.sidebar
@@ -24,6 +57,16 @@ const Sidebar = () => {
                 <div className="logo">
                     <Logo mode="LIGHT" />
                 </div>
+            </div>
+
+            <div className="body">
+                {sideBarData.map((l, i) => (
+                    <SectionNavigation
+                        key={i}
+                        title={l.title}
+                        links={l.links}
+                    />
+                ))}
             </div>
         </div>
     );
