@@ -4,3 +4,10 @@
 @import "./sidebar";
 @import "./hocs";
 @import "./logo";
+
+.paper {
+    background-color: $white;
+    padding: 5px;
+    padding-bottom: 0%;
+    border-radius: 5px;
+}

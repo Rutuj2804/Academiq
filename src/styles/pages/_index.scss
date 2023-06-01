@@ -1,3 +1,6 @@
+@import "./dashboard";
+@import "./query";
+
 .section__Wrapper {
     padding: 10px 20px;
     header {
@@ -16,5 +19,9 @@
         .right {
             font-size: 45px;
         }
+    }
+
+    main {
+        margin-top: 20px;
     }
 }
