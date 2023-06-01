@@ -1,0 +1,85 @@
+.lectures__Wrapper {
+    section {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .header {
+        margin-bottom: 20px;
+    }
+    .lectures {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        overflow-x: scroll;
+        padding: 15px;
+        &::-webkit-scrollbar {
+            height: 5px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: transparent;
+            border-radius: 5px;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: transparent;
+        }
+        .card__Wrapper {
+            min-width: 350px;
+            padding: 20px;
+            box-shadow: 0 0 8px 4px $light-background;
+            border-radius: 5px;
+
+            background: hsla(197, 100%, 63%, 1);
+
+            background: linear-gradient(
+                0deg,
+                hsla(197, 100%, 63%, 1) 0%,
+                hsla(294, 100%, 55%, 1) 100%
+            );
+
+            background: -moz-linear-gradient(
+                0deg,
+                hsla(197, 100%, 63%, 1) 0%,
+                hsla(294, 100%, 55%, 1) 100%
+            );
+
+            background: -webkit-linear-gradient(
+                0deg,
+                hsla(197, 100%, 63%, 1) 0%,
+                hsla(294, 100%, 55%, 1) 100%
+            );
+
+            .header {
+                color: $white;
+                h6 {
+                    margin-bottom: 0%;
+                    font-size: 16px;
+                }
+                p{
+                    margin-bottom: 0%;
+                    font-size: 12px;
+                }
+            }
+
+            .footer {
+                margin-top: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                button {
+                    background-color: $white;
+                    font-size: 10px;
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+}
