@@ -134,6 +134,9 @@ const Classes = () => {
 
             <main className="classes__Wrapper">
                 <div className="paper">
+                    <div className="header">
+                        <h4>My Classes</h4>
+                    </div>
                     <div className="classes__Header">
                         <div className="left">
                             <Button
@@ -175,22 +178,24 @@ const Classes = () => {
                             </Button>
                         </div>
                     </div>
-                    <DataGrid
-                        rows={rows}
-                        columns={columns}
-                        initialState={{
-                            pagination: {
-                                paginationModel: {
-                                    pageSize: 10,
+                    <div className="data-grid">
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 10,
+                                    },
                                 },
-                            },
-                        }}
-                        pageSizeOptions={[10]}
-                        checkboxSelection
-                        onRowSelectionModelChange={(t) => setSelectedRow(t)}
-                        disableRowSelectionOnClick
-                        getRowId={(row) => row.id}
-                    />
+                            }}
+                            pageSizeOptions={[10]}
+                            checkboxSelection
+                            onRowSelectionModelChange={(t) => setSelectedRow(t)}
+                            disableRowSelectionOnClick
+                            getRowId={(row) => row.id}
+                        />
+                    </div>
                 </div>
             </main>
         </div>

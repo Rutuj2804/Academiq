@@ -1,10 +1,10 @@
-.classes__Wrapper {
+.activities__Wrapper {
 
-    .header{
+    .title{
         padding: 10px;
         padding-bottom: 0%;
     }
-    .classes__Header{
+    .activities__Header{
         padding: 10px;
         display: flex;
         justify-content: space-between;
@@ -35,6 +35,16 @@
     }
     .data-grid {
         padding: 10px;
+    }
+
+    .lectures {
+        padding: 10px;
+        .upcoming {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
     }
 }
 
