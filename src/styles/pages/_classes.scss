@@ -1,0 +1,44 @@
+.classes__Header{
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .left, .right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        button {
+            background-color: $light-background;
+            color: $blue;
+            padding: 7px 20px;
+            text-transform: capitalize;
+            &.active {
+                background-color: $blue;
+                color: $white;
+            }
+        }
+        .red {
+            background-color: $red;
+            color: $white;
+        }
+    }
+    .right button {
+        background-color: $blue;
+        color: $white;
+    }
+}
+
+.tag {
+    font-size: 12px;
+    background-color: $green;
+    border-radius: 5px;
+    padding: 5px;
+    color: $white;
+}
+
+.icon-hover {
+    &:hover {
+        background-color: $blue!important;
+        color: $white;
+    }
+}

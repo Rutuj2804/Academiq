@@ -1,13 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { GoPrimitiveDot } from "react-icons/go";
-import { IconButton } from "@mui/material";
-import { DeleteRounded, NorthWest } from "@mui/icons-material";
+import { Button, IconButton } from "@mui/material";
+import {
+    AddRounded,
+    EditRounded,
+    FileDownloadRounded,
+} from "@mui/icons-material";
 
 const columns: GridColDef[] = [
     {
@@ -15,6 +19,7 @@ const columns: GridColDef[] = [
         headerName: "Query",
         flex: 1,
         disableColumnMenu: true,
+        minWidth: 200,
         renderCell: (params) => (
             <div className="queryBlock">
                 <h6>
@@ -23,47 +28,45 @@ const columns: GridColDef[] = [
                         <GoPrimitiveDot />
                     </span>
                 </h6>
-                <p>
-                    {params.row.lastName.length < 30
-                        ? params.row.lastName
-                        : params.row.lastName.slice(0, 30) + "..."}
-                </p>
             </div>
         ),
     },
     {
-        field: "Assignments",
-        headerName: "Assignments",
+        field: "Status",
+        headerName: "Status",
         headerAlign: "center",
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => (
-            <IconButton size="small">
-                <NorthWest />
-            </IconButton>
-        ),
+        renderCell: (params) => <span className="tag active">Active</span>,
     },
     {
-        field: "Utilities",
-        headerName: "Utilities",
+        field: "Created By",
+        headerName: "Created By",
+        headerAlign: "center",
+        width: 300,
+        align: "center",
+        disableColumnMenu: true,
+        renderCell: (params) => <p className="mb-0">Rutuj Bokade</p>,
+    },
+    {
+        field: "Created At",
+        headerName: "Created At",
         headerAlign: "center",
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => (
-            <IconButton size="small">
-                <NorthWest />
-            </IconButton>
-        ),
+        renderCell: (params) => <p className="mb-0">2 mins ago</p>,
     },
     {
         field: " ",
-        width: 20,
+        headerName: "Update Class",
+        width: 150,
         disableColumnMenu: true,
+        align: "center",
         renderCell: (params) => (
-            <IconButton size="small">
-                <DeleteRounded />
+            <IconButton size="small" className="icon-hover">
+                <EditRounded fontSize="small" />
             </IconButton>
         ),
     },
@@ -86,7 +89,16 @@ const rows = [
     { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
+enum TabType {
+    ALL = "ALL",
+    ACTIVE = "ACTIVE",
+    DELETED = "DELETED",
+}
+
 const Classes = () => {
+    const [activeTab, setActiveTab] = useState(TabType.ALL);
+    const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
+
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -122,6 +134,47 @@ const Classes = () => {
 
             <main className="classes__Wrapper">
                 <div className="paper">
+                    <div className="classes__Header">
+                        <div className="left">
+                            <Button
+                                onClick={() => setActiveTab(TabType.ALL)}
+                                className={
+                                    TabType.ALL === activeTab ? "active" : ""
+                                }
+                            >
+                                All (33)
+                            </Button>
+                            <Button
+                                onClick={() => setActiveTab(TabType.ACTIVE)}
+                                className={
+                                    TabType.ACTIVE === activeTab ? "active" : ""
+                                }
+                            >
+                                Active (27)
+                            </Button>
+                            <Button
+                                onClick={() => setActiveTab(TabType.DELETED)}
+                                className={
+                                    TabType.DELETED === activeTab
+                                        ? "active"
+                                        : ""
+                                }
+                            >
+                                Deleted (6)
+                            </Button>
+                            {selectedRow.length > 0 ? (
+                                <Button className="red">
+                                    Delete ({selectedRow.length})
+                                </Button>
+                            ) : null}
+                        </div>
+                        <div className="right">
+                            <Button endIcon={<AddRounded />}>Add</Button>
+                            <Button endIcon={<FileDownloadRounded />}>
+                                Download
+                            </Button>
+                        </div>
+                    </div>
                     <DataGrid
                         rows={rows}
                         columns={columns}
@@ -134,6 +187,7 @@ const Classes = () => {
                         }}
                         pageSizeOptions={[10]}
                         checkboxSelection
+                        onRowSelectionModelChange={(t) => setSelectedRow(t)}
                         disableRowSelectionOnClick
                         getRowId={(row) => row.id}
                     />
