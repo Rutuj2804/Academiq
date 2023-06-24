@@ -47,11 +47,24 @@
     &.delete {
         background-color: $red;
     }
+    &.pending {
+        background-color: $purple;
+    }
+    &.fullfilled {
+        background-color: $blue;
+    }
 }
 
 .icon-hover {
     &:hover {
         background-color: $blue!important;
+        color: $white;
+    }
+}
+
+.icon-hover-red {
+    &:hover {
+        background-color: $red!important;
         color: $white;
     }
 }

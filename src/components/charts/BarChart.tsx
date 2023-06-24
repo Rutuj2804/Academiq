@@ -6,7 +6,6 @@ const BarChart = () => {
     const options: ApexOptions = {
         chart: {
             type: "bar",
-            height: 350,
         },
         plotOptions: {
             bar: {
@@ -36,6 +35,18 @@ const BarChart = () => {
     const series = [
         {
             data: [
+                {
+                    x: "category A",
+                    y: 10,
+                },
+                {
+                    x: "category B",
+                    y: 18,
+                },
+                {
+                    x: "category C",
+                    y: 13,
+                },
                 {
                     x: "category A",
                     y: 10,

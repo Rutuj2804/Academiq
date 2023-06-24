@@ -72,14 +72,33 @@
         }
     }
 
-    .footer {
-        margin-top: 20px;
+    .profile {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        gap: 7px;
+        .user {
+            color: $white;
+            h4 {
+                font-size: 14px;
+                margin: 0%;
+            }
+            p {
+                font-size: 10px;
+                margin: 0%;
+            }
+        }
+    }
+
+    .footer {
+        margin-top: 0px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
         button {
             background-color: $white;
             font-size: 10px;
+            color: $blue;
             text-transform: capitalize;
         }
     }

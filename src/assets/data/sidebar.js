@@ -31,8 +31,8 @@ export const sideBarData = [
                 notifications: 6,
             },
             {
-                name: "Queries",
-                link: "/query",
+                name: "Demand Letters",
+                link: "/demand-letters",
                 icon: <BsPatchQuestion />,
                 notifications: 2,
             },

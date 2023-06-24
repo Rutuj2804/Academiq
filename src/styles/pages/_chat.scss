@@ -1,0 +1,179 @@
+.chat__Wrapper {
+    margin-top: 20px;
+}
+
+.contacts__Wrapper {
+    height: calc(100vh - 170px);
+    background-color: $white;
+    // padding: 10px;
+    border-radius: 4px;
+    .contacts__Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 20px;
+        padding-top: 15px;
+        padding-bottom: 7px;
+    }
+    hr {
+        margin: 8px 0;
+    }
+
+    .contacts__Threads {
+        height: calc(100vh - 270px);
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: $gray;
+            border-radius: 5px;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .thread__Wrapper {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            &:hover {
+                background-color: $light-background;
+            }
+            .user {
+                margin-left: 10px;
+                h6 {
+                    margin-bottom: 0%;
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                    span {
+                        color: $green;
+                    }
+                }
+                p {
+                    margin-bottom: 0%;
+                    font-size: 12px;
+                    color: $gray;
+                }
+            }
+        }
+    }
+}
+
+.chatArea__Wrapper {
+    height: calc(100vh - 170px);
+    background-color: $white;
+    border-radius: 4px;
+    hr {
+        margin: 8px 0;
+    }
+    .chat__Header {
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left {
+            display: flex;
+            align-items: center;
+            .user {
+                margin-left: 10px;
+                h6 {
+                    margin-bottom: 0%;
+                }
+                p {
+                    margin-bottom: 0%;
+                    font-size: 12px;
+                    color: $gray;
+                }
+            }
+        }
+    }
+    .chat__Body {
+        height: calc(100vh - 360px);
+        padding: 10px;
+        overflow-y: scroll;
+        &::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+            background: $gray;
+            border-radius: 5px;
+        }
+
+        /* Handle on hover */
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .message__Wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            p{
+                margin-bottom: 0%;
+                background-color: $blue;
+                color: $white;
+                padding: 2px 7px;
+                font-size: 14px;
+                border-radius: 3px;
+            }
+            span {
+                font-size: 12px;
+                color: $gray;
+            }
+
+            &.sender {
+                align-items: flex-end;
+                p{
+                    background-color: $light-background;
+                    color: $blue;
+                }
+            }
+        }
+    }
+
+    .chat__Footer {
+        padding: 0 10px;
+        form {
+            display: flex;
+            align-items: flex-end;
+            gap: 7px;
+            .options {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                input {
+                    display: none;
+                }
+            }
+            .inutDiv {
+                flex: 1;
+                textarea {
+                    width: 100%;
+                    resize: none;
+                    border: none;
+                    background-color: $light-background;
+                    outline: none;
+                    padding: 7px;
+                }
+            }
+        }
+    }
+}

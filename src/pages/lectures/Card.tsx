@@ -1,5 +1,5 @@
 import { NorthWestRounded, PlayArrowRounded } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Avatar, Button, IconButton } from "@mui/material";
 import React from "react";
 
 interface CardCProps {
@@ -14,9 +14,16 @@ const Card = ({ title, timestamp }: CardCProps) => {
                 <h6>{title}</h6>
                 <p>{timestamp}</p>
             </div>
+            <div className="profile">
+                <Avatar />
+                <div className="user">
+                    <h4>Rutuj Bokade</h4>
+                    <p>Faculty for Cloud Computing</p>
+                </div>
+            </div>
             <div className="footer">
-                <Button startIcon={<NorthWestRounded />}>Visit Class</Button>
-                <Button startIcon={<PlayArrowRounded />}>Start Lecture</Button>
+                <IconButton size="small"><NorthWestRounded /></IconButton>
+                <IconButton size="small"><PlayArrowRounded /></IconButton>
             </div>
         </div>
     );

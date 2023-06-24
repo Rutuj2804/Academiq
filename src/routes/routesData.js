@@ -14,10 +14,10 @@ import Collaborate from "../pages/collaborate";
 import Events from "../pages/events";
 import Lectures from "../pages/lectures";
 import Notes from "../pages/notes";
-import Queries from "../pages/queries";
 import Schedules from "../pages/schedules";
 import RolesDefinition from "../pages/roles";
 import Assigned from "../pages/roles/Assigned";
+import DemandLetters from "../pages/demands";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -38,7 +38,7 @@ export const regularRoutes = [
 
     { path: "/notes", element: <Notes /> },
 
-    { path: "/query", element: <Queries /> },
+    { path: "/demand-letters", element: <DemandLetters /> },
 
     { path: "/schedules", element: <Schedules /> },
 
