@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { BsArrowRight } from "react-icons/bs";
-import Card from "./Card";
+import LectureCard from "./LectureCard";
 
 const Lectures = () => {
     const dispatch = useDispatch();
@@ -38,45 +37,17 @@ const Lectures = () => {
                 </div>
             </header>
 
-            <main className="lectures__Wrapper">
-                <section className="paper">
-                    <div className="header">
-                        <h6>Top Lectures <BsArrowRight /></h6>
+            <main className="lecture__Wrapper">
+                <div className="row">
+                    <div className="col-lg-3 col-lg-2 col-12"></div>
+                    <div className="col-lg-6 col-md-8 col-12">
+                        <LectureCard />
+                        <LectureCard />
+                        <LectureCard />
+                        <LectureCard />
                     </div>
-                    <div className="lectures">
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                    </div>
-                </section>
-                
-                <section className="paper">
-                    <div className="header">
-                        <h6>Recent Lectures <BsArrowRight /></h6>
-                    </div>
-                    <div className="lectures">
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                    </div>
-                </section>
-                
-                <section className="paper">
-                    <div className="header">
-                        <h6>Most Loved <BsArrowRight /></h6>
-                    </div>
-                    <div className="lectures">
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                        <Card title="Lecture 6: Cloud and its types" timestamp="12 May, 2023 8:00AM" />
-                    </div>
-                </section>
+                    <div className="col-lg-3 col-lg-2 col-12"></div>
+                </div>
             </main>
         </div>
     );

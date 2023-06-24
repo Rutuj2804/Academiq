@@ -1,0 +1,106 @@
+.events__Wrapper {
+    .postCard__Wrapper {
+        padding: 20px;
+        border-radius: 5px;
+        background-color: $white;
+        margin-bottom: 10px;
+        &:hover {
+            box-shadow: $shadow;
+            transition: all 0.2s linear;
+        }
+        hr {
+            margin: 10px 0;
+        }
+        .postCard__Header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .left {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                h6 {
+                    margin: 0%;
+                    font-size: 16px;
+                }
+                p {
+                    margin: 0%;
+                    font-size: 12px;
+                    color: $gray;
+                }
+            }
+        }
+        .postCard__Main {
+            .top {
+                p {
+                    font-size: 14px;
+                }
+            }
+            .bottom {
+                img {
+                    width: 100%;
+                    height: auto;
+                    cursor: pointer;
+                }
+            }
+            .grid-view {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px;
+                justify-content: center;
+                img {
+                    width: 200px;
+                    height: 200px;
+                    object-fit: cover;
+                }
+                .last {
+                    position: relative;
+                    div {
+                        position: absolute;
+                        top: 0%;
+                        left: 0%;
+                        z-index: 1;
+                        height: 100%;
+                        width: 100%;
+                        color: $white;
+                        cursor: pointer;
+                        background-color: rgba(
+                            $color: transparent,
+                            $alpha: 0.6
+                        );
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        h6 {
+                            font-size: 30px;
+                        }
+                    }
+                }
+            }
+        }
+        .postCard__Footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .left,
+            .right {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                font-size: 20px;
+                cursor: pointer;
+                .like {
+                    color: $red;
+                }
+                .comment {
+                    color: $blue;
+                }
+            }
+            .right {
+                color: $blue;
+                background-color: $white;
+                cursor: pointer;
+            }
+        }
+    }
+}

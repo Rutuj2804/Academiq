@@ -8,7 +8,6 @@ import { Button, IconButton } from "@mui/material";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { GoPrimitiveDot } from "react-icons/go";
 import { AddRounded, ArrowUpwardRounded } from "@mui/icons-material";
-import Card from "../lectures/Card";
 
 const columns: GridColDef[] = [
     {
@@ -205,13 +204,7 @@ const Activities = () => {
                                 <div className="top">
                                     <h4>Upcoming Lectures</h4>
                                 </div>
-                                <div className="upcoming">
-                                    <Card title="Cloud and its types" timestamp="24 May, 2023" />
-                                    <Card title="Cloud and its types" timestamp="24 May, 2023" />
-                                    <Card title="Cloud and its types" timestamp="24 May, 2023" />
-                                    <Card title="Cloud and its types" timestamp="24 May, 2023" />
-                                    <Card title="Cloud and its types" timestamp="24 May, 2023" />
-                                </div>
+                                <div className="upcoming"></div>
                             </div>
                         </div>
                     </div>
