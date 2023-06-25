@@ -12,7 +12,7 @@ import { AddRounded, ArrowUpwardRounded } from "@mui/icons-material";
 const columns: GridColDef[] = [
     {
         field: "firstName",
-        headerName: "Assignment",
+        headerName: "Activity",
         flex: 1,
         disableColumnMenu: true,
         minWidth: 200,
@@ -34,7 +34,7 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <span className="tag active">Active</span>,
+        renderCell: (params) => <span className="tag pending">Pending</span>,
     },
     {
         field: "Dead Line",
@@ -77,13 +77,13 @@ const rows = [
 ];
 
 enum TabType {
-    ALL = "ALL",
-    ACTIVE = "ACTIVE",
-    DELETED = "DELETED",
+    PENDING = "PENDING",
+    COMPLETED = "COMPLETED",
+    MISSED = "MISSED",
 }
 
 const Activities = () => {
-    const [activeTab, setActiveTab] = useState(TabType.ALL);
+    const [activeTab, setActiveTab] = useState(TabType.PENDING);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
     const dispatch = useDispatch();
@@ -120,93 +120,67 @@ const Activities = () => {
             </header>
 
             <main className="activities__Wrapper">
-                <div className="row">
-                    <div className="col-lg-8 col-md-12 col-12">
-                        <div className="paper">
-                            <div className="title">
-                                <h4>My Assignments</h4>
-                            </div>
-                            <div className="activities__Header">
-                                <div className="left">
-                                    <Button
-                                        onClick={() =>
-                                            setActiveTab(TabType.ALL)
-                                        }
-                                        className={
-                                            TabType.ALL === activeTab
-                                                ? "active"
-                                                : ""
-                                        }
-                                    >
-                                        All (33)
-                                    </Button>
-                                    <Button
-                                        onClick={() =>
-                                            setActiveTab(TabType.ACTIVE)
-                                        }
-                                        className={
-                                            TabType.ACTIVE === activeTab
-                                                ? "active"
-                                                : ""
-                                        }
-                                    >
-                                        Active (27)
-                                    </Button>
-                                    <Button
-                                        onClick={() =>
-                                            setActiveTab(TabType.DELETED)
-                                        }
-                                        className={
-                                            TabType.DELETED === activeTab
-                                                ? "active"
-                                                : ""
-                                        }
-                                    >
-                                        Completed (6)
-                                    </Button>
-                                    {selectedRow.length > 0 ? (
-                                        <Button className="red">
-                                            Delete ({selectedRow.length})
-                                        </Button>
-                                    ) : null}
-                                </div>
-                                <div className="right">
-                                    <Button endIcon={<AddRounded />}>
-                                        Add
-                                    </Button>
-                                </div>
-                            </div>
-                            <div className="data-grid">
-                                <DataGrid
-                                    rows={rows}
-                                    columns={columns}
-                                    initialState={{
-                                        pagination: {
-                                            paginationModel: {
-                                                pageSize: 10,
-                                            },
-                                        },
-                                    }}
-                                    pageSizeOptions={[10]}
-                                    checkboxSelection
-                                    onRowSelectionModelChange={(t) =>
-                                        setSelectedRow(t)
-                                    }
-                                    disableRowSelectionOnClick
-                                    getRowId={(row) => row.id}
-                                />
-                            </div>
+                <div className="paper">
+                    <div className="title">
+                        <h4>My Activities</h4>
+                    </div>
+                    <div className="activities__Header">
+                        <div className="left">
+                            <Button
+                                onClick={() => setActiveTab(TabType.PENDING)}
+                                className={
+                                    TabType.PENDING === activeTab
+                                        ? "active"
+                                        : ""
+                                }
+                            >
+                                Pending (27)
+                            </Button>
+                            <Button
+                                onClick={() => setActiveTab(TabType.COMPLETED)}
+                                className={
+                                    TabType.COMPLETED === activeTab
+                                        ? "active"
+                                        : ""
+                                }
+                            >
+                                Completed (6)
+                            </Button>
+                            <Button
+                                onClick={() => setActiveTab(TabType.MISSED)}
+                                className={
+                                    TabType.MISSED === activeTab ? "active" : ""
+                                }
+                            >
+                                Missed (6)
+                            </Button>
+                            {selectedRow.length > 0 ? (
+                                <Button className="red">
+                                    Delete ({selectedRow.length})
+                                </Button>
+                            ) : null}
+                        </div>
+                        <div className="right">
+                            <Button endIcon={<AddRounded />}>Add</Button>
                         </div>
                     </div>
-                    <div className="col-lg-4 col-md-12 col-12">
-                        <div className="paper">
-                            <div className="lectures">
-                                <div className="top">
-                                    <h4>Upcoming Lectures</h4>
-                                </div>
-                                <div className="upcoming"></div>
-                            </div>
-                        </div>
+                    <div className="data-grid">
+                        <DataGrid
+                            rows={rows}
+                            columns={columns}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 10,
+                                    },
+                                },
+                            }}
+                            pageSizeOptions={[10]}
+                            checkboxSelection
+                            onRowSelectionModelChange={(t) => setSelectedRow(t)}
+                            disableRowSelectionOnClick
+                            getRowId={(row) => row.id}
+                        />
                     </div>
                 </div>
             </main>

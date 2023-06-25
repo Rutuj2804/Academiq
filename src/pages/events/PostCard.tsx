@@ -23,7 +23,7 @@ const PostCard = ({ liked, comment }: PostCardCI) => {
     const [isCommented, setIsCommented] = useState(comment)
 
     const getClassname = (l: number) => {
-        if (l == 1) {
+        if (l === 1) {
             return "";
         } else if (l > 1) {
             return "grid-view";

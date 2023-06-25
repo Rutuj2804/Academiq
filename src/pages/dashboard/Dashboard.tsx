@@ -75,7 +75,7 @@ const Dashboard = () => {
                 <div className="row">
                     <div className="col-lg-4 col-md-6 col-12">
                         <div className="paper chart">
-                            <h4>My Performance</h4>
+                            <h4>My Attendence</h4>
                             <PieChart />
                         </div>
                         <div className="paper chart mt-4 pb-2">

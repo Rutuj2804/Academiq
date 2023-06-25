@@ -18,6 +18,7 @@ import Schedules from "../pages/schedules";
 import RolesDefinition from "../pages/roles";
 import Assigned from "../pages/roles/Assigned";
 import DemandLetters from "../pages/demands";
+import Library from "../pages/library";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -45,6 +46,8 @@ export const regularRoutes = [
     { path: "/roles", element: <RolesDefinition /> },
 
     { path: "/assigned", element: <Assigned /> },
+
+    { path: "/library", element: <Library /> },
 
     { path: "/", element: <Navigate to="/dashboard" /> },
 ];

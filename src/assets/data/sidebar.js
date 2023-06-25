@@ -12,6 +12,7 @@ import {
     BsSticky,
     BsPersonVideo,
     BsBoxSeam,
+    BsBook,
 } from "react-icons/bs";
 
 export const sideBarData = [
@@ -75,6 +76,12 @@ export const sideBarData = [
                 link: "/events",
                 icon: <BsGlobeCentralSouthAsia />,
                 notifications: 1,
+            },
+            {
+                name: "Library",
+                link: "/library",
+                icon: <BsBook />,
+                notifications: 14,
             },
         ],
     },
