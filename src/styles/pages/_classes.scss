@@ -68,3 +68,57 @@
         color: $white;
     }
 }
+
+
+// dark settings
+.dark .classes__Wrapper {
+    color: $white;
+    .classes__Header{
+        .left, .right {
+            button {
+                background-color: $bg-card-sub;
+                color: $blue;
+                &.active {
+                    background-color: $blue;
+                    color: $white;
+                }
+            }
+            .red {
+                background-color: $red;
+                color: $white;
+            }
+        }
+        .right button {
+            background-color: $blue;
+            color: $white;
+        }
+    }
+}
+
+.dark .icon-hover {
+    color: $white;
+    &:hover {
+        background-color: $blue!important;
+        color: $white;
+    }
+}
+
+.dark .icon-hover-red {
+    color: $white;
+    &:hover {
+        background-color: $red!important;
+        color: $white;
+    }
+}
+
+.dark .css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root,
+.dark .css-rtrcn9-MuiTablePagination-root {
+    color: $white;
+}
+.dark .css-zylse7-MuiButtonBase-root-MuiIconButton-root.Mui-disabled {
+    color: $bg-card-sub;
+}
+
+.css-levciy-MuiTablePagination-displayedRows {
+    margin: 0%;
+}

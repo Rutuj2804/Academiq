@@ -10,8 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setSearch, setSettings, setSidebar } from "../../store/layout/slice";
 import { RootState } from "../../store";
 import Logo from "../logo";
+import { useState } from "react";
+import ChangeInstituteDropdown from "../dropdown/ChangeInstituteDropdown";
+
+const optionsArr = ["MIT ADT University", "KV Southern Command"];
 
 const Navbar = () => {
+    const [selected, setSelected] = useState(optionsArr[0]);
+
     const dispatch = useDispatch();
 
     const layout = useSelector((state: RootState) => state.layout);
@@ -22,8 +28,21 @@ const Navbar = () => {
                 {!layout.sidebar && (
                     <div className="logo">
                         <Logo mode="LIGHT" />
+                        <div className="vr"></div>
+                        <ChangeInstituteDropdown
+                            optionsArr={optionsArr}
+                            selected={selected}
+                            setSelected={setSelected}
+                            width={250}
+                        />
                     </div>
                 )}
+                {layout.sidebar && <ChangeInstituteDropdown
+                    optionsArr={optionsArr}
+                    selected={selected}
+                    setSelected={setSelected}
+                    width={250}
+                />}
             </div>
             <div className="right">
                 <div className="search">

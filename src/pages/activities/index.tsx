@@ -8,6 +8,7 @@ import { Button, IconButton } from "@mui/material";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { GoPrimitiveDot } from "react-icons/go";
 import { AddRounded, ArrowUpwardRounded } from "@mui/icons-material";
+import { layoutTheme } from "../../store/settings/types";
 
 const columns: GridColDef[] = [
     {
@@ -92,6 +93,8 @@ const Activities = () => {
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
+    const theme = useSelector((state: RootState) => state.settings.theme);
+
     useEffect(() => {
         dispatch(
             setBreadcrumps({
@@ -161,7 +164,12 @@ const Activities = () => {
                             ) : null}
                         </div>
                         <div className="right">
-                            <Button endIcon={<AddRounded />}>Add</Button>
+                            <Button
+                                endIcon={<AddRounded />}
+                                onClick={() => navigate("/activities/add")}
+                            >
+                                Add
+                            </Button>
                         </div>
                     </div>
                     <div className="data-grid">
@@ -180,6 +188,11 @@ const Activities = () => {
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
                             getRowId={(row) => row.id}
+                            sx={
+                                theme === layoutTheme[0]
+                                    ? null
+                                    : { color: "white" }
+                            }
                         />
                     </div>
                 </div>

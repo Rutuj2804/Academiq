@@ -1,0 +1,58 @@
+.bookCard__Wrapper {
+    background-color: $white;
+    padding: 15px;
+    box-shadow: $shadow-light;
+    width: 350px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    &:hover {
+        box-shadow: $shadow;
+    }
+
+    .bookCard__Header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+
+        .bookCard__Left {
+            h6 {
+                margin-bottom: 0;
+            }
+            p {
+                margin-bottom: 0%;
+                font-size: 14px;
+                color: $gray;
+            }
+        }
+    }
+
+    .bookCard__Footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        button {
+            font-size: 20px;
+            color: $blue;
+            box-shadow: 0 0 8px 4px rgba($color: $blue, $alpha: 0.05);
+            background-color: $white;
+            &:hover {
+                box-shadow: 0 0 8px 4px rgba($color: $blue, $alpha: 0.15);
+            }
+        }
+        .bookCard__Left {
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            .like {
+                color: $red;
+            }
+            .save {
+                color: $blue;
+            }
+        }
+    }
+}

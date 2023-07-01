@@ -15,4 +15,7 @@
 
 body {
     background-color: $light-background;
+    &.dark {
+        background-color: $bg-dark;
+    }
 }

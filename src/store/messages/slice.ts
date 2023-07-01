@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { Message, MessageState } from "./types";
+import { Message, MessageState, errorType } from "./types";
 
 const initialState: MessageState = {
-    messages: [],
+    messages: [{ _id: "2", text: "Successfully executed transaction." , type: errorType[1] }],
 };
 
 export const messageSlice = createSlice({

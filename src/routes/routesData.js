@@ -19,35 +19,47 @@ import RolesDefinition from "../pages/roles";
 import Assigned from "../pages/roles/Assigned";
 import DemandLetters from "../pages/demands";
 import Library from "../pages/library";
+import AddActivity from "../pages/activities/AddActivity";
+import AddClass from "../pages/classes/AddClass";
+import AddLecture from "../pages/lectures/AddLecture";
+import AddDemand from "../pages/demands/AddDemand";
+import AddRoleDefinition from "../pages/roles/AddRoleDefinition";
+import AddBooks from "../pages/library/AddBooks";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
 
     { path: "/activities", element: <Activities /> },
+    { path: "/activities/add", element: <AddActivity /> },
 
     { path: "/calls", element: <Calls /> },
 
     { path: "/chat", element: <Chat /> },
 
     { path: "/classes", element: <Classes /> },
+    { path: "/classes/add", element: <AddClass /> },
 
     { path: "/collaborate", element: <Collaborate /> },
 
     { path: "/events", element: <Events /> },
 
     { path: "/lectures", element: <Lectures /> },
+    { path: "/lectures/add", element: <AddLecture /> },
 
     { path: "/notes", element: <Notes /> },
 
     { path: "/demand-letters", element: <DemandLetters /> },
+    { path: "/demand-letters/add", element: <AddDemand /> },
 
     { path: "/schedules", element: <Schedules /> },
 
     { path: "/roles", element: <RolesDefinition /> },
+    { path: "/roles/add", element: <AddRoleDefinition /> },
 
     { path: "/assigned", element: <Assigned /> },
 
     { path: "/library", element: <Library /> },
+    { path: "/library/add", element: <AddBooks /> },
 
     { path: "/", element: <Navigate to="/dashboard" /> },
 ];

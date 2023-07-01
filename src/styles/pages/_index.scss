@@ -5,6 +5,7 @@
 @import "./activities";
 @import "./chat";
 @import "./events";
+@import "./library";
 
 .section__Wrapper {
     padding: 10px 20px;
@@ -19,6 +20,7 @@
             .breadcrumps {
                 font-size: 12px;
                 color: $gray;
+                cursor: pointer;
             }
         }
         .right {
@@ -28,5 +30,22 @@
 
     main {
         margin-top: 20px;
+    }
+}
+
+
+// dark settings
+.dark .section__Wrapper {
+    header {
+        .left {
+            h4 {
+                color: $white;
+            }
+            .breadcrumps {
+                font-size: 12px;
+                color: $dark-gray;
+                cursor: pointer;
+            }
+        }
     }
 }

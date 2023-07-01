@@ -12,6 +12,7 @@ import {
     EditRounded,
     FileDownloadRounded,
 } from "@mui/icons-material";
+import { layoutTheme } from "../../store/settings/types";
 
 const columns: GridColDef[] = [
     {
@@ -87,6 +88,11 @@ const rows = [
     { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
     { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
     { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
+    { id: 6, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
+    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
+    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
 enum TabType {
@@ -102,6 +108,8 @@ const Classes = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+
+    const theme = useSelector((state: RootState) => state.settings.theme);
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
@@ -172,7 +180,12 @@ const Classes = () => {
                             ) : null}
                         </div>
                         <div className="right">
-                            <Button endIcon={<AddRounded />}>Add</Button>
+                            <Button
+                                endIcon={<AddRounded />}
+                                onClick={() => navigate("/classes/add")}
+                            >
+                                Add
+                            </Button>
                             <Button endIcon={<FileDownloadRounded />}>
                                 Download
                             </Button>
@@ -194,6 +207,11 @@ const Classes = () => {
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
                             getRowId={(row) => row.id}
+                            sx={
+                                theme === layoutTheme[0]
+                                    ? null
+                                    : { color: "white" }
+                            }
                         />
                     </div>
                 </div>

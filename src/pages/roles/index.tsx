@@ -12,6 +12,7 @@ import {
     EditRounded,
     FileDownloadRounded,
 } from "@mui/icons-material";
+import { layoutTheme } from "../../store/settings/types";
 
 const columns: GridColDef[] = [
     {
@@ -100,11 +101,11 @@ const RolesDefinition = () => {
 
     const dispatch = useDispatch();
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const breadcrumps = useSelector(
-        (state: RootState) => state.breadcrumps
-    );
+    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
+
+    const theme = useSelector((state: RootState) => state.settings.theme);
 
     useEffect(() => {
         dispatch(
@@ -120,7 +121,12 @@ const RolesDefinition = () => {
             <header>
                 <div className="left">
                     <h4>{breadcrumps.name[1]}</h4>
-                    <div className="breadcrumps" onClick={()=>navigate(breadcrumps.link)}>{breadcrumps.name.join(" > ")}</div>
+                    <div
+                        className="breadcrumps"
+                        onClick={() => navigate(breadcrumps.link)}
+                    >
+                        {breadcrumps.name.join(" > ")}
+                    </div>
                 </div>
                 <div className="right">
                     <FcPieChart />
@@ -160,7 +166,12 @@ const RolesDefinition = () => {
                             ) : null}
                         </div>
                         <div className="right">
-                            <Button endIcon={<AddRounded />}>Add</Button>
+                            <Button
+                                endIcon={<AddRounded />}
+                                onClick={() => navigate("/roles/add")}
+                            >
+                                Add
+                            </Button>
                             <Button endIcon={<FileDownloadRounded />}>
                                 Download
                             </Button>
@@ -182,6 +193,11 @@ const RolesDefinition = () => {
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
                             getRowId={(row) => row.id}
+                            sx={
+                                theme === layoutTheme[0]
+                                    ? null
+                                    : { color: "white" }
+                            }
                         />
                     </div>
                 </div>

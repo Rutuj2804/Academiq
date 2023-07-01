@@ -92,3 +92,50 @@
         }
     }
 }
+
+
+// dark settings
+.dark .lecture__Wrapper{
+    .lectureCard__Wrapper {
+        background-color: $bg-card;
+        color: $white;
+        &:hover {
+            box-shadow: $shadow;
+        }
+        .lectureCard__Header {
+            color: $white;
+            .left {
+                p {
+                    color: $dark-gray;
+                }
+            }
+        }
+        .lectureCard__Main {
+            .date {
+                h1 {
+                }
+            }
+            .details {
+                .top {
+                    color: $dark-gray;
+                }
+            }
+        }
+        .lectureCard__Footer {
+            .left, .right {
+                .accept{
+                    background-color: $bg-card-sub;
+                    &:hover{
+                        box-shadow: 0 0 8px 4px rgba($color: $green, $alpha: 0.15);
+                    }
+                }
+                .reject {
+                    background-color: $bg-card-sub;
+                    &:hover{
+                        box-shadow: 0 0 8px 4px rgba($color: $red, $alpha: 0.15);
+                    }
+                }
+            }
+        }
+    }
+}

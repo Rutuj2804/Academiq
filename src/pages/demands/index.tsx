@@ -5,12 +5,10 @@ import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import {
-    AddRounded,
-    DeleteRounded,
-} from "@mui/icons-material";
-import {  Button, IconButton } from "@mui/material";
+import { AddRounded, DeleteRounded } from "@mui/icons-material";
+import { Button, IconButton } from "@mui/material";
 import { GoPrimitiveDot } from "react-icons/go";
+import { layoutTheme } from "../../store/settings/types";
 
 const columns: GridColDef[] = [
     {
@@ -94,11 +92,13 @@ const DemandLetters = () => {
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
+    const theme = useSelector((state: RootState) => state.settings.theme);
+
     useEffect(() => {
         dispatch(
             setBreadcrumps({
-                name: ["GENERAL", "Queries"],
-                link: "/queries",
+                name: ["GENERAL", "Demand Letters"],
+                link: "/demand-letters",
             })
         );
     }, [dispatch]);
@@ -147,7 +147,9 @@ const DemandLetters = () => {
                                 Pending (6)
                             </Button>
                             <Button
-                                onClick={() => setActiveTab(TabType.FULL_FILLED)}
+                                onClick={() =>
+                                    setActiveTab(TabType.FULL_FILLED)
+                                }
                                 className={
                                     TabType.FULL_FILLED === activeTab
                                         ? "active"
@@ -163,7 +165,12 @@ const DemandLetters = () => {
                             ) : null}
                         </div>
                         <div className="right">
-                            <Button endIcon={<AddRounded />}>Add</Button>
+                            <Button
+                                endIcon={<AddRounded />}
+                                onClick={() => navigate("/demand-letters/add")}
+                            >
+                                Add
+                            </Button>
                         </div>
                     </div>
                     <div className="data-grid">
@@ -182,6 +189,11 @@ const DemandLetters = () => {
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
                             getRowId={(row) => row.id}
+                            sx={
+                                theme === layoutTheme[0]
+                                    ? null
+                                    : { color: "white" }
+                            }
                         />
                     </div>
                 </div>

@@ -1,0 +1,57 @@
+.library__Wrapper {
+    .library__Filter {
+        width: 100%;
+        padding: 7px;
+        background-color: $white;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        box-shadow: $shadow-light;
+        form {
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            border: 1px solid $gray;
+            border-radius: 5px;
+            .library__Search{
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                padding: 0 15px;
+                flex: 1;
+                input {
+                    flex: 1;
+                    padding: 7px 15px;
+                    outline: none;
+                    border: none;
+                    width: 100%;
+                }
+            }
+            button {
+                background-color: $blue;
+                padding: 15px;
+                color: $white;
+                border-radius: 4px;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+        .library__RightFilters {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    }
+
+    .library__BooksAvailable {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+}

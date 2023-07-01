@@ -55,19 +55,31 @@
             .play {
                 button {
                     color: $blue;
-                    box-shadow: 0 0 8px 4px rgba($color: $blue, $alpha: 0.15);
+                    box-shadow: 0 0 8px 4px rgba($color: $blue, $alpha: 0.05);
+                    background-color: $white;
+                    &:hover {
+                        box-shadow: 0 0 8px 4px rgba($color: $blue, $alpha: 0.15);
+                    }
                 }
             }
             .upload {
                 button {
                     color: $green;
-                    box-shadow: 0 0 8px 4px rgba($color: $green, $alpha: 0.15);
+                    box-shadow: 0 0 8px 4px rgba($color: $green, $alpha: 0.05);
+                    background-color: $white;
+                    &:hover {
+                        box-shadow: 0 0 8px 4px rgba($color: $green, $alpha: 0.15);
+                    }
                 }
             }
             .done {
                 button {
                     color: $red;
-                    box-shadow: 0 0 8px 4px rgba($color: $red, $alpha: 0.15);
+                    box-shadow: 0 0 8px 4px rgba($color: $red, $alpha: 0.05);
+                    background-color: $white;
+                    &:hover {
+                        box-shadow: 0 0 8px 4px rgba($color: $red, $alpha: 0.15);
+                    }
                 }
             }
         }
@@ -133,5 +145,50 @@
     button {
         color: $black;
         cursor: default;
+    }
+}
+
+
+// dark settings
+.dark .dashboard__Wrapper {
+    color: $white;
+    .chart {
+        .dashboard__Holidays {
+            span {
+                color: $dark-gray;
+            }
+        }
+        .lecture__Wrapper {
+            .user {
+                .details {
+                    p {
+                        color: $dark-gray;
+                    }
+                }
+            }
+        }
+    }
+    .profile {
+        .details {
+            .user {
+                p {
+                    color: $dark-gray;
+                }
+            }
+        }
+        .button-div {
+            .view {
+                background-color: $bg-dark;
+            }
+        }
+    }
+}
+
+.dark .dashboard__Breadcrumps {
+    h4 {
+        color: $white;
+    }
+    button {
+        color: $dark-gray;
     }
 }

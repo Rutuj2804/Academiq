@@ -1,6 +1,6 @@
 import { CloseRounded } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { sidebarLayout } from "../../store/settings/types";
@@ -15,6 +15,10 @@ interface CMessageUnit {
 const MessageUnit = ({ text, id, type }: CMessageUnit) => {
 
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        setTimeout(()=>dispatch(removeMessage(id)), 10000)
+    }, [])
 
     return (
         <div

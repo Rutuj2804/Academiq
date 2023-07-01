@@ -11,6 +11,7 @@ interface LinkCProps {
     icon: React.ReactNode;
     link: string;
     notifications: number;
+    matches: string[];
 }
 
 interface SectionNavigationCProps {
@@ -19,8 +20,7 @@ interface SectionNavigationCProps {
 }
 
 const SectionNavigation = ({ links, title }: SectionNavigationCProps) => {
-
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     return (
         <div className="sectionNavigation__Wrapper">
@@ -30,7 +30,11 @@ const SectionNavigation = ({ links, title }: SectionNavigationCProps) => {
             </div>
             <div className="navigation__body">
                 {links.map((r, i) => (
-                    <div key={i} className="link" onClick={()=>navigate(r.link)}>
+                    <div
+                        key={i}
+                        className={`link`}
+                        onClick={() => navigate(r.link)}
+                    >
                         <div className="left">
                             <div className="icon">{r.icon}</div>
                             <p>{r.name}</p>

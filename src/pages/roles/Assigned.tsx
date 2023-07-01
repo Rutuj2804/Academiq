@@ -12,6 +12,7 @@ import {
     EditRounded,
     FileDownloadRounded,
 } from "@mui/icons-material";
+import { layoutTheme } from "../../store/settings/types";
 
 const columns: GridColDef[] = [
     {
@@ -91,11 +92,11 @@ const Assigned = () => {
 
     const dispatch = useDispatch();
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const breadcrumps = useSelector(
-        (state: RootState) => state.breadcrumps
-    );
+    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
+
+    const theme = useSelector((state: RootState) => state.settings.theme);
 
     useEffect(() => {
         dispatch(
@@ -111,14 +112,18 @@ const Assigned = () => {
             <header>
                 <div className="left">
                     <h4>{breadcrumps.name[1]}</h4>
-                    <div className="breadcrumps" onClick={()=>navigate(breadcrumps.link)}>{breadcrumps.name.join(" > ")}</div>
+                    <div
+                        className="breadcrumps"
+                        onClick={() => navigate(breadcrumps.link)}
+                    >
+                        {breadcrumps.name.join(" > ")}
+                    </div>
                 </div>
                 <div className="right">
                     <FcPieChart />
                     <FcBarChart />
                 </div>
             </header>
-            
 
             <main className="classes__Wrapper">
                 <div className="paper">
@@ -174,6 +179,11 @@ const Assigned = () => {
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
                             getRowId={(row) => row.id}
+                            sx={
+                                theme === layoutTheme[0]
+                                    ? null
+                                    : { color: "white" }
+                            }
                         />
                     </div>
                 </div>

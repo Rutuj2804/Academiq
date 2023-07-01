@@ -78,6 +78,10 @@
                         background-color: $white;
                         color: $blue;
                     }
+                    &.active {
+                        background-color: $white;
+                        color: $blue;
+                    }
                     .left {
                         display: flex;
                         align-items: center;

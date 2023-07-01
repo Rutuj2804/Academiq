@@ -6,6 +6,7 @@ $blue: #007fff;
 $light-blue: #f0f7ff;
 
 $shadow:  0 0 10px 5px rgba($color: $black, $alpha: 0.15);
+$shadow-light:  0 0 10px 5px rgba($color: $black, $alpha: 0.05);
 
 $light-background: #f6f6f6;
 
@@ -13,3 +14,9 @@ $red: rgb(239 68 68);
 $green: rgb(34 197 94);
 $purple: rgb(168 85 247);
 $yellow: #ecc94b;
+
+
+$bg-dark: #121212;
+$bg-card: #1e1e1e;
+$dark-gray: #e1e1e1;
+$bg-card-sub: #3c4042;
