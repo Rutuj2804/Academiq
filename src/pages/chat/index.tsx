@@ -41,16 +41,19 @@ const Chat = () => {
                 </div>
             </header>
 
-            <div className="chat__Wrapper">
-                <div className="row">
-                    <div className="col-lg-3 col-md-4 col-12">
-                        <Contacts />
-                    </div>
-                    <div className="col-lg-9 col-md-8 col-12">
-                        <ChatArea />
+            <main>
+                <div className="chat__Wrapper">
+                    <div className="row">
+                        <div className="col-lg-3 col-md-4 col-12">
+                            <Contacts />
+                        </div>
+                        <div className="col-lg-9 col-md-8 col-12">
+                            <ChatArea />
+                        </div>
                     </div>
                 </div>
-            </div>
+
+            </main>
         </div>
     );
 };

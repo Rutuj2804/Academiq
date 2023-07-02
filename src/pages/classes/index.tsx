@@ -88,11 +88,11 @@ const rows = [
     { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
     { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
     { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
+    { id: 10, lastName: "Targaryen", firstName: "Daenerys", age: null },
+    { id: 16, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
+    { id: 17, lastName: "Clifford", firstName: "Ferrara", age: 44 },
+    { id: 18, lastName: "Frances", firstName: "Rossini", age: 36 },
+    { id: 19, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
 enum TabType {

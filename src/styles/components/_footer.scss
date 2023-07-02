@@ -1,0 +1,17 @@
+.footer__Wrapper {
+    position: absolute;
+    bottom: 0%;
+    left: 0%;
+    width: 100%;
+    background-color: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    gap: 5px;
+    span {
+        color: $red;
+    }
+}

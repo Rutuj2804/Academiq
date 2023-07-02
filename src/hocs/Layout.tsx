@@ -8,6 +8,7 @@ import { RootState } from "../store";
 import { sidebarLayout } from "../store/settings/types";
 import Messages from "../modules/messages";
 import Popups from "../modules/popups";
+import Footer from "../components/footer";
 
 interface CProps {
     children: React.ReactNode;
@@ -28,6 +29,7 @@ const Layout = ({ children }: CProps) => {
                 <Messages />
                 <Popups />
                 {children}
+                <Footer />
             </div>
         </div>
     );
