@@ -37,6 +37,9 @@ const App = () => {
         <div>
             <Router>
                 <Routes>
+                    {authRoutes.map((r, i) => (
+                        <Route key={i} path={r.path} element={r.element} />
+                    ))}
                     {regularRoutes.map((r, i) => (
                         <Route
                             key={i}
@@ -47,9 +50,6 @@ const App = () => {
                                 </PrivateRoute>
                             }
                         />
-                    ))}
-                    {authRoutes.map((r, i) => (
-                        <Route key={i} path={r.path} element={r.element} />
                     ))}
                 </Routes>
             </Router>

@@ -4,13 +4,21 @@ import { data } from "../../assets/data/profileDropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfile } from "../../store/layout/slice";
 import { RootState } from "../../store";
+import { useNavigate } from "react-router-dom";
 
 const ProfileMenu = () => {
     const profile = useSelector((state: RootState) => state.layout.profile);
 
     const dispatch = useDispatch();
 
+    const navigate = useNavigate()
+
     const profileRef = useRef<HTMLDivElement>(null);
+
+    const onNavigationClick = (s: string) => {
+        navigate(s)
+        dispatch(setProfile(false));
+    }
 
     useEffect(() => {
         const triggerFunction = (e: any) => {
@@ -39,7 +47,7 @@ const ProfileMenu = () => {
             </div>
             <div className="profileMenu__Options">
                 {data.map((d, i) => (
-                    <div key={i} className="profileMenu__NavLink">
+                    <div key={i} className="profileMenu__NavLink" onClick={()=>onNavigationClick(d.path)}>
                         {d.icon}
                         <h6>{d.name}</h6>
                     </div>

@@ -25,6 +25,11 @@ import AddLecture from "../pages/lectures/AddLecture";
 import AddDemand from "../pages/demands/AddDemand";
 import AddRoleDefinition from "../pages/roles/AddRoleDefinition";
 import AddBooks from "../pages/library/AddBooks";
+import Profile from "../pages/profile";
+import EditProfile from "../pages/profile/Edit";
+import ChangePassword from "../pages/profile/ChangePassword";
+import CreateUniversity from "../pages/university/Create";
+import University from "../pages/university";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -61,6 +66,10 @@ export const regularRoutes = [
     { path: "/library", element: <Library /> },
     { path: "/library/add", element: <AddBooks /> },
 
+    { path: "/change-password", element: <ChangePassword /> },
+    { path: "/edit/:username", element: <EditProfile /> },
+    { path: "/:username", element: <Profile /> },
+
     { path: "/", element: <Navigate to="/dashboard" /> },
 ];
 
@@ -70,4 +79,7 @@ export const authRoutes = [
     { path: "/register", element: <Register /> },
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/reset-password", element: <ResetPassword /> },
+
+    { path: "/university/create", element: <CreateUniversity /> },
+    { path: "/university/:name", element: <University /> },
 ];

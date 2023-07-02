@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 interface ChangeInstituteDropdownCProps {
     width?: number;
@@ -15,6 +16,8 @@ const ChangeInstituteDropdown = ({
     setSelected,
 }: ChangeInstituteDropdownCProps) => {
     const [isOpen, setIsOpen] = useState(false);
+
+    const navigate = useNavigate()
 
     return (
         <div
@@ -42,7 +45,7 @@ const ChangeInstituteDropdown = ({
                         {o}
                     </div>
                 ))}
-                <div className="dropdown__Option">
+                <div className="dropdown__Option" onClick={()=>navigate("/university/create")}>
                     --CREATE NEW INSTITUTE--
                 </div>
             </div>
