@@ -1,0 +1,90 @@
+.login__Wrapper {
+    width: 100%;
+    height: 100vh;
+    .login__Form {
+        height: 100%;
+        width: 500px;
+        background-color: $white;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .login__SpaceBox {
+            display: flex;
+            flex-direction: column;
+        }
+        .login__Header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px;
+            p {
+                margin-bottom: 0%;
+                font-weight: 600;
+                color: $blue;
+                cursor: pointer;
+            }
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            align-self: center;
+            justify-content: center;
+            margin-top: 50px;
+            width: 350px;
+            .login__Title {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+                p {
+                    font-size: 14px;
+                    color: $gray;
+                }
+            }
+            .login__Dialouge {
+                display: flex;
+                justify-content: flex-start;
+                width: 100%;
+                margin-bottom: 20px;
+                p {
+                    margin-bottom: 2px;
+                    color: $blue;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+            }
+            .input__Buttons {
+                margin-bottom: 10px;
+                button {
+                    background-color: $blue;
+                    color: $white;
+                    font-size: 14px;
+                    text-transform: capitalize;
+                    padding: 7px 20px;
+                }
+            }
+            &.register {
+                margin-top: 0%;
+                .login__Title {
+                    margin-bottom: 10px;
+                }
+            }
+        }
+        .login__SecondaryDialouge {
+            display: flex;
+            justify-content: center;
+            p {
+                font-weight: 500;
+                cursor: pointer;
+                span {
+                    color: $blue;
+                }
+            }
+        }
+    }
+    .login__Images {
+        width: calc(100% - 400px);
+    }
+}
