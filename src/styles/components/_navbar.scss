@@ -23,5 +23,116 @@
         button {
             color: $black;
         }
+
+        .profile, .notifications {
+            position: relative;
+            .profile__Menu {
+                position: absolute;
+                top: 110%;
+                right: 0%;
+                z-index: 11;
+            }
+        }
+    }
+}
+
+.profileMenu__Wrapper {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    padding: 5px;
+    width: 280px;
+    max-height: 70vh;
+    overflow-y: scroll;
+    background-color: $white;
+    box-shadow: $shadow-light;
+    border-radius: 4px;
+    transform: translateY(-5%);
+    visibility: hidden;
+    transition: all 0.1s linear;
+    &::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: $gray;
+        border-radius: 5px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: $blue;
+    }
+    &.active {
+        transform: translateY(0);
+        visibility: visible;
+        transition: all 0.1s linear;
+    }
+    .profileMenu__Avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin-top: 20px;
+        cursor: pointer;
+        margin-bottom: 10px;
+        h6 {
+            margin-bottom: 0%;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        p {
+            margin-bottom: 0%;
+            font-size: 12px;
+            color: $gray;
+        }
+    }
+    .profileMenu__Options {
+        .profileMenu__NavLink {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            &:hover {
+                color: $blue;
+                background-color: $light-blue;
+            }
+            h6 {
+                margin-bottom: 0%;
+                font-size: 14px;
+            }
+        }
+        .notificationMenu__NavLink {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            cursor: pointer;
+            &:hover {
+                color: $blue;
+                background-color: $light-blue;
+            }
+            .details {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                h6 {
+                    font-size: 12px;
+                    margin-bottom: 0%;
+                }
+                p{
+                    font-size: 10px;
+                    margin-bottom: 0%;
+                    color: $gray;
+                }
+            }
+        }
     }
 }

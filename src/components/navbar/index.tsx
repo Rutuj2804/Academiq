@@ -7,11 +7,13 @@ import {
 } from "@mui/icons-material";
 import { Badge, IconButton, Tooltip } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearch, setSettings, setSidebar } from "../../store/layout/slice";
+import { setNotifications, setProfile, setSearch, setSettings, setSidebar } from "../../store/layout/slice";
 import { RootState } from "../../store";
 import Logo from "../logo";
 import { useState } from "react";
 import ChangeInstituteDropdown from "../dropdown/ChangeInstituteDropdown";
+import ProfileMenu from "./ProfileMenu";
+import NotificationMenu from "./NotificationMenu";
 
 const optionsArr = ["MIT ADT University", "KV Southern Command"];
 
@@ -56,21 +58,27 @@ const Navbar = () => {
                 </div>
                 <div className="notifications">
                     <Tooltip title="Notifications">
-                        <IconButton>
+                        <IconButton onClick={()=>dispatch(setNotifications(!layout.notifications))}>
                             <Badge variant="dot" color="primary">
                                 <NotificationsRounded />
                             </Badge>
                         </IconButton>
                     </Tooltip>
+                    <div className="profile__Menu">
+                        <NotificationMenu />
+                    </div>
                 </div>
                 <div className="profile">
                     <Tooltip title="Profile">
-                        <IconButton>
+                        <IconButton onClick={()=>dispatch(setProfile(!layout.profile))}>
                             <Badge variant="dot" color="primary">
                                 <PersonRounded />
                             </Badge>
                         </IconButton>
                     </Tooltip>
+                    <div className="profile__Menu">
+                        <ProfileMenu />
+                    </div>
                 </div>
                 <div className="settings">
                     <Tooltip title="Settings">

@@ -5,4 +5,6 @@ export interface LayoutState {
     background_modules: boolean
     search: boolean
     popup: boolean
+    profile: boolean
+    notifications: boolean
 }
