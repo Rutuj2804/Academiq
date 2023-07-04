@@ -12,14 +12,6 @@
         outline: none;
         background-color: transparent;
         flex: 1;
-        &:focus ~ label, &:valid ~ label {
-            font-size: 10px;
-            padding: 0 2px;
-            top: -9px;
-            left: 5px;
-            background-color: $white;
-            transition: all 0.2s linear;
-        }
     }
     label {
         position: absolute;
@@ -30,12 +22,12 @@
         color: $red;
     }
     span {
-        position: absolute;
-        top: 7px;
-        right: 15px;
+        // position: absolute;
+        // top: 7px;
+        // right: 15px;
         color: $red;
         background-color: $white;
-        padding-left: 15px;
+        padding: 0 15px;
     }
     &.valid {
         border: 2px solid $green;
@@ -45,5 +37,25 @@
         span {
             color: $green;
         }
+    }
+    &.invalid {
+        border: 2px solid $red;
+        label {
+            color: $red;
+        }
+        span {
+            color: $red;
+        }
+    }
+    input[type="date"] ~ span {
+        padding-left: 0%;
+    }
+    &.focus label {
+        font-size: 10px;
+        padding: 0 2px;
+        top: -9px;
+        left: 5px;
+        background-color: $white;
+        transition: all 0.2s linear;
     }
 }

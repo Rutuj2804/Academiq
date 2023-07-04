@@ -1,6 +1,10 @@
-import { Tooltip } from "@mui/material";
 import React, { useRef, useState, useEffect } from "react";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
+import { data } from "../../assets/data/validation";
+
+interface CustomInputCP extends React.InputHTMLAttributes<HTMLInputElement> {
+    regex?: string;
+}
 
 const Input = ({
     value,
@@ -9,17 +13,58 @@ const Input = ({
     placeholder,
     name,
     type,
-}: React.InputHTMLAttributes<HTMLInputElement>) => {
+}: CustomInputCP) => {
     const ref = useRef<HTMLInputElement>(null);
 
-    const [valid, setValid] = useState<boolean | undefined>(
-        ref.current?.checkValidity()
-    );
+    const [valid, setValid] = useState<boolean | undefined>(undefined);
+    const [isFocused, setIsFocused] = useState(false);
 
-    useEffect(() => setValid(ref.current?.checkValidity()), [value]);
+    // useEffect(() => setValid(ref.current?.checkValidity()), [value]);
+
+    useEffect(() => {
+        if (value !== "" || type === "date" || type === "datetime-local")
+            setIsFocused(true);
+
+        if (value === "") setValid(undefined);
+        else if (type === "email") {
+            const res = String(value)
+                .toLowerCase()
+                .match(data.email);
+            if(res) setValid(true)
+        } else if (type === "date" && required) {
+            if(ref.current?.checkValidity()) setValid(true)
+        } else if ((type === "text" || type === undefined) && required) {
+            const res = value !== ""
+            if(res) setValid(true)
+        } 
+    }, [value]);
+
+    useEffect(() => {
+        ref.current?.addEventListener("focus", () => setIsFocused(true));
+        return () =>
+            ref.current?.addEventListener("focus", () => setIsFocused(true));
+    }, []);
+
+    useEffect(() => {
+        ref.current?.addEventListener("focusout", () => {
+            if (type === "date" || type === "datetime-local" || value !== "") {
+                setIsFocused(true);
+            } else setIsFocused(false);
+        });
+        return () =>
+            ref.current?.addEventListener("focusout", () => {
+                if (type === "date" || type === "datetime-local" || value !== "") {
+                    setIsFocused(true);
+                } else setIsFocused(false);
+            });
+    }, [value]);
 
     return (
-        <div className={`input__Wrapper ${valid && "valid"}`}>
+        <div
+            className={`input__Wrapper ${valid && "valid"} ${
+                isFocused && "focus"
+            }`}
+        >
             <input
                 type={type}
                 value={value}
@@ -31,15 +76,7 @@ const Input = ({
             />
             <label>{placeholder}</label>
             <span className={valid ? "valid" : "invalid"}>
-                {!valid ? (
-                    <Tooltip title="Invalid Input">
-                        <BsExclamationCircleFill />
-                    </Tooltip>
-                ) : (
-                    <Tooltip title="Valid Input">
-                        <BsCheckCircleFill />
-                    </Tooltip>
-                )}
+                {!valid ? <BsExclamationCircleFill /> : <BsCheckCircleFill />}
             </span>
         </div>
     );

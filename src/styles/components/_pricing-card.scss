@@ -1,0 +1,21 @@
+.pricingCard__Wrapper {
+    box-shadow: $shadow-light;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    &.active {
+        border: 1px solid $blue;
+        .title h6{
+            color: $blue;
+        }
+    }
+    .title {
+        h6 {
+            font-size: 20px;
+        }
+        p {
+            font-size: 16px;
+        }
+    }
+}

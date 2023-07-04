@@ -7,38 +7,44 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeTheme } from "./store/settings/slice";
 import { layoutTheme } from "./store/settings/types";
 import { RootState } from "./store";
+import AuthLayout from "./hocs/AuthLayout";
 
 const App = () => {
+    const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+    const sidebarTheme = useSelector(
+        (state: RootState) => state.settings.theme
+    );
 
-    const sidebarTheme = useSelector((state:RootState) => state.settings.theme)
-
-    useEffect(()=>{
-        const theme = localStorage.getItem("academic-theme")
-        if(theme) {
-            dispatch(changeTheme(theme))
+    useEffect(() => {
+        const theme = localStorage.getItem("academic-theme");
+        if (theme) {
+            dispatch(changeTheme(theme));
         } else {
-            localStorage.setItem("academic-theme", layoutTheme[0])
+            localStorage.setItem("academic-theme", layoutTheme[0]);
         }
-    }, [])
+    }, []);
 
-    useEffect(()=>{
-        if(sidebarTheme === layoutTheme[1]) {
-            document.body.classList.add("dark")
-            localStorage.setItem("academic-theme", layoutTheme[1])
-        } else if(sidebarTheme === layoutTheme[0]) {
-            document.body.classList.remove("dark")
-            localStorage.setItem("academic-theme", layoutTheme[0])
+    useEffect(() => {
+        if (sidebarTheme === layoutTheme[1]) {
+            document.body.classList.add("dark");
+            localStorage.setItem("academic-theme", layoutTheme[1]);
+        } else if (sidebarTheme === layoutTheme[0]) {
+            document.body.classList.remove("dark");
+            localStorage.setItem("academic-theme", layoutTheme[0]);
         }
-    }, [sidebarTheme])
+    }, [sidebarTheme]);
 
     return (
         <div>
             <Router>
                 <Routes>
                     {authRoutes.map((r, i) => (
-                        <Route key={i} path={r.path} element={r.element} />
+                        <Route
+                            key={i}
+                            path={r.path}
+                            element={<AuthLayout>{r.element}</AuthLayout>}
+                        />
                     ))}
                     {regularRoutes.map((r, i) => (
                         <Route
