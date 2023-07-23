@@ -1,16 +1,66 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import { Button, Step, StepLabel, Stepper } from "@mui/material";
+import Input from "../../components/commons/input";
+import Textarea from "../../components/commons/textarea";
+import { setMessage } from "../../store/messages/slice";
+import { errorType } from "../../store/messages/types";
+import DragFiles from "../../components/commons/dragfiles";
+import CourseCard from "../courses/Card";
+import TimetableCard from "../timetables/Card";
+import CheckboxAndLabel from "../../components/commons/checkbox";
+
+enum MoveType {
+    NEXT = "NEXT",
+    BACK = "BACK",
+}
 
 const AddClass = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
+    const [formData, setFormData] = useState({
+        name: "",
+        note: "",
+    });
+
+    const [students, setStudents] = useState<null | File>(null);
+
+    const [faculties, setFaculties] = useState<null | File>(null);
+
+    const { name, note } = formData;
+
+    const [activeStep, setActiveStep] = useState(0);
+
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
+
+    const handleInputChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleFormMovement = (t: MoveType) => {
+        if (activeStep === 0 && name === "") {
+            dispatch(
+                setMessage({
+                    _id: `${Math.random() * 10000}`,
+                    text: "Name field is necessary",
+                    type: errorType[0],
+                })
+            );
+            return;
+        }
+
+        if (t === MoveType.NEXT && activeStep < 3) setActiveStep((v) => v + 1);
+        else if (t === MoveType.BACK && activeStep > 0)
+            setActiveStep((v) => v - 1);
+    };
 
     useEffect(() => {
         dispatch(
@@ -40,7 +90,168 @@ const AddClass = () => {
             </header>
 
             <main className="addClass__Wrapper">
-                ADD CLASS
+                <div className="paper">
+                    <div className="header">
+                        <h4>Add Class</h4>
+                        <Button>Bulk Add</Button>
+                    </div>
+
+                    <div className="addClass__Stepper">
+                        <Stepper activeStep={activeStep} alternativeLabel>
+                            <Step>
+                                <StepLabel>Create class</StepLabel>
+                            </Step>
+                            <Step>
+                                <StepLabel>
+                                    Add Students and faculties
+                                </StepLabel>
+                            </Step>
+                            <Step>
+                                <StepLabel>Assign course</StepLabel>
+                            </Step>
+                            <Step>
+                                <StepLabel>Assign timetable</StepLabel>
+                            </Step>
+                        </Stepper>
+                    </div>
+
+                    <div className="addClass__Form mt-3">
+                        <form>
+                            {activeStep === 0 && (
+                                <div className="row">
+                                    <div className="col-lg-6 col-md-6 col-12">
+                                        <Input
+                                            type="text"
+                                            name="name"
+                                            value={name}
+                                            onChange={handleInputChange}
+                                            required
+                                            placeholder="Class name"
+                                        />
+                                        <Textarea
+                                            name="note"
+                                            value={note}
+                                            onChange={handleInputChange}
+                                            placeholder="Note describing class"
+                                            rows={6}
+                                        />
+                                        <CheckboxAndLabel />
+                                    </div>
+                                </div>
+                            )}
+                            {activeStep === 1 && (
+                                <div className="row">
+                                    <div className="col-lg-6 col-md-6 col-12 addClass__AddFiles">
+                                        <DragFiles
+                                            title="Students"
+                                            onChange={(f: File[]) =>
+                                                setStudents(f[0])
+                                            }
+                                        />
+                                        <Button>Download sample CSV file</Button>
+                                    </div>
+                                    <div className="col-lg-6 col-md-6 col-12 addClass__AddFiles">
+                                        <DragFiles
+                                            title="Faculties"
+                                            onChange={(f: File[]) =>
+                                                setFaculties(f[0])
+                                            }
+                                        />
+                                        <Button>Download sample CSV file</Button>
+                                    </div>
+                                </div>
+                            )}
+                            {activeStep === 2 && (
+                                <div className="row addClass__CourseBox">
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <CourseCard />
+                                    </div>
+                                </div>
+                            )}
+                            {activeStep === 3 && (
+                                <div className="row addClass__CourseBox">
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                    <div className="col-lg-4 col-md-6 col-12">
+                                        <TimetableCard />
+                                    </div>
+                                </div>
+                            )}
+                        </form>
+                        <div className="addClass__ControlButtons">
+                            <div className="left">
+                                {activeStep === 2 && <p>0 course selected for the class</p>}
+                                {activeStep === 3 && <p>1 timetable selected for the class</p>}
+                            </div>
+                            <div className="right">
+                                {activeStep > 0 && (
+                                    <Button
+                                        onClick={() =>
+                                            handleFormMovement(MoveType.BACK)
+                                        }
+                                    >
+                                        Back
+                                    </Button>
+                                )}
+                                {activeStep < 3 && (
+                                    <Button
+                                        onClick={() =>
+                                            handleFormMovement(MoveType.NEXT)
+                                        }
+                                    >
+                                        Next
+                                    </Button>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     );

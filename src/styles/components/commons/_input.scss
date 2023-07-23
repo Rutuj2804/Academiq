@@ -1,0 +1,39 @@
+.input__Wrapper {
+    position: relative;
+    width: 100%;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    background-color: $light-background;
+    input, textarea {
+        padding: 7px 15px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        flex: 1;
+        resize: none;
+    }
+    span {
+        color: $green;
+        background-color: transparent;
+        padding: 0 15px;
+    }
+    &.valid {
+        border: 1px solid transparent;
+        span {
+            color: $green;
+        }
+    }
+    &.invalid {
+        border:1px solid $red;
+        span {
+            color: $red;
+        }
+    }
+    input[type="date"] ~ span {
+        padding-left: 0%;
+    }
+    
+}

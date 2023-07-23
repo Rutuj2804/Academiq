@@ -1,0 +1,43 @@
+.courseCard__Wrapper{
+    box-shadow: $shadow-light;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    &:hover {
+        box-shadow: $shadow;
+    }
+    .courseCard__Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .title {
+            h5 {
+                font-size: 14px;
+                margin-bottom: 0;
+            }
+        }
+    }
+    .courseCard__Description {
+        margin-top: 7px;
+        p{
+            font-size: 12px;
+            color: $gray;
+        }
+    }
+    .courseCard__Avatar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .css-sxh3gq-MuiAvatar-root-MuiAvatarGroup-avatar {
+            height: 30px;
+            width: 30px;
+            font-size: 14px;
+        }
+        .checkbox {
+            margin-right: 10px;
+            color: $blue;
+        }
+    }
+}

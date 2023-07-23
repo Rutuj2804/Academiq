@@ -11,7 +11,7 @@ import { setNotifications, setProfile, setSearch, setSettings, setSidebar } from
 import { RootState } from "../../store";
 import Logo from "../logo";
 import { useState } from "react";
-import ChangeInstituteDropdown from "../dropdown/ChangeInstituteDropdown";
+import ChangeInstituteDropdown from "../commons/dropdown/ChangeInstituteDropdown";
 import ProfileMenu from "./ProfileMenu";
 import NotificationMenu from "./NotificationMenu";
 
@@ -31,20 +31,24 @@ const Navbar = () => {
                     <div className="logo">
                         <Logo mode="LIGHT" />
                         <div className="vr"></div>
-                        <ChangeInstituteDropdown
-                            optionsArr={optionsArr}
-                            selected={selected}
-                            setSelected={setSelected}
-                            width={250}
-                        />
+                        <div className="navbar__ChangeUniversity">
+                            <ChangeInstituteDropdown
+                                optionsArr={optionsArr}
+                                selected={selected}
+                                setSelected={setSelected}
+                                width={250}
+                            />
+                        </div>
                     </div>
                 )}
-                {layout.sidebar && <ChangeInstituteDropdown
-                    optionsArr={optionsArr}
-                    selected={selected}
-                    setSelected={setSelected}
-                    width={250}
-                />}
+                <div className="navbar__ChangeUniversity">
+                    {layout.sidebar && <ChangeInstituteDropdown
+                        optionsArr={optionsArr}
+                        selected={selected}
+                        setSelected={setSelected}
+                        width={250}
+                    />}
+                </div>
             </div>
             <div className="right">
                 <div className="search">

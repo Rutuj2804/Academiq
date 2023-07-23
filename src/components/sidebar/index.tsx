@@ -1,10 +1,13 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { sidebarLayout } from "../../store/settings/types";
 import Logo from "../logo";
 import { sideBarData } from "../../assets/data/sidebar";
 import { useNavigate } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import { CloseRounded } from "@mui/icons-material";
+import { setSidebar } from "../../store/layout/slice";
 
 interface LinkCProps {
     name: string;
@@ -55,6 +58,8 @@ const Sidebar = () => {
         (state: RootState) => state.settings.sidebar
     );
 
+    const dispatch = useDispatch();
+
     return (
         <div
             className={`sidebar__Wrapper ${
@@ -64,6 +69,14 @@ const Sidebar = () => {
             <div className="top">
                 <div className="logo">
                     <Logo mode="LIGHT" />
+                </div>
+                <div className="sidebar__SmallScreenClose">
+                    <IconButton
+                        size="small"
+                        onClick={() => dispatch(setSidebar(false))}
+                    >
+                        <CloseRounded />
+                    </IconButton>
                 </div>
             </div>
 

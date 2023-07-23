@@ -136,3 +136,22 @@
         }
     }
 }
+
+
+@media screen and (max-width:780px) {
+    .logo .vr, .navbar__ChangeUniversity {
+        display: none;
+    }
+}
+
+@media screen and (max-width:440px) {
+    .navbar__Wrapper .right .search, .navbar__Wrapper .right .notifications {
+        display: none;
+    }
+}
+
+@media screen and (max-width:375px) {
+    .navbar__Wrapper .right .settings{
+        display: none;
+    }
+}

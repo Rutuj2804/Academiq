@@ -1,0 +1,85 @@
+.addClass__Wrapper{
+    height: 90vh;
+    .header{
+        padding: 10px;
+        padding-bottom: 0%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        button {
+            background-color: $blue;
+            color: $white;
+            padding: 7px 20px;
+            text-transform: capitalize;
+        }
+    }
+
+    .addClass__Stepper {
+        margin-top: 30px;
+    }
+
+    .addClass__Form {
+        min-height: 70vh;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        .addClass__AddFiles {
+            height: 40vh;
+            button {
+                margin-top: 20px;
+                width: 100%;
+                background-color: $blue;
+                color: $white;
+                text-transform: capitalize;
+            }
+        }
+        .addClass__CourseBox {
+            padding: 10px 0;
+            height: 56vh;
+            overflow-y: scroll;
+            &::-webkit-scrollbar {
+                width: 5px;
+            }
+    
+            /* Track */
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+    
+            /* Handle */
+            &::-webkit-scrollbar-thumb {
+                background: $gray;
+                border-radius: 5px;
+            }
+    
+            /* Handle on hover */
+            &::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        }
+        .addClass__ControlButtons{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            button {
+                background-color: $blue;
+                color: $white;
+                font-size: 14px;
+                text-transform: capitalize;
+                padding: 7px 20px;
+            }
+            .left {
+                p {
+                    font-weight: 500;
+                    margin-bottom: 0%;
+                }
+            }
+            .right {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+        }
+    }
+}

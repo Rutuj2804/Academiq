@@ -6,7 +6,7 @@ import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { RootState } from "../../store";
 import { BsFilter, BsSearch } from "react-icons/bs";
 import { Button, IconButton } from "@mui/material";
-import Dropdown from "../../components/dropdown";
+import Dropdown from "../../components/commons/dropdown";
 import BookCard from "./BookCard";
 
 const optionsArr = [

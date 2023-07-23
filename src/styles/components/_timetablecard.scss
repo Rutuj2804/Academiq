@@ -1,0 +1,36 @@
+.timetableCard__Wrapper {
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: $shadow-light;
+    margin-bottom: 15px;
+    cursor: pointer;
+    .timetableCard__Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+    }
+    .timetableCard__Description {
+        margin-top: 7px;
+        p{
+            font-size: 12px;
+            color: $gray;
+        }
+    }
+    .timetableCard__Bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+            font-size: 12px;
+            margin-bottom: 0%;
+        }
+        .checkbox {
+            color: $blue;
+            margin-right: 10px;
+        }
+    }
+}

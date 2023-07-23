@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Logo from "../../components/logo";
 import { layoutTheme } from "../../store/settings/types";
-import Input from "../../components/input";
+import Input from "../../components/commons/input";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 

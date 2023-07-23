@@ -6,8 +6,8 @@
         align-items: center;
         justify-content: space-between;
         cursor: pointer;
-        border: 1px solid $gray;
-        padding: 10px;
+        background-color: $light-background;
+        padding: 7px 15px;
         border-radius: 5px;
         .dropdown__SelectedOption {
             flex: 1;

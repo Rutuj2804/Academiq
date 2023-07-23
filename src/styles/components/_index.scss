@@ -4,12 +4,16 @@
 @import "./sidebar";
 @import "./hocs";
 @import "./logo";
-@import "./dropdown";
+@import "./commons/dropdown";
 @import "./bookcard";
 @import "./footer";
-@import "./input";
+@import "./commons/input";
 @import "./pricing-card";
 @import "./holiday-card";
+@import "./commons/drag-files";
+@import "./coursecard";
+@import "./timetablecard";
+@import "./commons/checkbox";
 
 .paper {
     background-color: $white;
