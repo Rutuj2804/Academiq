@@ -1,0 +1,11 @@
+.academiq__Progress {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    height: 100vh;
+    width: 100%;
+    background-color: rgba($color: transparent, $alpha: 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

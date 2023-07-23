@@ -1,11 +1,17 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 
+interface Options {
+    name: string;
+    value: string | number;
+}
+
 interface DropdownCProps {
     width?: number;
-    optionsArr: string[];
-    selected: string | null;
-    setSelected: Dispatch<SetStateAction<string | null>>;
+    optionsArr: Options[];
+    selected: Options;
+    setSelected: Function;
+    className?: string;
 }
 
 const Dropdown = ({
@@ -13,39 +19,52 @@ const Dropdown = ({
     optionsArr,
     selected,
     setSelected,
+    className
 }: DropdownCProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
         <div
-            className="dropdown__Wrapper"
+            className={`dropdown__Wrapper ${className}`}
             onClick={() => setIsOpen((i) => !i)}
             style={{ width: width }}
         >
-            <div className="dropdown__Display">
-                <div className="dropdown__SelectedOption">
-                    {selected === null ? "--SELECT--" : selected}
+            {optionsArr.length === 0 ? (
+                <div className="dropdown__Display">
+                    <div className="dropdown__SelectedOption">--SELECT--</div>
+                    <div className="dropdown__Right">
+                        {isOpen ? (
+                            <BsFillCaretUpFill />
+                        ) : (
+                            <BsFillCaretDownFill />
+                        )}
+                    </div>
                 </div>
-                <div className="dropdown__Right">
-                    {isOpen ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />}
+            ) : (
+                <div className="dropdown__Display">
+                    <div className="dropdown__SelectedOption">
+                        {selected?.value === "" ? "--SELECT--" : selected?.name}
+                    </div>
+                    <div className="dropdown__Right">
+                        {isOpen ? (
+                            <BsFillCaretUpFill />
+                        ) : (
+                            <BsFillCaretDownFill />
+                        )}
+                    </div>
                 </div>
-            </div>
+            )}
+
             <div className={`dropdown__OptionSpace ${isOpen && "active"}`}>
-                <div
-                    className="dropdown__Option"
-                    onClick={() => setSelected(null)}
-                >
-                    --SELECT--
-                </div>
                 {optionsArr.map((o, i) => (
                     <div
                         key={i}
                         onClick={() => setSelected(o)}
                         className={`dropdown__Option ${
-                            selected === o ? "selected" : null
+                            selected?.value === o?.value ? "selected" : null
                         }`}
                     >
-                        {o}
+                        {o.name}
                     </div>
                 ))}
             </div>

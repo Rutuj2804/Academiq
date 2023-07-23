@@ -15,7 +15,10 @@ import ChangeInstituteDropdown from "../commons/dropdown/ChangeInstituteDropdown
 import ProfileMenu from "./ProfileMenu";
 import NotificationMenu from "./NotificationMenu";
 
-const optionsArr = ["MIT ADT University", "KV Southern Command"];
+const optionsArr = [
+    { name: "MIT ADT University", value: "SomeID" },
+    { name: "K V Southern Command", value: "SomeID2" },
+]
 
 const Navbar = () => {
     const [selected, setSelected] = useState(optionsArr[0]);

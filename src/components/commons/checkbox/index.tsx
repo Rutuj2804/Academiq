@@ -1,19 +1,23 @@
 import { Checkbox } from "@mui/material";
-import React from "react";
 
-const CheckboxAndLabel = () => {
+interface CheckboxAndLabelCP {
+    id: string;
+    label: string;
+    description?: string;
+    className?: string;
+    name?:string,
+    checked: boolean,
+    onChange: any
+}
+
+const CheckboxAndLabel = ({ id, label, description, className, checked, name, onChange }: CheckboxAndLabelCP) => {
     return (
-        <div className="checkboxAndLabel__Wrapper">
+        <div className={`checkboxAndLabel__Wrapper ${className}`}>
             <div className="top">
-                <Checkbox />
-                <p>Send email invites</p>
+                <Checkbox id={id} name={name} checked={checked} onChange={onChange} />
+                <label htmlFor={id}>{label}</label>
             </div>
-            <span>
-                Enabling this will send emails of invitation to students and
-                faculties informing them about their presence in online class.
-                If a faculty or a student is not a user of Academiq will recieve
-                invitation with login creadentials.
-            </span>
+            <span>{description}</span>
         </div>
     );
 };

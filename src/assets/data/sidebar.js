@@ -13,6 +13,7 @@ import {
     BsPersonVideo,
     BsBoxSeam,
     BsBook,
+    BsReverseLayoutTextSidebarReverse,
 } from "react-icons/bs";
 
 export const sideBarData = [
@@ -65,6 +66,13 @@ export const sideBarData = [
                 icon: <BsCalendarEvent />,
                 notifications: 1,
                 matches: ["/schedules"],
+            },
+            {
+                name: "Timetable",
+                link: "/timetable",
+                icon: <BsReverseLayoutTextSidebarReverse />,
+                notifications: 0,
+                matches: ["/timetable"],
             },
         ],
     },

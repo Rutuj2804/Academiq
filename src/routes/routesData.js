@@ -30,6 +30,7 @@ import EditProfile from "../pages/profile/Edit";
 import ChangePassword from "../pages/profile/ChangePassword";
 import CreateUniversity from "../pages/university/Create";
 import University from "../pages/university";
+import Timetable from "../pages/timetables";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -65,6 +66,8 @@ export const regularRoutes = [
 
     { path: "/library", element: <Library /> },
     { path: "/library/add", element: <AddBooks /> },
+
+    { path: "/timetable", element: <Timetable /> },
 
     { path: "/change-password", element: <ChangePassword /> },
     { path: "/edit/:username", element: <EditProfile /> },

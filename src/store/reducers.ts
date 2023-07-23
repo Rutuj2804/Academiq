@@ -4,6 +4,10 @@ import settings from "./settings/slice"
 import messages from "./messages/slice"
 import layout from "./layout/slice"
 import breadcrumps from "./breadcrumps/slice"
+import university from "./university/slice"
+import location from "./location/slice"
+import loading from "./loading/slice"
+import holiday from "./holiday/slice"
 
 export const reducers = combineReducers({ 
     auth,
@@ -11,4 +15,8 @@ export const reducers = combineReducers({
     messages,
     layout,
     breadcrumps,
+    university,
+    location,
+    loading,
+    holiday,
 })

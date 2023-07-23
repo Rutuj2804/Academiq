@@ -10,17 +10,17 @@ import Dropdown from "../../components/commons/dropdown";
 import BookCard from "./BookCard";
 
 const optionsArr = [
-    "ASC To DESC",
-    "DESC To ASC",
-    "Relevance",
-    "Most Recent",
-    "Most Liked",
+    {name: "ASC To DESC", value: "Something"},
+    {name: "DESC To ASC", value: "Something"},
+    {name: "Relevance", value: "Something"},
+    {name: "Most Recent", value: "Something"},
+    {name: "Most Liked", value: "Something"},
 ];
 
 const Library = () => {
     const [searchText, setSearchText] = useState("");
 
-    const [selected, setSelected] = useState<string | null>(optionsArr[0]);
+    const [selected, setSelected] = useState(optionsArr[0]);
 
     const dispatch = useDispatch();
 

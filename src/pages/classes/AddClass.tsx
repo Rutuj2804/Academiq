@@ -4,7 +4,7 @@ import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import { Button, Step, StepLabel, Stepper } from "@mui/material";
+import { Button, IconButton, Step, StepLabel, Stepper } from "@mui/material";
 import Input from "../../components/commons/input";
 import Textarea from "../../components/commons/textarea";
 import { setMessage } from "../../store/messages/slice";
@@ -13,6 +13,8 @@ import DragFiles from "../../components/commons/dragfiles";
 import CourseCard from "../courses/Card";
 import TimetableCard from "../timetables/Card";
 import CheckboxAndLabel from "../../components/commons/checkbox";
+import { CloseRounded } from "@mui/icons-material";
+import { calculateFileSize } from "../../utils";
 
 enum MoveType {
     NEXT = "NEXT",
@@ -135,7 +137,16 @@ const AddClass = () => {
                                             placeholder="Note describing class"
                                             rows={6}
                                         />
-                                        <CheckboxAndLabel />
+                                        <CheckboxAndLabel
+                                            id="emails"
+                                            label=""
+                                            description="Enabling this will send emails of invitation to students and
+                                                    faculties informing them about their presence in online class.
+                                                    If a faculty or a student is not a user of Academiq will recieve
+                                                    invitation with login creadentials."
+                                            checked={true}
+                                            onChange={()=>{}}
+                                        />
                                     </div>
                                 </div>
                             )}
@@ -148,7 +159,29 @@ const AddClass = () => {
                                                 setStudents(f[0])
                                             }
                                         />
-                                        <Button>Download sample CSV file</Button>
+                                        <Button>
+                                            Download sample CSV file
+                                        </Button>
+                                        {students ? (
+                                            <div className="addClass__FileSelected">
+                                                <div className="filename">
+                                                    <h6>{students.name}</h6>
+                                                    <p>
+                                                        {calculateFileSize(
+                                                            students.size
+                                                        )}
+                                                    </p>
+                                                </div>
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() =>
+                                                        setStudents(null)
+                                                    }
+                                                >
+                                                    <CloseRounded />
+                                                </IconButton>
+                                            </div>
+                                        ) : null}
                                     </div>
                                     <div className="col-lg-6 col-md-6 col-12 addClass__AddFiles">
                                         <DragFiles
@@ -157,7 +190,29 @@ const AddClass = () => {
                                                 setFaculties(f[0])
                                             }
                                         />
-                                        <Button>Download sample CSV file</Button>
+                                        <Button>
+                                            Download sample CSV file
+                                        </Button>
+                                        {faculties ? (
+                                            <div className="addClass__FileSelected">
+                                                <div className="filename">
+                                                    <h6>{faculties.name}</h6>
+                                                    <p>
+                                                        {calculateFileSize(
+                                                            faculties.size
+                                                        )}
+                                                    </p>
+                                                </div>
+                                                <IconButton
+                                                    size="small"
+                                                    onClick={() =>
+                                                        setFaculties(null)
+                                                    }
+                                                >
+                                                    <CloseRounded />
+                                                </IconButton>
+                                            </div>
+                                        ) : null}
                                     </div>
                                 </div>
                             )}
@@ -226,8 +281,12 @@ const AddClass = () => {
                         </form>
                         <div className="addClass__ControlButtons">
                             <div className="left">
-                                {activeStep === 2 && <p>0 course selected for the class</p>}
-                                {activeStep === 3 && <p>1 timetable selected for the class</p>}
+                                {activeStep === 2 && (
+                                    <p>0 course selected for the class</p>
+                                )}
+                                {activeStep === 3 && (
+                                    <p>1 timetable selected for the class</p>
+                                )}
                             </div>
                             <div className="right">
                                 {activeStep > 0 && (

@@ -1,12 +1,18 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
+interface Options {
+    name: string;
+    value: string | number;
+}
+
 interface ChangeInstituteDropdownCProps {
     width?: number;
-    optionsArr: string[];
-    selected: string;
-    setSelected: Dispatch<SetStateAction<string>>;
+    optionsArr: Options[];
+    selected: Options;
+    setSelected: Function;
+    className?: string
 }
 
 const ChangeInstituteDropdown = ({
@@ -14,21 +20,20 @@ const ChangeInstituteDropdown = ({
     optionsArr,
     selected,
     setSelected,
+    className
 }: ChangeInstituteDropdownCProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     return (
         <div
-            className="dropdown__Wrapper"
+            className={`dropdown__Wrapper ${className}`}
             onClick={() => setIsOpen((i) => !i)}
             style={{ width: width }}
         >
             <div className="dropdown__Display">
-                <div className="dropdown__SelectedOption">
-                    {selected}
-                </div>
+                <div className="dropdown__SelectedOption">{selected?.name}</div>
                 <div className="dropdown__Right">
                     {isOpen ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />}
                 </div>
@@ -39,13 +44,16 @@ const ChangeInstituteDropdown = ({
                         key={i}
                         onClick={() => setSelected(o)}
                         className={`dropdown__Option ${
-                            selected === o ? "selected" : null
+                            selected?.value === o.value ? "selected" : null
                         }`}
                     >
-                        {o}
+                        {o.name}
                     </div>
                 ))}
-                <div className="dropdown__Option" onClick={()=>navigate("/university/create")}>
+                <div
+                    className="dropdown__Option"
+                    onClick={() => navigate("/university/create")}
+                >
                     --CREATE NEW INSTITUTE--
                 </div>
             </div>
