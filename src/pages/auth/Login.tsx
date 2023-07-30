@@ -3,6 +3,9 @@ import {Logo} from "../../common/logo";
 import { Input } from "../../common/forms/input";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../store/auth/actions";
+import { RootState } from "../../store";
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -10,7 +13,11 @@ const Login = () => {
         password: "",
     });
 
+    const isAuthenticated = useSelector((state:RootState) => state.auth.isAuthenticated)
+
     const navigate = useNavigate()
+
+    const dispatch = useDispatch<any>()
 
     const { username, password } = formData;
 
@@ -18,10 +25,11 @@ const Login = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(formData);
+        await dispatch(loginUser({ email: username, password }))
         setFormData(v=>({ username: "", password: "" }))
+        if(isAuthenticated) navigate("/")
     }
 
     return (
