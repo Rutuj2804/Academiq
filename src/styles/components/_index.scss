@@ -1,21 +1,9 @@
-@import "./navbar";
-@import "./settings";
-@import "./background";
-@import "./sidebar";
-@import "./hocs";
-@import "./logo";
-@import "./commons/dropdown";
-@import "./bookcard";
-@import "./footer";
-@import "./commons/input";
-@import "./pricing-card";
-@import "./holiday-card";
-@import "./commons/drag-files";
-@import "./coursecard";
-@import "./timetablecard";
-@import "./commons/checkbox";
-@import "./apexchart";
-@import "./loading";
+@import "./chart/apexchart";
+@import "./course/course-card";
+@import "./library/book-card";
+@import "./timetable/timetable-card";
+@import "./university/holiday-card";
+@import "./university/pricing-card";
 
 .paper {
     background-color: $white;
