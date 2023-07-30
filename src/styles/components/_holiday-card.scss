@@ -6,6 +6,10 @@
     border-radius: 4px;
     margin-bottom: 7px;
     box-shadow: $shadow-light;
+    border: 2px solid transparent;
+    &.active {
+        border: 2px solid $blue;
+    }
     .left {
         display: flex;
         align-items: center;

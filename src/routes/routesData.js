@@ -31,6 +31,7 @@ import ChangePassword from "../pages/profile/ChangePassword";
 import CreateUniversity from "../pages/university/Create";
 import University from "../pages/university";
 import Timetable from "../pages/timetable";
+import Logout from "../pages/auth/Logout";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -82,6 +83,7 @@ export const authRoutes = [
     { path: "/register", element: <Register /> },
     { path: "/forgot-password", element: <ForgotPassword /> },
     { path: "/reset-password", element: <ResetPassword /> },
+    { path: "/logout", element: <Logout /> },
 
     { path: "/university/create", element: <CreateUniversity /> },
     { path: "/university/:name", element: <University /> },

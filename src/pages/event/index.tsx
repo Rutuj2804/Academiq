@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { FcBarChart, FcPieChart } from "react-icons/fc";
-import PostCard from "./PostCard";
+import { PostCard } from "../../components/card/event";
 
 const Events = () => {
     const dispatch = useDispatch();

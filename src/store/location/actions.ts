@@ -17,6 +17,7 @@ export const getCountries = createAsyncThunk(
                 countries.push({
                     name: res.data.data[i].name,
                     value: res.data.data[i]._id,
+                    iso2: res.data.data[i].iso2
                 });
             }
 

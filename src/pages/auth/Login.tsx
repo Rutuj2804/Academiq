@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {Logo} from "../../common/logo";
-import { layoutTheme } from "../../store/settings/types";
 import { Input } from "../../common/forms/input";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +29,7 @@ const Login = () => {
             <div className="login__Form">
                 <div className="login__SpaceBox">
                     <div className="login__Header">
-                        <Logo mode={layoutTheme[0]} />
+                        <Logo />
                         <p>Learn More</p>
                     </div>
                     <form onSubmit={handleSubmit}>

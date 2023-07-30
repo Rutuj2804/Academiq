@@ -4,16 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import LectureCard from "./LectureCard";
+import { LectureCard } from "../../components/card/lecture";
 
 const Lectures = () => {
     const dispatch = useDispatch();
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
-    const breadcrumps = useSelector(
-        (state: RootState) => state.breadcrumps
-    );
+    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     useEffect(() => {
         dispatch(
@@ -29,7 +27,12 @@ const Lectures = () => {
             <header>
                 <div className="left">
                     <h4>{breadcrumps.name[1]}</h4>
-                    <div className="breadcrumps" onClick={()=>navigate(breadcrumps.link)}>{breadcrumps.name.join(" > ")}</div>
+                    <div
+                        className="breadcrumps"
+                        onClick={() => navigate(breadcrumps.link)}
+                    >
+                        {breadcrumps.name.join(" > ")}
+                    </div>
                 </div>
                 <div className="right">
                     <FcPieChart />

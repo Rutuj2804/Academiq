@@ -7,7 +7,7 @@ import { RootState } from "../../store";
 import { BsFilter, BsSearch } from "react-icons/bs";
 import { Button, IconButton } from "@mui/material";
 import { Dropdown } from "../../common/forms/dropdown";
-import BookCard from "./BookCard";
+import { BookCard } from "../../components/card/library";
 
 const optionsArr = [
     { name: "ASC To DESC", value: "Something" },

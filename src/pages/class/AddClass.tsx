@@ -11,7 +11,7 @@ import { setMessage } from "../../store/messages/slice";
 import { errorType } from "../../store/messages/types";
 import { DragFiles } from "../../common/forms/dragfiles";
 import { CourseCard } from "../../components/card/course";
-import TimetableCard from "../timetable/Card";
+import { TimetableCard } from "../../components/card/timetable";
 import { CheckboxAndLabel } from "../../common/forms/checkbox";
 import { CloseRounded } from "@mui/icons-material";
 import { calculateFileSize } from "../../utils";

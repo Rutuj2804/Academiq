@@ -8,9 +8,13 @@ const initialState: AuthState = {
 export const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        logout() {
+            localStorage.removeItem(`${process.env.REACT_APP_AUTHENTICATION_LOCALSTORAGE_KEY}`)
+        }
+    },
 });
 
-// export const {} = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

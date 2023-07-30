@@ -68,7 +68,7 @@ const Sidebar = () => {
         >
             <div className="top">
                 <div className="logo">
-                    <Logo mode="LIGHT" />
+                    <Logo />
                 </div>
                 <div className="sidebar__SmallScreenClose">
                     <IconButton

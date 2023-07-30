@@ -1,1 +1,1 @@
-export {}
+export {default as UniversityForm} from "./Form"

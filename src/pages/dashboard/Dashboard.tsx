@@ -7,9 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { BsCalendar2Event } from "react-icons/bs";
 import { Avatar, Button, IconButton } from "@mui/material";
 import PieChart from "../../common/chart/PieChart";
-import HolidayComponent from "./HolidayComponent";
-import LectureComponent from "./LectureComponent";
-import AssignmentComponent from "./AssignmentComponent";
+import {
+    AssignmentComponent,
+    LectureComponent,
+    HolidayComponent,
+} from "../../components/micro/dashboard";
 
 const getDate = () => {
     var today = new Date();

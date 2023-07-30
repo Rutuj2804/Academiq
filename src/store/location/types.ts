@@ -5,7 +5,8 @@ export interface StateInterface {
 
 export interface CountryInterface {
     name: string,
-    value: string
+    value: string,
+    iso2: string
 }
 
 export interface LocationState {

@@ -32,7 +32,7 @@ const Navbar = () => {
             <div className="left">
                 {!layout.sidebar && (
                     <div className="logo">
-                        <Logo mode="LIGHT" />
+                        <Logo />
                         <div className="vr"></div>
                         <div className="navbar__ChangeUniversity">
                             <ChangeInstituteDropdown

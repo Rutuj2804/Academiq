@@ -4,10 +4,10 @@ import { updateLoading } from "../loading/slice";
 
 export const getHolidayList = createAsyncThunk(
     "getHolidayList/Holiday",
-    async (_, thunkAPI) => {
+    async (country: string, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
         try {
-            const res = await axios.get("/utils/holiday");
+            const res = await axios.get(`/utils/holiday/${country.toUpperCase()}`);
 
             thunkAPI.dispatch(updateLoading(-1));
 
