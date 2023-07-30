@@ -14,7 +14,7 @@ import { CourseCard } from "../../components/card/course";
 import { TimetableCard } from "../../components/card/timetable";
 import { CheckboxAndLabel } from "../../common/forms/checkbox";
 import { CloseRounded } from "@mui/icons-material";
-import { calculateFileSize } from "../../utils";
+import { calculateFileSize } from "../../utils/helpers";
 
 enum MoveType {
     NEXT = "NEXT",
