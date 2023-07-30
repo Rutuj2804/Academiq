@@ -1,15 +1,15 @@
 import React from "react";
-import Navbar from "../components/navbar";
-import Sidebar from "../components/sidebar";
-import Settings from "../components/settings";
-import Background from "../components/background";
+import { Navbar } from "../common/navbar";
+import { Sidebar } from "../common/sidebar";
+import { Settings } from "../common/setting";
+import { Background } from "../common/background";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { sidebarLayout } from "../store/settings/types";
 import Messages from "../modules/messages";
 import Popups from "../modules/popups";
-import Footer from "../components/footer";
-import Loader from "../components/loader";
+import { Footer } from "../common/footer";
+import { Loader } from "../common/loader";
 
 interface CProps {
     children: React.ReactNode;

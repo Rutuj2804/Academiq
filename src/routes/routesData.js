@@ -1,36 +1,36 @@
 import { Navigate } from "react-router-dom";
 
-import Home from "../pages/Home/index";
+import Home from "../pages/home/index";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ResetPassword from "../pages/auth/ResetPassword";
 import Dashboard from "../pages/dashboard/Dashboard";
-import Activities from "../pages/activities";
-import Calls from "../pages/calls";
+import Activities from "../pages/activity";
+import Calls from "../pages/call";
 import Chat from "../pages/chat";
-import Classes from "../pages/classes";
+import Classes from "../pages/class";
 import Collaborate from "../pages/collaborate";
-import Events from "../pages/events";
-import Lectures from "../pages/lectures";
-import Notes from "../pages/notes";
-import Schedules from "../pages/schedules";
-import RolesDefinition from "../pages/roles";
-import Assigned from "../pages/roles/Assigned";
-import DemandLetters from "../pages/demands";
+import Events from "../pages/event";
+import Lectures from "../pages/lecture";
+import Notes from "../pages/note";
+import Schedules from "../pages/schedule";
+import RolesDefinition from "../pages/role";
+import Assigned from "../pages/role/Assigned";
+import DemandLetters from "../pages/demand";
 import Library from "../pages/library";
-import AddActivity from "../pages/activities/AddActivity";
-import AddClass from "../pages/classes/AddClass";
-import AddLecture from "../pages/lectures/AddLecture";
-import AddDemand from "../pages/demands/AddDemand";
-import AddRoleDefinition from "../pages/roles/AddRoleDefinition";
+import AddActivity from "../pages/activity/AddActivity";
+import AddClass from "../pages/class/AddClass";
+import AddLecture from "../pages/lecture/AddLecture";
+import AddDemand from "../pages/demand/AddDemand";
+import AddRoleDefinition from "../pages/role/AddRoleDefinition";
 import AddBooks from "../pages/library/AddBooks";
 import Profile from "../pages/profile";
 import EditProfile from "../pages/profile/Edit";
 import ChangePassword from "../pages/profile/ChangePassword";
 import CreateUniversity from "../pages/university/Create";
 import University from "../pages/university";
-import Timetable from "../pages/timetables";
+import Timetable from "../pages/timetable";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },

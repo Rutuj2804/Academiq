@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
-import Contacts from "./Contacts";
-import ChatArea from "./ChatArea";
+import { Contacts, ChatArea } from "../../components/micro/chat";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";

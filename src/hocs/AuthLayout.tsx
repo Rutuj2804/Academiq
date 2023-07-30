@@ -2,7 +2,7 @@ import React from "react";
 import Messages from "../modules/messages";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import Loader from "../components/loader";
+import { Loader } from "../common/loader";
 
 interface CProps {
     children: React.ReactNode;

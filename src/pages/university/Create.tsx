@@ -1,7 +1,7 @@
 import { Button, Step, StepLabel, Stepper } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import Logo from "../../components/logo";
-import Input from "../../components/commons/input";
+import { Logo } from "../../common/logo";
+import { Input } from "../../common/forms/input";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import PricingCards from "./PricingCards";
@@ -10,10 +10,9 @@ import { data as validation } from "../../assets/data/validation";
 import HolidayCard from "./HolidayCard";
 import { setMessage } from "../../store/messages/slice";
 import { errorType } from "../../store/messages/types";
-import Dropdown from "../../components/commons/dropdown";
-import Textarea from "../../components/commons/textarea";
-import ChangeInstituteDropdown from "../../components/commons/dropdown/ChangeInstituteDropdown";
-import CheckboxAndLabel from "../../components/commons/checkbox";
+import { Dropdown } from "../../common/forms/dropdown";
+import { Textarea } from "../../common/forms/textarea";
+import { CheckboxAndLabel } from "../../common/forms/checkbox";
 import { getCountries, getStates } from "../../store/location/actions";
 import { getHolidayList } from "../../store/holiday/actions";
 
@@ -110,21 +109,20 @@ const CreateUniversity = () => {
 
     useEffect(() => {
         dispatch(getCountries());
-        dispatch(getHolidayList())
+        dispatch(getHolidayList());
     }, []);
 
-    useEffect(()=>{
-        setFormData({ ...formData, country: location.country[0] })
-    }, [location.country])
+    useEffect(() => {
+        setFormData({ ...formData, country: location.country[0] });
+    }, [location.country]);
 
-    useEffect(()=>{
-        setFormData({ ...formData, state: location.state[0] })
-    }, [location.state])
+    useEffect(() => {
+        setFormData({ ...formData, state: location.state[0] });
+    }, [location.state]);
 
-    useEffect(()=>{
-        if(country)
-        dispatch(getStates(country.value))
-    }, [country])
+    useEffect(() => {
+        if (country) dispatch(getStates(country.value));
+    }, [country]);
 
     return (
         <div className="createUniversity__Wrapper">
