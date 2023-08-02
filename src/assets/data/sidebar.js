@@ -14,6 +14,9 @@ import {
     BsBoxSeam,
     BsBook,
     BsReverseLayoutTextSidebarReverse,
+    BsPerson,
+    BsPersonCheck,
+    BsPersonGear,
 } from "react-icons/bs";
 
 export const sideBarData = [
@@ -73,6 +76,32 @@ export const sideBarData = [
                 icon: <BsReverseLayoutTextSidebarReverse />,
                 notifications: 0,
                 matches: ["/timetable"],
+            },
+        ],
+    },
+    {
+        title: "ADMINISTRATION",
+        links: [
+            {
+                name: "Students",
+                link: "/students",
+                icon: <BsPerson />,
+                notifications: 18,
+                matches: ["/students"],
+            },
+            {
+                name: "Faculties",
+                link: "/faculties",
+                icon: <BsPersonCheck />,
+                notifications: 3,
+                matches: ["/faculties"],
+            },
+            {
+                name: "Staffs",
+                link: "/staffs",
+                icon: <BsPersonGear />,
+                notifications: 1,
+                matches: ["/staffs"],
             },
         ],
     },

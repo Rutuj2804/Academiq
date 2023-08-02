@@ -32,6 +32,9 @@ import CreateUniversity from "../pages/university/Create";
 import University from "../pages/university";
 import Timetable from "../pages/timetable";
 import Logout from "../pages/auth/Logout";
+import Student from "../pages/student";
+import Faculty from "../pages/faculty";
+import Staff from "../pages/staff";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -69,6 +72,10 @@ export const regularRoutes = [
     { path: "/library/add", element: <AddBooks /> },
 
     { path: "/timetable", element: <Timetable /> },
+
+    { path: "/students", element: <Student /> },
+    { path: "/faculties", element: <Faculty /> },
+    { path: "/staffs", element: <Staff /> },
 
     { path: "/change-password", element: <ChangePassword /> },
     { path: "/edit/:username", element: <EditProfile /> },
