@@ -1,5 +1,6 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
 
 interface Options {
     name: string;
@@ -23,11 +24,29 @@ const Dropdown = ({
 }: DropdownCProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const triggerFunction = (e: any) => {
+            const { current: wrap } = dropdownRef;
+            if (wrap && !wrap.contains(e.target as Node)) {
+                setIsOpen(false)
+            }
+        };
+
+        document.addEventListener("mousedown", triggerFunction);
+
+        return () => {
+            document.removeEventListener("mousedown", triggerFunction);
+        };
+    }, []);
+
     return (
         <div
             className={`dropdown__Wrapper ${className}`}
             onClick={() => setIsOpen((i) => !i)}
             style={{ width: width }}
+            ref={dropdownRef}
         >
             {optionsArr.length === 0 ? (
                 <div className="dropdown__Display">

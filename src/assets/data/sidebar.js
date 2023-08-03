@@ -17,6 +17,7 @@ import {
     BsPerson,
     BsPersonCheck,
     BsPersonGear,
+    BsBookshelf,
 } from "react-icons/bs";
 
 export const sideBarData = [
@@ -55,6 +56,13 @@ export const sideBarData = [
                 icon: <BsBox />,
                 notifications: 18,
                 matches: ["/classes", "/classes/add"],
+            },
+            {
+                name: "Courses",
+                link: "/courses",
+                icon: <BsBookshelf />,
+                notifications: 18,
+                matches: ["/courses", "/courses/add"],
             },
             {
                 name: "Activities",

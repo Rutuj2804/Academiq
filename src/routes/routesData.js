@@ -35,6 +35,7 @@ import Logout from "../pages/auth/Logout";
 import Student from "../pages/student";
 import Faculty from "../pages/faculty";
 import Staff from "../pages/staff";
+import Courses from "../pages/course";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -48,6 +49,8 @@ export const regularRoutes = [
 
     { path: "/classes", element: <Classes /> },
     { path: "/classes/add", element: <AddClass /> },
+
+    { path: "/courses", element: <Courses /> },
 
     { path: "/collaborate", element: <Collaborate /> },
 

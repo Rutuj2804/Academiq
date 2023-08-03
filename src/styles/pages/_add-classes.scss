@@ -1,5 +1,5 @@
 .addClass__Wrapper{
-    height: 90vh;
+    // height: 0vh;
     .header{
         padding: 10px;
         padding-bottom: 0%;
@@ -19,70 +19,21 @@
     }
 
     .addClass__Form {
-        min-height: 70vh;
+        // min-height: 70vh;
         padding: 20px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        .addClass__AddFiles {
-            height: 40vh;
-            button {
-                margin-top: 20px;
-                width: 100%;
-                background-color: $blue;
-                color: $white;
-                text-transform: capitalize;
-            }
-            .addClass__FileSelected {
-                display: flex;
-                justify-content: center;
-                width: 100%;
-                align-items: center;
-                gap: 10px;
-                margin-top: 20px;
-                h6 {
-                    margin-bottom: 0%;
-                    font-size: 14px;
-                }
-                p{
-                    margin-bottom: 0%;
-                    font-size: 12px;
-                }
-                button {
-                    margin-top: 0px;
-                    height: 30px;
-                    width: 30px;
-                    background-color: $red;
-                }
+        .addClass__Suggestions {
+            ol li {
+                font-size: 14px;
+                margin-bottom: 5px;
+                font-weight: 500;
             }
         }
-        .addClass__CourseBox {
-            padding: 10px 0;
-            height: 56vh;
-            overflow-y: scroll;
-            &::-webkit-scrollbar {
-                width: 5px;
-            }
-    
-            /* Track */
-            &::-webkit-scrollbar-track {
-                background: transparent;
-            }
-    
-            /* Handle */
-            &::-webkit-scrollbar-thumb {
-                background: $gray;
-                border-radius: 5px;
-            }
-    
-            /* Handle on hover */
-            &::-webkit-scrollbar-thumb:hover {
-                background: #555;
-            }
-        }
-        .addClass__ControlButtons{
+        .addClass__Buttons{
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-end;
             align-items: center;
             button {
                 background-color: $blue;
@@ -90,17 +41,6 @@
                 font-size: 14px;
                 text-transform: capitalize;
                 padding: 7px 20px;
-            }
-            .left {
-                p {
-                    font-weight: 500;
-                    margin-bottom: 0%;
-                }
-            }
-            .right {
-                display: flex;
-                align-items: center;
-                gap: 10px;
             }
         }
     }

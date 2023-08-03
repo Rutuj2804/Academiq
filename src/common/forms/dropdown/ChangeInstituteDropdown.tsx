@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
@@ -26,11 +26,29 @@ const ChangeInstituteDropdown = ({
 
     const navigate = useNavigate();
 
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const triggerFunction = (e: any) => {
+            const { current: wrap } = dropdownRef;
+            if (wrap && !wrap.contains(e.target as Node)) {
+                setIsOpen(false)
+            }
+        };
+
+        document.addEventListener("mousedown", triggerFunction);
+
+        return () => {
+            document.removeEventListener("mousedown", triggerFunction);
+        };
+    }, []);
+
     return (
         <div
             className={`dropdown__Wrapper ${className}`}
             onClick={() => setIsOpen((i) => !i)}
             style={{ width: width }}
+            ref={dropdownRef}
         >
             <div className="dropdown__Display">
                 <div className="dropdown__SelectedOption">{selected?.name}</div>
