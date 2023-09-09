@@ -215,10 +215,8 @@ const CreateStudent = () => {
                                         value={admissionYear}
                                         onChange={handleChange}
                                         name="admissionYear"
-                                        required
                                         autoComplete="off"
                                         placeholder="Admission Year"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -229,7 +227,6 @@ const CreateStudent = () => {
                                         required
                                         autoComplete="off"
                                         placeholder="Enrollnment Number"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -237,10 +234,8 @@ const CreateStudent = () => {
                                         value={rollNumber}
                                         onChange={handleChange}
                                         name="rollNumber"
-                                        required
                                         autoComplete="off"
                                         placeholder="Roll Number"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -248,10 +243,8 @@ const CreateStudent = () => {
                                         value={mothersName}
                                         onChange={handleChange}
                                         name="mothersName"
-                                        required
                                         autoComplete="off"
                                         placeholder="Mothers Name"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -259,10 +252,8 @@ const CreateStudent = () => {
                                         value={fathersName}
                                         onChange={handleChange}
                                         name="fathersName"
-                                        required
                                         autoComplete="off"
                                         placeholder="Fathers Name"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -270,10 +261,8 @@ const CreateStudent = () => {
                                         value={phone}
                                         onChange={handleChange}
                                         name="phone"
-                                        required
                                         autoComplete="off"
                                         placeholder="Phone"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -281,10 +270,8 @@ const CreateStudent = () => {
                                         value={alternatePhone}
                                         onChange={handleChange}
                                         name="alternatePhone"
-                                        required
                                         autoComplete="off"
                                         placeholder="Alternate Phone"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12 mb-4">
@@ -318,10 +305,8 @@ const CreateStudent = () => {
                                         value={extraField1}
                                         onChange={handleChange}
                                         name="extraField1"
-                                        required
                                         autoComplete="off"
                                         placeholder="Extra Field 1"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -329,10 +314,8 @@ const CreateStudent = () => {
                                         value={extraField2}
                                         onChange={handleChange}
                                         name="extraField2"
-                                        required
                                         autoComplete="off"
                                         placeholder="Extra Field 2"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -340,7 +323,6 @@ const CreateStudent = () => {
                                         value={address}
                                         onChange={handleChange}
                                         name="address"
-                                        required
                                         autoComplete="off"
                                         placeholder="Address"
                                         rows={6}

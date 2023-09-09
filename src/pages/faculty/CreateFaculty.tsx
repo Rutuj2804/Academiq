@@ -211,10 +211,8 @@ const CreateFaculty = () => {
                                         value={joiningYear}
                                         onChange={handleChange}
                                         name="joiningYear"
-                                        required
                                         autoComplete="off"
                                         placeholder="Joining Year"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -225,7 +223,6 @@ const CreateFaculty = () => {
                                         required
                                         autoComplete="off"
                                         placeholder="Enrollnment Number"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -233,10 +230,8 @@ const CreateFaculty = () => {
                                         value={mothersName}
                                         onChange={handleChange}
                                         name="mothersName"
-                                        required
                                         autoComplete="off"
                                         placeholder="Mothers Name"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -244,10 +239,8 @@ const CreateFaculty = () => {
                                         value={fathersName}
                                         onChange={handleChange}
                                         name="fathersName"
-                                        required
                                         autoComplete="off"
                                         placeholder="Fathers Name"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -255,10 +248,8 @@ const CreateFaculty = () => {
                                         value={phone}
                                         onChange={handleChange}
                                         name="phone"
-                                        required
                                         autoComplete="off"
                                         placeholder="Phone"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -266,10 +257,8 @@ const CreateFaculty = () => {
                                         value={alternatePhone}
                                         onChange={handleChange}
                                         name="alternatePhone"
-                                        required
                                         autoComplete="off"
                                         placeholder="Alternate Phone"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12 mb-4">
@@ -303,10 +292,8 @@ const CreateFaculty = () => {
                                         value={extraField1}
                                         onChange={handleChange}
                                         name="extraField1"
-                                        required
                                         autoComplete="off"
                                         placeholder="Extra Field 1"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -314,10 +301,8 @@ const CreateFaculty = () => {
                                         value={extraField2}
                                         onChange={handleChange}
                                         name="extraField2"
-                                        required
                                         autoComplete="off"
                                         placeholder="Extra Field 2"
-                                        autoFocus
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -325,7 +310,6 @@ const CreateFaculty = () => {
                                         value={address}
                                         onChange={handleChange}
                                         name="address"
-                                        required
                                         autoComplete="off"
                                         placeholder="Address"
                                         rows={6}
