@@ -19,6 +19,7 @@
         border-radius: 5px;
         .dropdown__SelectedOption {
             flex: 1;
+            @include single-line;
         }
     }
     .dropdown__OptionSpace {

@@ -5,13 +5,24 @@ import { setMessage } from "../messages/slice";
 import { errorType } from "../messages/types";
 import { NavigateFunction } from "react-router-dom";
 import { AxiosError } from "axios";
+import { AddClassData, GetClassData } from "./types";
 
 export const getUniversityClass = createAsyncThunk(
     "getUniversityClass/Class",
-    async (university: string, thunkAPI) => {
+    async (getClassData: GetClassData, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
         try {
-            const res = await axios.get(`/faculty/${university}`);
+
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${localStorage.getItem(
+                        `${process.env.REACT_APP_AUTHENTICATION_LOCALSTORAGE_KEY}`
+                    )}`,
+                },
+            };
+
+            const res = await axios.post(`/class/u/${getClassData.universityID}`, getClassData, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 
@@ -77,7 +88,7 @@ export const getClass = createAsyncThunk(
 
 export const createClass = createAsyncThunk(
     "createClass/Class",
-    async ({ name, description, navigate }: { name: string, description: string, navigate: NavigateFunction }, thunkAPI) => {
+    async ({ name, description, navigate, universityID }: AddClassData, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
         try {
             const config = {
@@ -89,7 +100,7 @@ export const createClass = createAsyncThunk(
                 },
             };
 
-            const request = JSON.stringify({ name, description })
+            const request = JSON.stringify({ name, description, universityID })
 
             const res = await axios.post(`/class`, request, config);
 

@@ -8,6 +8,8 @@ import { errorType } from "../../store/messages/types";
 import { getCountries, getStates } from "../../store/location/actions";
 import { getHolidayList } from "../../store/holiday/actions";
 import { UniversityForm } from "../../components/micro/university";
+import { addUniversity } from "../../store/university/actions";
+import { useNavigate } from "react-router-dom";
 
 const moveType = {
     NEXT: "NEXT",
@@ -38,7 +40,7 @@ const CreateUniversity = () => {
     const [formData, setFormData] = useState({
         name: "",
         description: "",
-        phone: "",
+        doEst: "",
         search: "",
         avgStudents: avgStudentsType[0],
         state: location.state[0],
@@ -50,10 +52,12 @@ const CreateUniversity = () => {
 
     const dispatch = useDispatch<any>();
 
+    const navigate = useNavigate()
+
     const {
         name,
         description,
-        phone,
+        doEst,
         search,
         avgStudents,
         state,
@@ -91,7 +95,7 @@ const CreateUniversity = () => {
     const handleMovements = (type: string) => {
         if (type === moveType.NEXT) {
             if (activeStep === 0) {
-                if (name && description && phone) setActiveStep((v) => v + 1);
+                if (name && description && doEst) setActiveStep((v) => v + 1);
                 else
                     dispatch(
                         setMessage({
@@ -125,6 +129,21 @@ const CreateUniversity = () => {
         if (country) dispatch(getStates(country.value));
     }, [country]);
 
+
+    const onSubmit = () => {
+        dispatch(addUniversity({
+            name: name,    
+            description: description,    
+            doEst: doEst,    
+            state: state.value,    
+            country: country.value,    
+            avgStudents: avgStudents.value,    
+            isSundayHoliday: isSundayHoliday,    
+            isSaturdayHoliday: isSaturdayHoliday,
+            navigate: navigate
+        }))
+    }
+
     return (
         <div className="createUniversity__Wrapper">
             <div className="createUniversity__Box">
@@ -157,7 +176,7 @@ const CreateUniversity = () => {
                         setActivePlan={setActivePlan}
                         name={name}
                         description={description}
-                        phone={phone}
+                        doEst={doEst}
                         avgStudents={avgStudents}
                         country={country}
                         country_holiday={country_holiday}
@@ -194,7 +213,7 @@ const CreateUniversity = () => {
                             </Button>
                         )}
                         {activeStep === 2 && (
-                            <Button onClick={() => setActiveStep((r) => r + 1)}>
+                            <Button onClick={onSubmit}>
                                 Submit
                             </Button>
                         )}

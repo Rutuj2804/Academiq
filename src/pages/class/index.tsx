@@ -13,105 +13,29 @@ import {
     FileDownloadRounded,
 } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
-
-const columns: GridColDef[] = [
-    {
-        field: "firstName",
-        headerName: "Query",
-        flex: 1,
-        disableColumnMenu: true,
-        minWidth: 200,
-        renderCell: (params) => (
-            <div className="queryBlock">
-                <h6>
-                    {params.row.firstName}{" "}
-                    <span>
-                        <GoPrimitiveDot />
-                    </span>
-                </h6>
-            </div>
-        ),
-    },
-    {
-        field: "Status",
-        headerName: "Status",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <span className="tag active">Active</span>,
-    },
-    {
-        field: "Created By",
-        headerName: "Created By",
-        headerAlign: "center",
-        width: 300,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">Rutuj Bokade</p>,
-    },
-    {
-        field: "Created At",
-        headerName: "Created At",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">2 mins ago</p>,
-    },
-    {
-        field: " ",
-        headerName: "Update Class",
-        width: 150,
-        disableColumnMenu: true,
-        align: "center",
-        renderCell: (params) => (
-            <IconButton size="small" className="icon-hover">
-                <EditRounded fontSize="small" />
-            </IconButton>
-        ),
-    },
-];
-
-const rows = [
-    {
-        id: 1,
-        lastName: "Snow Snow Snow Snow Snow Snow Snow Snow Snow Snow",
-        firstName: "Jon",
-        age: 35,
-    },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-    { id: 10, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 16, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
-    { id: 17, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 18, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 19, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+import { getUniversityClass } from "../../store/class/actions";
+import moment from "moment";
 
 enum TabType {
-    ALL = "ALL",
     ACTIVE = "ACTIVE",
     DELETED = "DELETED",
 }
 
 const Classes = () => {
-    const [activeTab, setActiveTab] = useState(TabType.ALL);
+    const [activeTab, setActiveTab] = useState(TabType.ACTIVE);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
 
     const theme = useSelector((state: RootState) => state.settings.theme);
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
+
+    const universityID = useSelector((state: RootState) => state.university.university.value)
+
+    const classesOfUniversity = useSelector((state: RootState) => state.class.classes)
 
     useEffect(() => {
         dispatch(
@@ -121,6 +45,79 @@ const Classes = () => {
             })
         );
     }, [dispatch]);
+
+    useEffect(()=>{
+        dispatch(getUniversityClass({ universityID: universityID, isActive: true, role: "" }))
+    }, [])
+
+    const onTabClick = (tabType: TabType) => {
+        setActiveTab(tabType)
+
+        if(tabType === TabType.ACTIVE) {
+            dispatch(getUniversityClass({ universityID: universityID, isActive: true, role: "" }))
+        } else {
+            dispatch(getUniversityClass({ universityID: universityID, isActive: false, role: "" }))
+        }
+    }
+
+    const columns: GridColDef[] = [
+        {
+            field: "firstName",
+            headerName: "Query",
+            flex: 1,
+            disableColumnMenu: true,
+            minWidth: 200,
+            renderCell: (params) => (
+                <div className="queryBlock">
+                    <h6>
+                        {params.row.name}{" "}
+                        <span>
+                            <GoPrimitiveDot />
+                        </span>
+                    </h6>
+                </div>
+            ),
+        },
+        {
+            field: "Status",
+            headerName: "Status",
+            headerAlign: "center",
+            width: 200,
+            align: "center",
+            disableColumnMenu: true,
+            renderCell: (params) => <span className={params.row.isActive ? "tag active": "tag delete"}>{params.row.isActive ? "Active" : "Deleted"}</span>,
+        },
+        {
+            field: "Created By",
+            headerName: "Created By",
+            headerAlign: "center",
+            width: 300,
+            align: "center",
+            disableColumnMenu: true,
+            renderCell: (params) => <p className="mb-0">{params.row.createdBy.firstname + " " + params.row.createdBy.lastname}</p>,
+        },
+        {
+            field: "Created At",
+            headerName: "Created At",
+            headerAlign: "center",
+            width: 200,
+            align: "center",
+            disableColumnMenu: true,
+            renderCell: (params) => <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>,
+        },
+        {
+            field: " ",
+            headerName: "Update Class",
+            width: 150,
+            disableColumnMenu: true,
+            align: "center",
+            renderCell: (params) => (
+                <IconButton size="small" className="icon-hover" onClick={() => navigate(`/class/${params.row._id}`)}>
+                    <EditRounded fontSize="small" />
+                </IconButton>
+            ),
+        },
+    ];
 
     return (
         <div className="section__Wrapper">
@@ -148,15 +145,7 @@ const Classes = () => {
                     <div className="classes__Header">
                         <div className="left">
                             <Button
-                                onClick={() => setActiveTab(TabType.ALL)}
-                                className={
-                                    TabType.ALL === activeTab ? "active" : ""
-                                }
-                            >
-                                All (33)
-                            </Button>
-                            <Button
-                                onClick={() => setActiveTab(TabType.ACTIVE)}
+                                onClick={() => onTabClick(TabType.ACTIVE)}
                                 className={
                                     TabType.ACTIVE === activeTab ? "active" : ""
                                 }
@@ -164,7 +153,7 @@ const Classes = () => {
                                 Active (27)
                             </Button>
                             <Button
-                                onClick={() => setActiveTab(TabType.DELETED)}
+                                onClick={() => onTabClick(TabType.DELETED)}
                                 className={
                                     TabType.DELETED === activeTab
                                         ? "active"
@@ -193,7 +182,7 @@ const Classes = () => {
                     </div>
                     <div className="data-grid">
                         <DataGrid
-                            rows={rows}
+                            rows={classesOfUniversity}
                             columns={columns}
                             initialState={{
                                 pagination: {
@@ -206,7 +195,7 @@ const Classes = () => {
                             checkboxSelection
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
-                            getRowId={(row) => row.id}
+                            getRowId={(row) => row._id}
                             sx={
                                 theme === layoutTheme[0]
                                     ? null

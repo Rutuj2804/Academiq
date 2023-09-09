@@ -10,10 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotifications, setProfile, setSearch, setSettings, setSidebar } from "../../store/layout/slice";
 import { RootState } from "../../store";
 import { Logo } from "../logo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ChangeInstituteDropdown from "../forms/dropdown/ChangeInstituteDropdown";
 import ProfileMenu from "./ProfileMenu";
 import NotificationMenu from "./NotificationMenu";
+import { setUniversity } from "../../store/university/slice";
 
 const optionsArr = [
     { name: "MIT ADT University", value: "SomeID" },
@@ -21,11 +22,15 @@ const optionsArr = [
 ]
 
 const Navbar = () => {
-    const [selected, setSelected] = useState(optionsArr[0]);
+
+    const layout = useSelector((state: RootState) => state.layout);
+    const universityData = useSelector((state: RootState) => state.university)
 
     const dispatch = useDispatch();
 
-    const layout = useSelector((state: RootState) => state.layout);
+    const setUniversityInStore = ({ name, value }: { name: string, value: string }) => {
+        dispatch(setUniversity({ name, value }))
+    }
 
     return (
         <div className="navbar__Wrapper">
@@ -36,9 +41,9 @@ const Navbar = () => {
                         <div className="vr"></div>
                         <div className="navbar__ChangeUniversity">
                             <ChangeInstituteDropdown
-                                optionsArr={optionsArr}
-                                selected={selected}
-                                setSelected={setSelected}
+                                optionsArr={universityData.universities}
+                                selected={universityData.university}
+                                setSelected={setUniversityInStore}
                                 width={250}
                             />
                         </div>
@@ -46,9 +51,9 @@ const Navbar = () => {
                 )}
                 <div className="navbar__ChangeUniversity">
                     {layout.sidebar && <ChangeInstituteDropdown
-                        optionsArr={optionsArr}
-                        selected={selected}
-                        setSelected={setSelected}
+                        optionsArr={universityData.universities}
+                        selected={universityData.university}
+                        setSelected={setUniversityInStore}
                         width={250}
                     />}
                 </div>

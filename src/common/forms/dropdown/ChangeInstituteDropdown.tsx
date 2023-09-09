@@ -43,6 +43,11 @@ const ChangeInstituteDropdown = ({
         };
     }, []);
 
+    const instituteChanged = (o:Options) => {
+        setSelected(o)
+        navigate('/')
+    }
+
     return (
         <div
             className={`dropdown__Wrapper ${className}`}
@@ -60,7 +65,7 @@ const ChangeInstituteDropdown = ({
                 {optionsArr.map((o, i) => (
                     <div
                         key={i}
-                        onClick={() => setSelected(o)}
+                        onClick={() => instituteChanged(o)}
                         className={`dropdown__Option ${
                             selected?.value === o.value ? "selected" : null
                         }`}

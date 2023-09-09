@@ -23,6 +23,8 @@ const AddClass = () => {
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
+    const universityID = useSelector((state: RootState) => state.university.university.value)
+
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -31,7 +33,7 @@ const AddClass = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(createClass({ name, description: note, navigate }))
+        dispatch(createClass({ name, description: note, navigate, universityID: universityID }))
     };
 
     useEffect(() => {

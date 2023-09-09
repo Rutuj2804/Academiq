@@ -20,7 +20,7 @@ interface FormC {
     setActivePlan: React.Dispatch<React.SetStateAction<number>>,
     name: string;
     description: string;
-    phone: string;
+    doEst: string;
     avgStudents: { name: string; value: string | number };
     country: { name: string; value: string | number, iso2: string };
     country_holiday: { name: string; value: string | number, iso2: string };
@@ -56,7 +56,7 @@ const Form = ({
     setActivePlan,
     name,
     description,
-    phone,
+    doEst,
     avgStudents,
     country,
     country_holiday,
@@ -96,13 +96,14 @@ const Form = ({
                                     rows={6}
                                 />
                                 <Input
-                                    value={phone}
+                                    type="date"
+                                    value={doEst}
                                     onChange={handleChange}
-                                    name="phone"
+                                    name="doEst"
                                     required
                                     autoComplete="off"
-                                    placeholder="University Phone number"
-                                    regex={validation.phone}
+                                    placeholder="Date of Establishment"
+                                    regex={validation.date}
                                 />
                                 <Dropdown
                                     optionsArr={avgStudentsType}
