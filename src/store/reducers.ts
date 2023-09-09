@@ -9,6 +9,9 @@ import location from "./location/slice"
 import loading from "./loading/slice"
 import holiday from "./holiday/slice"
 import classR from "./class/slice"
+import student from "./student/slice"
+import faculty from "./faculty/slice"
+import staff from "./staff/slice"
 
 export const reducers = combineReducers({ 
     auth,
@@ -21,4 +24,7 @@ export const reducers = combineReducers({
     loading,
     holiday,
     class: classR,
+    student,
+    faculty,
+    staff
 })

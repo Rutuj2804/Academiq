@@ -1,23 +1,23 @@
 import { NavigateFunction } from "react-router-dom";
+import { ClassInterface } from "../../utils/types/class";
 
 export interface ClassState {
-    classes: [];
-    class: {
-        _id?: string;
-        name: string;
-        description: string;
-        createdBy: string;
-        isActive: boolean;
-    };
+    classes: ClassInterface[];
+    class: ClassInterface;
+    display: {
+        all: number,
+        active: number,
+        deleted: number
+    }
 }
 
-export interface GetClassData {
-    isActive: boolean;
+export interface GetClassRequest {
+    isActive: string;
     universityID: string;
     role: string;
 }
 
-export interface AddClassData {
+export interface AddClassRequest {
     name: string;
     description: string;
     universityID: string;

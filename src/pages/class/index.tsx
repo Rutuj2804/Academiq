@@ -13,16 +13,17 @@ import {
     FileDownloadRounded,
 } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
-import { getUniversityClass } from "../../store/class/actions";
+import { getMyClassesCountOnTabNumbers, getUniversityClass } from "../../store/class/actions";
 import moment from "moment";
 
 enum TabType {
+    ALL = "ALL",
     ACTIVE = "ACTIVE",
     DELETED = "DELETED",
 }
 
 const Classes = () => {
-    const [activeTab, setActiveTab] = useState(TabType.ACTIVE);
+    const [activeTab, setActiveTab] = useState(TabType.ALL);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
     const dispatch = useDispatch<any>();
@@ -36,6 +37,7 @@ const Classes = () => {
     const universityID = useSelector((state: RootState) => state.university.university.value)
 
     const classesOfUniversity = useSelector((state: RootState) => state.class.classes)
+    const display = useSelector((state: RootState) => state.class.display)
 
     useEffect(() => {
         dispatch(
@@ -47,16 +49,19 @@ const Classes = () => {
     }, [dispatch]);
 
     useEffect(()=>{
-        dispatch(getUniversityClass({ universityID: universityID, isActive: true, role: "" }))
-    }, [])
+        dispatch(getUniversityClass({ universityID: universityID, isActive: "A", role: "" }))
+        dispatch(getMyClassesCountOnTabNumbers(universityID))
+    }, [universityID])
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType)
 
         if(tabType === TabType.ACTIVE) {
-            dispatch(getUniversityClass({ universityID: universityID, isActive: true, role: "" }))
-        } else {
-            dispatch(getUniversityClass({ universityID: universityID, isActive: false, role: "" }))
+            dispatch(getUniversityClass({ universityID: universityID, isActive: "T", role: "" }))
+        } else if(tabType === TabType.DELETED){
+            dispatch(getUniversityClass({ universityID: universityID, isActive: "F", role: "" }))
+        } else if(tabType === TabType.ALL){
+            dispatch(getUniversityClass({ universityID: universityID, isActive: "A", role: "" }))
         }
     }
 
@@ -145,12 +150,20 @@ const Classes = () => {
                     <div className="classes__Header">
                         <div className="left">
                             <Button
+                                onClick={() => onTabClick(TabType.ALL)}
+                                className={
+                                    TabType.ALL === activeTab ? "active" : ""
+                                }
+                            >
+                                All ({display.all})
+                            </Button>
+                            <Button
                                 onClick={() => onTabClick(TabType.ACTIVE)}
                                 className={
                                     TabType.ACTIVE === activeTab ? "active" : ""
                                 }
                             >
-                                Active (27)
+                                Active ({display.active})
                             </Button>
                             <Button
                                 onClick={() => onTabClick(TabType.DELETED)}
@@ -160,7 +173,7 @@ const Classes = () => {
                                         : ""
                                 }
                             >
-                                Deleted (6)
+                                Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
                                 <Button className="red">

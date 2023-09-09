@@ -13,6 +13,16 @@ import {
     FileDownloadRounded,
 } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
+import { getFacultyCountOnTabNumbers, getUniversityFaculty } from "../../store/faculty/actions";
+import moment from "moment";
+
+const getName = (t:any) => {
+    if(t.midname === undefined) {
+        return `${t.firstname} ${t.lastname}`
+    } else {
+        return `${t.firstname} ${t.midname} ${t.lastname}`
+    }
+}
 
 const columns: GridColDef[] = [
     {
@@ -24,7 +34,7 @@ const columns: GridColDef[] = [
         renderCell: (params) => (
             <div className="queryBlock">
                 <h6>
-                    {params.row.firstName}{" "}
+                    {getName(params.row.userID)}{" "}
                     <span>
                         <GoPrimitiveDot />
                     </span>
@@ -39,16 +49,22 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <span className="tag active">Active</span>,
+        renderCell: (params) => (
+            <span className={params.row.isActive ? "tag active" : "tag delete"}>
+                {params.row.isActive ? "Active" : "Deleted"}
+            </span>
+        ),
     },
     {
-        field: "Created By",
-        headerName: "Created By",
+        field: "Enrollment No",
+        headerName: "Enrollment No",
         headerAlign: "center",
         width: 300,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">Rutuj Bokade</p>,
+        renderCell: (params) => (
+            <p className="mb-0">{`${params.row.enrollnmentNo}`}</p>
+        ),
     },
     {
         field: "Created At",
@@ -57,7 +73,9 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">2 mins ago</p>,
+        renderCell: (params) => (
+            <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>
+        ),
     },
     {
         field: " ",
@@ -102,16 +120,25 @@ enum TabType {
 }
 
 const Faculty = () => {
-    const [activeTab, setActiveTab] = useState(TabType.ACTIVE);
+    const [activeTab, setActiveTab] = useState(TabType.ALL);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
 
     const theme = useSelector((state: RootState) => state.settings.theme);
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
+
+    const universityID = useSelector(
+        (state: RootState) => state.university.university.value
+    );
+
+    const faculties = useSelector(
+        (state: RootState) => state.faculty.faculties
+    );
+    const display = useSelector((state: RootState) => state.faculty.display)
 
     useEffect(() => {
         dispatch(
@@ -121,6 +148,43 @@ const Faculty = () => {
             })
         );
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(
+            getUniversityFaculty({
+                universityID: universityID,
+                isActive: "A",
+            })
+        );
+        dispatch(getFacultyCountOnTabNumbers(universityID))
+    }, [universityID]);
+
+    const onTabClick = (tabType: TabType) => {
+        setActiveTab(tabType);
+
+        if (tabType === TabType.ALL) {
+            dispatch(
+                getUniversityFaculty({
+                    universityID: universityID,
+                    isActive: "A",
+                })
+            );
+        } else if (tabType === TabType.ACTIVE) {
+            dispatch(
+                getUniversityFaculty({
+                    universityID: universityID,
+                    isActive: "T",
+                })
+            );
+        } else if (tabType === TabType.DELETED) {
+            dispatch(
+                getUniversityFaculty({
+                    universityID: universityID,
+                    isActive: "F",
+                })
+            );
+        }
+    };
 
     return (
         <div className="section__Wrapper">
@@ -148,30 +212,30 @@ const Faculty = () => {
                     <div className="classes__Header">
                         <div className="left">
                             <Button
-                                onClick={() => setActiveTab(TabType.ALL)}
+                                onClick={() => onTabClick(TabType.ALL)}
                                 className={
                                     TabType.ALL === activeTab ? "active" : ""
                                 }
                             >
-                                All (33)
+                                All ({display.all})
                             </Button>
                             <Button
-                                onClick={() => setActiveTab(TabType.ACTIVE)}
+                                onClick={() => onTabClick(TabType.ACTIVE)}
                                 className={
                                     TabType.ACTIVE === activeTab ? "active" : ""
                                 }
                             >
-                                Active (27)
+                                Active ({display.active})
                             </Button>
                             <Button
-                                onClick={() => setActiveTab(TabType.DELETED)}
+                                onClick={() => onTabClick(TabType.DELETED)}
                                 className={
                                     TabType.DELETED === activeTab
                                         ? "active"
                                         : ""
                                 }
                             >
-                                Deleted (6)
+                                Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
                                 <Button className="red">
@@ -182,7 +246,7 @@ const Faculty = () => {
                         <div className="right">
                             <Button
                                 endIcon={<AddRounded />}
-                                onClick={() => navigate("/classes/add")}
+                                onClick={() => navigate("/faculty/create")}
                             >
                                 Add
                             </Button>
@@ -193,7 +257,7 @@ const Faculty = () => {
                     </div>
                     <div className="data-grid">
                         <DataGrid
-                            rows={rows}
+                            rows={faculties}
                             columns={columns}
                             initialState={{
                                 pagination: {
@@ -206,7 +270,7 @@ const Faculty = () => {
                             checkboxSelection
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
-                            getRowId={(row) => row.id}
+                            getRowId={(row) => row._id}
                             sx={
                                 theme === layoutTheme[0]
                                     ? null

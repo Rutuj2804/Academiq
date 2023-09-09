@@ -6,6 +6,6 @@ export interface ClassInterface extends DocumentInterface {
     description?: string
     isActive?: boolean
     courseId?: string
-    createdBy?: AuthInterface
+    createdBy?: AuthInterface | string
     facultyId?: string
 }

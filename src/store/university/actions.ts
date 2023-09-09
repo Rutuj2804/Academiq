@@ -4,26 +4,25 @@ import { updateLoading } from "../loading/slice";
 import { setMessage } from "../messages/slice";
 import { AxiosError } from "axios";
 import { errorType } from "../messages/types";
-import { CreateUniversity } from "./types";
+import { CreateUniversityRequest } from "./types";
 import { setUniversity } from "./slice";
+import { getToken } from "../../utils/helpers";
 
-export const addUniversity = createAsyncThunk("addUniversity/University", async (createUniversity: CreateUniversity, thunkAPI) => {
+export const addUniversity = createAsyncThunk("addUniversity/University", async (createUniversityRequest: CreateUniversityRequest, thunkAPI) => {
     thunkAPI.dispatch(updateLoading(1));    
     try {
             const config = {
                 headers: {
                     "Content-Type": "Application/json",
-                    Authorization: `Bearer ${localStorage.getItem(
-                        `${process.env.REACT_APP_AUTHENTICATION_LOCALSTORAGE_KEY}`
-                    )}`,
+                    "Authorization": `Bearer ${getToken()}`,
                 },
             };
             
-            const res = await axios.post("/university", createUniversity, config);
+            const res = await axios.post("/university", createUniversityRequest, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 
-            createUniversity.navigate('/')
+            createUniversityRequest.navigate('/')
 
             return {
                 name: res.data.data.name,
@@ -56,9 +55,7 @@ export const getUniversity = createAsyncThunk("getUniversity/University", async 
         const config = {
             headers: {
                 "Content-Type": "Application/json",
-                Authorization: `Bearer ${localStorage.getItem(
-                    `${process.env.REACT_APP_AUTHENTICATION_LOCALSTORAGE_KEY}`
-                )}`,
+                "Authorization": `Bearer ${getToken()}`,
             },
         };
 

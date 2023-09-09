@@ -37,6 +37,9 @@ import Faculty from "../pages/faculty";
 import Staff from "../pages/staff";
 import Courses from "../pages/course";
 import ClassDetailView from "../pages/class/DetailView";
+import CreateStudent from "../pages/student/CreateStudent";
+import CreateFaculty from "../pages/faculty/CreateFaculty";
+import CreateStaff from "../pages/staff/CreateStaff";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -79,8 +82,13 @@ export const regularRoutes = [
     { path: "/timetable", element: <Timetable /> },
 
     { path: "/students", element: <Student /> },
+    { path: "/student/create", element: <CreateStudent /> },
+
     { path: "/faculties", element: <Faculty /> },
+    { path: "/faculty/create", element: <CreateFaculty /> },
+
     { path: "/staffs", element: <Staff /> },
+    { path: "/staff/create", element: <CreateStaff /> },
 
     { path: "/change-password", element: <ChangePassword /> },
     { path: "/edit/:username", element: <EditProfile /> },

@@ -21,22 +21,14 @@ export interface UniversityState {
     };
 }
 
-export interface CreateUniversity {
-    name: string;
-    
-    description: string;
-    
-    doEst: string;
-    
-    state: string;
-    
-    country: string;
-    
-    avgStudents: number;
-    
-    isSundayHoliday: boolean;
-    
+export interface CreateUniversityRequest {
+    name: string;    
+    description: string;    
+    doEst: string;    
+    state: string;    
+    country: string;    
+    avgStudents: number;    
+    isSundayHoliday: boolean;    
     isSaturdayHoliday: boolean;
-
     navigate: NavigateFunction;
 }

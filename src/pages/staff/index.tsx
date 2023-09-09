@@ -13,6 +13,16 @@ import {
     FileDownloadRounded,
 } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
+import { getStaffCountOnTabNumbers, getUniversityStaff } from "../../store/staff/actions";
+import moment from "moment";
+
+const getName = (t:any) => {
+    if(t.midname === undefined) {
+        return `${t.firstname} ${t.lastname}`
+    } else {
+        return `${t.firstname} ${t.midname} ${t.lastname}`
+    }
+}
 
 const columns: GridColDef[] = [
     {
@@ -24,7 +34,7 @@ const columns: GridColDef[] = [
         renderCell: (params) => (
             <div className="queryBlock">
                 <h6>
-                    {params.row.firstName}{" "}
+                    {getName(params.row.userID)}{" "}
                     <span>
                         <GoPrimitiveDot />
                     </span>
@@ -39,7 +49,7 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <span className="tag active">Active</span>,
+        renderCell: (params) => <span className={params.row.isActive ? "tag active" : "tag delete"}>{params.row.isActive ? "Active" : "Deleted"}</span>,
     },
     {
         field: "Created By",
@@ -57,7 +67,7 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">2 mins ago</p>,
+        renderCell: (params) => <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>,
     },
     {
         field: " ",
@@ -102,16 +112,21 @@ enum TabType {
 }
 
 const Staff = () => {
-    const [activeTab, setActiveTab] = useState(TabType.ACTIVE);
+    const [activeTab, setActiveTab] = useState(TabType.ALL);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
 
     const theme = useSelector((state: RootState) => state.settings.theme);
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
+
+    const universityID = useSelector((state: RootState) => state.university.university.value)
+
+    const staffsGlobal = useSelector((state: RootState) => state.staff.staffs)
+    const display = useSelector((state: RootState) => state.staff.display)
 
     useEffect(() => {
         dispatch(
@@ -121,6 +136,41 @@ const Staff = () => {
             })
         );
     }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getUniversityStaff({
+            universityID: universityID,
+            isActive: "A",
+        }))
+        dispatch(getStaffCountOnTabNumbers(universityID))
+    }, [universityID])
+
+    const onTabClick = (tabType: TabType) => {
+        setActiveTab(tabType);
+
+        if (tabType === TabType.ALL) {
+            dispatch(
+                getUniversityStaff({
+                    universityID: universityID,
+                    isActive: "A",
+                })
+            );
+        } else if (tabType === TabType.ACTIVE) {
+            dispatch(
+                getUniversityStaff({
+                    universityID: universityID,
+                    isActive: "T",
+                })
+            );
+        } else if (tabType === TabType.DELETED) {
+            dispatch(
+                getUniversityStaff({
+                    universityID: universityID,
+                    isActive: "F",
+                })
+            );
+        }
+    };
 
     return (
         <div className="section__Wrapper">
@@ -148,30 +198,30 @@ const Staff = () => {
                     <div className="classes__Header">
                         <div className="left">
                             <Button
-                                onClick={() => setActiveTab(TabType.ALL)}
+                                onClick={() => onTabClick(TabType.ALL)}
                                 className={
                                     TabType.ALL === activeTab ? "active" : ""
                                 }
                             >
-                                All (33)
+                                All ({display.all})
                             </Button>
                             <Button
-                                onClick={() => setActiveTab(TabType.ACTIVE)}
+                                onClick={() => onTabClick(TabType.ACTIVE)}
                                 className={
                                     TabType.ACTIVE === activeTab ? "active" : ""
                                 }
                             >
-                                Active (27)
+                                Active ({display.active})
                             </Button>
                             <Button
-                                onClick={() => setActiveTab(TabType.DELETED)}
+                                onClick={() => onTabClick(TabType.DELETED)}
                                 className={
                                     TabType.DELETED === activeTab
                                         ? "active"
                                         : ""
                                 }
                             >
-                                Deleted (6)
+                                Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
                                 <Button className="red">
@@ -182,7 +232,7 @@ const Staff = () => {
                         <div className="right">
                             <Button
                                 endIcon={<AddRounded />}
-                                onClick={() => navigate("/classes/add")}
+                                onClick={() => navigate("/staff/create")}
                             >
                                 Add
                             </Button>
@@ -193,7 +243,7 @@ const Staff = () => {
                     </div>
                     <div className="data-grid">
                         <DataGrid
-                            rows={rows}
+                            rows={staffsGlobal}
                             columns={columns}
                             initialState={{
                                 pagination: {
@@ -206,7 +256,7 @@ const Staff = () => {
                             checkboxSelection
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
-                            getRowId={(row) => row.id}
+                            getRowId={(row) => row._id}
                             sx={
                                 theme === layoutTheme[0]
                                     ? null

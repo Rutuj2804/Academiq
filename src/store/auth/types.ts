@@ -5,12 +5,12 @@ export interface AuthState {
     user: AuthInterface
 }
 
-export interface LoginData {
+export interface LoginRequest {
     email: string;
     password: string;
 }
 
-export interface RegisterData {
+export interface RegisterRequest {
     email: string;
     password: string;
     firstname: string;

@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { StaffState } from "./types";
-import { getStaffDetails, getUniversityStaff, updateStaffDetails } from "./actions";
+import { getStaffCountOnTabNumbers, getStaffDetails, getUniversityStaff, updateStaffDetails } from "./actions";
 
 const initialState: StaffState = {
     staffs: [],
-    staff: {}
+    staff: {},
+    display: {
+        all: 0,
+        active: 0,
+        deleted: 0
+    }
 };
 
 export const staffSlice = createSlice({
@@ -14,10 +19,13 @@ export const staffSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getUniversityStaff.fulfilled, (s, a) => {
             s.staffs = a.payload
-        }),
+        });
+        builder.addCase(getStaffCountOnTabNumbers.fulfilled, (s, a) => {
+            s.display = a.payload
+        });
         builder.addCase(getStaffDetails.fulfilled, (s, a) => {
             s.staff = a.payload
-        }),
+        });
         builder.addCase(updateStaffDetails.fulfilled, (s, a) => {
             s.staff = a.payload
         })

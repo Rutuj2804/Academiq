@@ -1,14 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axios";
 import { updateLoading } from "../loading/slice";
-import { LoginData, RegisterData } from "./types";
+import { LoginRequest, RegisterRequest } from "./types";
 import { setMessage } from "../messages/slice";
 import { errorType } from "../messages/types";
 import { AxiosError } from "axios";
+import { getToken } from "../../utils/helpers";
 
 export const loginUser = createAsyncThunk(
     "loginUser/Auth",
-    async (data: LoginData, thunkAPI) => {
+    async (data: LoginRequest, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
 
         try {
@@ -49,7 +50,7 @@ export const loginUser = createAsyncThunk(
 
 export const registerUser = createAsyncThunk(
     "registerUser/Auth",
-    async (data: RegisterData, thunkAPI) => {
+    async (data: RegisterRequest, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
 
         try {
@@ -95,9 +96,7 @@ export const getUser = createAsyncThunk("getUser/Auth", async (_, thunkAPI) => {
         const config = {
             headers: {
                 "Content-Type": "Application/json",
-                Authorization: `Bearer ${localStorage.getItem(
-                    `${process.env.REACT_APP_AUTHENTICATION_LOCALSTORAGE_KEY}`
-                )}`,
+                Authorization: `Bearer ${getToken()}`,
             },
         };
 

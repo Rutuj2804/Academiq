@@ -1,0 +1,14 @@
+.createStudent__Form {
+    padding: 10px;
+    .createStudent__FormButton {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+        button {
+            background-color: $blue;
+            color: $white;
+            font-size: 14px;
+            text-transform: capitalize;
+        }
+    }
+}
