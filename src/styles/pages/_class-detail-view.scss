@@ -1,0 +1,66 @@
+.classDetailView__Wrapper {
+    .classDetailView__Box{
+        .classDetailView__Options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            .buttons {
+                button {
+                    background-color: $blue;
+                    color: $white;
+                    text-transform: capitalize;
+                    padding: 7px 20px;
+                }
+            }
+        }
+        .classDetailView__Header {
+            position: relative;
+            img {
+                height: 60vh;
+                width: 100%;
+                object-fit: cover;
+            }
+            .classDetailView__Titles {
+                position: absolute;
+                bottom: 0%;
+                left: 0%;
+                height: 100%;
+                width: 100%;
+                padding: 0 20px;
+                z-index: 1;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                gap: 20px;
+                background: linear-gradient(360deg, $black, transparent);
+                .left {
+                    height: 100%;
+                    width: 100%;
+                    flex: 1;
+                    color: $white!important;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-end;
+                    p {
+                        font-size: 14px;
+                    }
+                }
+                .right {
+                    margin-bottom: 20px;
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    color: $white!important;
+                    .edit {
+                        background-color: $blue;
+                        color: $white!important;
+                        padding: 7px 20px;
+                        text-transform: capitalize;
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}

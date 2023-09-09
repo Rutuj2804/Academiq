@@ -43,29 +43,32 @@ const Input = ({
     };
 
     return (
-        <div className={`input__Wrapper ${valid ? "valid" : "invalid"}`}>
-            <input
-                type={type}
-                value={value}
-                name={name}
-                onChange={handleValidationOnChange}
-                ref={ref}
-                onBlur={onBlur}
-                required={required}
-                placeholder={placeholder}
-                autoComplete="off"
-            />
-            {required ? (
-                <span className={valid ? "valid" : "invalid"}>
-                    {!valid ? (
-                        <BsExclamationCircleFill />
-                    ) : (
-                        <BsCheckCircleFill />
-                    )}
-                </span>
-            ) : (
-                <span></span>
-            )}
+        <div className="input__Container">
+            <label>{placeholder}</label>
+            <div className={`input__Wrapper ${valid ? "valid" : "invalid"}`}>
+                <input
+                    type={type}
+                    value={value}
+                    name={name}
+                    onChange={handleValidationOnChange}
+                    ref={ref}
+                    onBlur={onBlur}
+                    required={required}
+                    placeholder={placeholder}
+                    autoComplete="off"
+                />
+                {required ? (
+                    <span className={valid ? "valid" : "invalid"}>
+                        {!valid ? (
+                            <BsExclamationCircleFill />
+                        ) : (
+                            <BsCheckCircleFill />
+                        )}
+                    </span>
+                ) : (
+                    <span></span>
+                )}
+            </div>
         </div>
     );
 };

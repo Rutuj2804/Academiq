@@ -8,9 +8,10 @@ import { changeTheme } from "./store/settings/slice";
 import { layoutTheme } from "./store/settings/types";
 import { RootState } from "./store";
 import AuthLayout from "./hocs/AuthLayout";
+import { getUser } from "./store/auth/actions";
 
 const App = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const sidebarTheme = useSelector(
         (state: RootState) => state.settings.theme
@@ -34,6 +35,12 @@ const App = () => {
             localStorage.setItem("academic-theme", layoutTheme[0]);
         }
     }, [sidebarTheme]);
+
+    useEffect(()=>{
+        var userToken = localStorage.getItem(`${process.env.REACT_APP_AUTHENTICATION_LOCALSTORAGE_KEY}`)
+        if(userToken)
+        dispatch(getUser())
+    }, [])
 
     return (
         <div>

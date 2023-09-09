@@ -36,6 +36,7 @@ import Student from "../pages/student";
 import Faculty from "../pages/faculty";
 import Staff from "../pages/staff";
 import Courses from "../pages/course";
+import ClassDetailView from "../pages/class/DetailView";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -49,6 +50,7 @@ export const regularRoutes = [
 
     { path: "/classes", element: <Classes /> },
     { path: "/classes/add", element: <AddClass /> },
+    { path: "/class/:id", element: <ClassDetailView /> },
 
     { path: "/courses", element: <Courses /> },
 

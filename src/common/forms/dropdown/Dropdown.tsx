@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import React, {
+    Dispatch,
+    SetStateAction,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 
@@ -13,6 +19,7 @@ interface DropdownCProps {
     selected: Options;
     setSelected: Function;
     className?: string;
+    placeholder?: string;
 }
 
 const Dropdown = ({
@@ -20,7 +27,8 @@ const Dropdown = ({
     optionsArr,
     selected,
     setSelected,
-    className
+    className,
+    placeholder,
 }: DropdownCProps) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -30,7 +38,7 @@ const Dropdown = ({
         const triggerFunction = (e: any) => {
             const { current: wrap } = dropdownRef;
             if (wrap && !wrap.contains(e.target as Node)) {
-                setIsOpen(false)
+                setIsOpen(false);
             }
         };
 
@@ -42,50 +50,57 @@ const Dropdown = ({
     }, []);
 
     return (
-        <div
-            className={`dropdown__Wrapper ${className}`}
-            onClick={() => setIsOpen((i) => !i)}
-            style={{ width: width }}
-            ref={dropdownRef}
-        >
-            {optionsArr.length === 0 ? (
-                <div className="dropdown__Display">
-                    <div className="dropdown__SelectedOption">--SELECT--</div>
-                    <div className="dropdown__Right">
-                        {isOpen ? (
-                            <BsFillCaretUpFill />
-                        ) : (
-                            <BsFillCaretDownFill />
-                        )}
+        <div className="dropdown__Container">
+            {placeholder !== "" ? <label>{placeholder}</label> : null}
+            <div
+                className={`dropdown__Wrapper ${className}`}
+                onClick={() => setIsOpen((i) => !i)}
+                style={{ width: width }}
+                ref={dropdownRef}
+            >
+                {optionsArr.length === 0 ? (
+                    <div className="dropdown__Display">
+                        <div className="dropdown__SelectedOption">
+                            --SELECT--
+                        </div>
+                        <div className="dropdown__Right">
+                            {isOpen ? (
+                                <BsFillCaretUpFill />
+                            ) : (
+                                <BsFillCaretDownFill />
+                            )}
+                        </div>
                     </div>
-                </div>
-            ) : (
-                <div className="dropdown__Display">
-                    <div className="dropdown__SelectedOption">
-                        {selected?.value === "" ? "--SELECT--" : selected?.name}
+                ) : (
+                    <div className="dropdown__Display">
+                        <div className="dropdown__SelectedOption">
+                            {selected?.value === ""
+                                ? "--SELECT--"
+                                : selected?.name}
+                        </div>
+                        <div className="dropdown__Right">
+                            {isOpen ? (
+                                <BsFillCaretUpFill />
+                            ) : (
+                                <BsFillCaretDownFill />
+                            )}
+                        </div>
                     </div>
-                    <div className="dropdown__Right">
-                        {isOpen ? (
-                            <BsFillCaretUpFill />
-                        ) : (
-                            <BsFillCaretDownFill />
-                        )}
-                    </div>
-                </div>
-            )}
+                )}
 
-            <div className={`dropdown__OptionSpace ${isOpen && "active"}`}>
-                {optionsArr.map((o, i) => (
-                    <div
-                        key={i}
-                        onClick={() => setSelected(o)}
-                        className={`dropdown__Option ${
-                            selected?.value === o?.value ? "selected" : null
-                        }`}
-                    >
-                        {o.name}
-                    </div>
-                ))}
+                <div className={`dropdown__OptionSpace ${isOpen && "active"}`}>
+                    {optionsArr.map((o, i) => (
+                        <div
+                            key={i}
+                            onClick={() => setSelected(o)}
+                            className={`dropdown__Option ${
+                                selected?.value === o?.value ? "selected" : null
+                            }`}
+                        >
+                            {o.name}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

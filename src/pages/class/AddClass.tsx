@@ -7,9 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { Input } from "../../common/forms/input";
 import { Textarea } from "../../common/forms/textarea";
+import { createClass } from "../../store/class/actions";
 
 const AddClass = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
 
@@ -30,7 +31,7 @@ const AddClass = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(formData);
+        dispatch(createClass({ name, description: note, navigate }))
     };
 
     useEffect(() => {

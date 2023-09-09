@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { FcBarChart, FcPieChart } from "react-icons/fc";
-import TimetableChart from "./Chart";
+import { Calender } from "../../components/micro/timetable";
 
 const Timetable = () => {
     const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const Timetable = () => {
 
             <main className="timetable__Wrapper">
                 <div className="paper chart">
-                    <TimetableChart />
+                    <Calender />
                 </div>
             </main>
         </div>

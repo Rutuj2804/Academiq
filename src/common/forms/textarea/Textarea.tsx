@@ -10,18 +10,20 @@ const Textarea = ({
     name,
     rows,
 }: CustomInputCP) => {
-
     return (
-        <div className={`input__Wrapper valid`}>
-            <textarea
-                value={value}
-                name={name}
-                onChange={onChange}
-                placeholder={placeholder}
-                autoComplete="off"
-                rows={rows}
-            />
-            <span></span>
+        <div className="input__Container">
+            <label>{placeholder}</label>
+            <div className={`input__Wrapper valid`}>
+                <textarea
+                    value={value}
+                    name={name}
+                    onChange={onChange}
+                    placeholder={placeholder}
+                    autoComplete="off"
+                    rows={rows}
+                />
+                <span></span>
+            </div>
         </div>
     );
 };

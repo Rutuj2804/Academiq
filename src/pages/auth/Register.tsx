@@ -1,52 +1,106 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Logo } from "../../common/logo";
 import { Input } from "../../common/forms/input";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { registerUser } from "../../store/auth/actions";
+import { RootState } from "../../store";
+import { Dropdown } from "../../common/forms/dropdown";
+import { getCountries, getStates } from "../../store/location/actions";
+
+enum dropdownTypes {
+    "STATE" = "STATE",
+    "COUNTRY" = "COUNTRY",
+}
 
 const Register = () => {
+
+    const isAuthenticated = useSelector((state:RootState) => state.auth.isAuthenticated)
+    const location = useSelector((state: RootState) => state.location);
+
     const [formData, setFormData] = useState({
         firstname: "",
         lastname: "",
         midname: "",
         dob: "",
-        state: "",
-        country: "",
-        username: "",
+        stateID: location.state[0],
+        countryID: location.country[0],
+        email: "",
         password: "",
     });
 
     const navigate = useNavigate();
 
+    const dispatch = useDispatch<any>()
+
     const {
-        username,
+        email,
         password,
         firstname,
         midname,
         lastname,
         dob,
-        state,
-        country,
+        stateID,
+        countryID,
     } = formData;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(formData);
+        await dispatch(registerUser({
+            firstname: firstname,
+            lastname: lastname,
+            midname: midname,
+            dob: dob,
+            stateID: location.state[0].value,
+            countryID: location.country[0].value,
+            email: email,
+            password: password,
+        }))
         setFormData((v) => ({
             firstname: "",
             lastname: "",
             midname: "",
             dob: "",
-            state: "",
-            country: "",
-            username: "",
+            stateID: location.state[0],
+            countryID: location.country[0],
+            email: "",
             password: "",
         }));
     };
+
+    const handleDropdowns = (t: dropdownTypes, v: any) => {
+        if (t === dropdownTypes.COUNTRY) {
+            setFormData({ ...formData, countryID: v });
+        } else if (t === dropdownTypes.STATE) {
+            setFormData({ ...formData, stateID: v });
+        }
+    };
+
+    useEffect(() => {
+        dispatch(getCountries());
+    }, []);
+
+    useEffect(() => {
+        if(isAuthenticated) navigate("/")
+    }, [isAuthenticated]);
+
+    useEffect(() => {
+        setFormData({ ...formData, countryID: location.country[0] });
+    }, [location.country]);
+
+    useEffect(() => {
+        setFormData({ ...formData, stateID: location.state[0] });
+    }, [location.state]);
+
+    useEffect(() => {
+        if (countryID) dispatch(getStates(countryID.value));
+    }, [countryID]);
+
     return (
         <div className="register__Wrapper">
             <div className="register__Form">
@@ -57,8 +111,8 @@ const Register = () => {
                     </div>
                     <form className="register" onSubmit={handleSubmit}>
                         <div className="register__Title">
-                            <h3>Welcome Back</h3>
-                            <p>Register to checkout your latest feeds</p>
+                            <h3>Welcome On Board</h3>
+                            <p>Register to start your journey</p>
                         </div>
                         <div className="row">
                             <div className="col-lg-6 col-md-6 col-12">
@@ -86,12 +140,14 @@ const Register = () => {
                                     placeholder={"Password"}
                                     required
                                 />
-                                <Input
-                                    type="text"
-                                    value={state}
-                                    onChange={handleChange}
-                                    name="state"
-                                    placeholder={"State"}
+                                <Dropdown
+                                    optionsArr={location.state}
+                                    selected={stateID}
+                                    setSelected={(v: number | string) =>
+                                        handleDropdowns(dropdownTypes.STATE, v)
+                                    }
+                                    className="mb-3"
+                                    placeholder="State"
                                 />
                             </div>
                             <div className="col-lg-6 col-md-6 col-12">
@@ -104,9 +160,9 @@ const Register = () => {
                                 />
                                 <Input
                                     type="email"
-                                    value={username}
+                                    value={email}
                                     onChange={handleChange}
-                                    name="username"
+                                    name="email"
                                     placeholder={"Email"}
                                     required
                                 />
@@ -117,12 +173,14 @@ const Register = () => {
                                     name="dob"
                                     placeholder={"Date of birth"}
                                 />
-                                <Input
-                                    type="text"
-                                    value={country}
-                                    onChange={handleChange}
-                                    name="country"
-                                    placeholder={"Country"}
+                                <Dropdown
+                                    optionsArr={location.country}
+                                    selected={countryID}
+                                    setSelected={(v: number | string) =>
+                                        handleDropdowns(dropdownTypes.COUNTRY, v)
+                                    }
+                                    className="mb-3"
+                                    placeholder="Country"
                                 />
                             </div>
                         </div>

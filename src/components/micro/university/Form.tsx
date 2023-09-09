@@ -113,6 +113,7 @@ const Form = ({
                                             v
                                         )
                                     }
+                                    placeholder="Average Students"
                                 />
                             </>
                         )}
@@ -130,6 +131,7 @@ const Form = ({
                                         )
                                     }
                                     className="mb-3"
+                                    placeholder="Country"
                                 />
                                 <Dropdown
                                     optionsArr={location.state}
@@ -138,6 +140,7 @@ const Form = ({
                                         handleDropdowns(dropdownTypes.STATE, v)
                                     }
                                     className="mb-3"
+                                    placeholder="State"
                                 />
                                 <CheckboxAndLabel
                                     id="sunday"

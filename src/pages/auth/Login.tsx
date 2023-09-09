@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {Logo} from "../../common/logo";
 import { Input } from "../../common/forms/input";
 import { Button } from "@mui/material";
@@ -29,8 +29,11 @@ const Login = () => {
         e.preventDefault()
         await dispatch(loginUser({ email: username, password }))
         setFormData(v=>({ username: "", password: "" }))
-        if(isAuthenticated) navigate("/")
     }
+
+    useEffect(() => {
+        if(isAuthenticated) navigate("/")
+    }, [isAuthenticated]);
 
     return (
         <div className="login__Wrapper">
@@ -61,7 +64,7 @@ const Login = () => {
                             placeholder={"Password"}
                             required
                         />
-                        <div className="login__Dialouge">
+                        <div className="login__Dialouge" onClick={()=>navigate("/forgot-password")}>
                             <p>Forget Password?</p>
                         </div>
                         <div className="input__Buttons">
