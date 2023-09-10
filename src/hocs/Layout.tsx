@@ -11,6 +11,7 @@ import Popups from "../modules/popups";
 import { Footer } from "../common/footer";
 import { Loader } from "../common/loader";
 import { getUniversity } from "../store/university/actions";
+import { getMyRole } from "../store/roles/actions";
 
 interface CProps {
     children: React.ReactNode;
@@ -25,11 +26,19 @@ const Layout = ({ children }: CProps) => {
         (state: RootState) => state.loading.isLoading
     );
 
+    const universityID = useSelector((state: RootState) => state.university.university.value)
+
     const dispatch = useDispatch<any>()
 
     useEffect(()=>{
         dispatch(getUniversity())
     }, [])
+
+    useEffect(() => {
+        if(universityID) {
+            dispatch(getMyRole(universityID))
+        }
+    }, [universityID])
 
     return (
         <div>

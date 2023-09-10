@@ -13,6 +13,16 @@ import {
     FileDownloadRounded,
 } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
+import { getRolesDefinitionDisplayCount, getUniversityRoleDefinition } from "../../store/roles/actions";
+import moment from "moment";
+
+const getName = (t:any) => {
+    if(t.midname === undefined) {
+        return `${t.firstname} ${t.lastname}`
+    } else {
+        return `${t.firstname} ${t.midname} ${t.lastname}`
+    }
+}
 
 const columns: GridColDef[] = [
     {
@@ -24,7 +34,7 @@ const columns: GridColDef[] = [
         renderCell: (params) => (
             <div className="queryBlock">
                 <h6>
-                    {params.row.firstName}{" "}
+                    {params.row.name}{" "}
                     <span>
                         <GoPrimitiveDot />
                     </span>
@@ -39,7 +49,7 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <span className="tag active">Active</span>,
+        renderCell: (params) => <span className={params.row.isActive ? "tag active" : "tag delete"}>{params.row.isActive ? "Active" : "Deleted"}</span>,
     },
     {
         field: "Created By",
@@ -48,7 +58,7 @@ const columns: GridColDef[] = [
         width: 300,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">Rutuj Bokade</p>,
+        renderCell: (params) => <p className="mb-0">{getName(params.row.createdBy)}</p>,
     },
     {
         field: "Created On",
@@ -57,7 +67,7 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">20 Jun, 2023</p>,
+        renderCell: (params) => <p className="mb-0">{moment(params.row.createdAt).format("DD MMM, YYYY")}</p>,
     },
     {
         field: " ",
@@ -73,23 +83,6 @@ const columns: GridColDef[] = [
     },
 ];
 
-const rows = [
-    {
-        id: 1,
-        lastName: "Snow Snow Snow Snow Snow Snow Snow Snow Snow Snow",
-        firstName: "Jon",
-        age: 35,
-    },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
-
 enum TabType {
     ACTIVE = "ACTIVE",
     DELETED = "DELETED",
@@ -99,13 +92,17 @@ const RolesDefinition = () => {
     const [activeTab, setActiveTab] = useState(TabType.ACTIVE);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const theme = useSelector((state: RootState) => state.settings.theme);
+
+    const universityID = useSelector((state: RootState) => state.university.university.value)
+    const rolesDefined = useSelector((state: RootState) => state.roles.defined)
+    const display = useSelector((state: RootState) => state.roles.display)
 
     useEffect(() => {
         dispatch(
@@ -115,6 +112,23 @@ const RolesDefinition = () => {
             })
         );
     }, [dispatch]);
+
+    useEffect(() => {
+        if(universityID) {
+            dispatch(getUniversityRoleDefinition({ universityID: universityID, isActive: "T" }))
+            dispatch(getRolesDefinitionDisplayCount(universityID))
+        }
+    }, [universityID])
+
+    const onTabClick = (tabType : TabType) => {
+        if(tabType === TabType.ACTIVE) {
+            setActiveTab(tabType)
+            dispatch(getUniversityRoleDefinition({ universityID: universityID, isActive: "T" }))
+        } else if(tabType === TabType.DELETED) {
+            setActiveTab(tabType)
+            dispatch(getUniversityRoleDefinition({ universityID: universityID, isActive: "F" }))
+        }
+    }
 
     return (
         <div className="section__Wrapper">
@@ -142,22 +156,22 @@ const RolesDefinition = () => {
                     <div className="classes__Header">
                         <div className="left">
                             <Button
-                                onClick={() => setActiveTab(TabType.ACTIVE)}
+                                onClick={() => onTabClick(TabType.ACTIVE)}
                                 className={
                                     TabType.ACTIVE === activeTab ? "active" : ""
                                 }
                             >
-                                Active (27)
+                                Active ({display.active})
                             </Button>
                             <Button
-                                onClick={() => setActiveTab(TabType.DELETED)}
+                                onClick={() => onTabClick(TabType.DELETED)}
                                 className={
                                     TabType.DELETED === activeTab
                                         ? "active"
                                         : ""
                                 }
                             >
-                                Deleted (6)
+                                Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
                                 <Button className="red">
@@ -168,7 +182,7 @@ const RolesDefinition = () => {
                         <div className="right">
                             <Button
                                 endIcon={<AddRounded />}
-                                onClick={() => navigate("/roles/add")}
+                                onClick={() => navigate("/roles/create")}
                             >
                                 Add
                             </Button>
@@ -179,7 +193,7 @@ const RolesDefinition = () => {
                     </div>
                     <div className="data-grid">
                         <DataGrid
-                            rows={rows}
+                            rows={rolesDefined}
                             columns={columns}
                             initialState={{
                                 pagination: {
@@ -192,7 +206,7 @@ const RolesDefinition = () => {
                             checkboxSelection
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
-                            getRowId={(row) => row.id}
+                            getRowId={(row) => row._id}
                             sx={
                                 theme === layoutTheme[0]
                                     ? null

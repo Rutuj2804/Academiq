@@ -1,0 +1,39 @@
+.createRole__Form {
+    padding: 10px;
+    form {
+        width: 100%;
+        .createRole__SwitchBox {
+            margin-bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .createRole__Details {
+                width: 100%;
+                h5 {
+                    margin: 0%;
+                    @include single-line;
+                    font-weight: 400;
+                }
+                p {
+                    margin: 0;
+                    font-size: 12px;
+                    color: $gray;
+                    @include single-line;
+                }
+            }
+        }
+        .createRole__Button {
+            display: flex;
+            justify-content: flex-end;
+            margin: 20px 0;
+            button {
+                background-color: $blue;
+                color: $white;
+                font-size: 14px;
+                text-transform: capitalize;
+                padding: 7px 20px;
+            }
+        }
+    }
+}

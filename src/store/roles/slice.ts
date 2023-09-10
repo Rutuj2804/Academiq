@@ -1,0 +1,36 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { RolesfState } from "./types";
+import { getMyRole, getRolesDefinitionDisplayCount, getUniversityRoleDefinition } from "./actions";
+
+const initialState: RolesfState = {
+    defined: [],
+    assigned: [],
+    definedDetail: {},
+    assignedToMe: {},
+    display: {
+        all: 0,
+        active: 0,
+        deleted: 0
+    }
+};
+
+export const roleSlice = createSlice({
+    name: "role",
+    initialState,
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(getUniversityRoleDefinition.fulfilled, (s, a) => {
+            s.defined = a.payload
+        });
+        builder.addCase(getRolesDefinitionDisplayCount.fulfilled, (s, a) => {
+            s.display = a.payload
+        });
+        builder.addCase(getMyRole.fulfilled, (s, a) => {
+            s.assignedToMe = a.payload
+        });
+    }
+});
+
+// export const {} = roleSlice.actions;
+
+export default roleSlice.reducer;

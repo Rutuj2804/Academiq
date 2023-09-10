@@ -12,6 +12,7 @@ import classR from "./class/slice"
 import student from "./student/slice"
 import faculty from "./faculty/slice"
 import staff from "./staff/slice"
+import roles from "./roles/slice"
 
 export const reducers = combineReducers({ 
     auth,
@@ -26,5 +27,6 @@ export const reducers = combineReducers({
     class: classR,
     student,
     faculty,
-    staff
+    staff,
+    roles,
 })

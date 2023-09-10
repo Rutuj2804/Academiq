@@ -72,7 +72,7 @@ export const regularRoutes = [
     { path: "/schedules", element: <Schedules /> },
 
     { path: "/roles", element: <RolesDefinition /> },
-    { path: "/roles/add", element: <AddRoleDefinition /> },
+    { path: "/roles/create", element: <AddRoleDefinition /> },
 
     { path: "/assigned", element: <Assigned /> },
 
