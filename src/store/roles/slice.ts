@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RolesfState } from "./types";
-import { getMyRole, getRolesDefinitionDisplayCount, getUniversityRoleDefinition } from "./actions";
+import { getMyRole, getRolesDefinitionDisplayCount, getUniversityRoleDefinition, getUniversityRoles, getUniversityRolesDisplayData } from "./actions";
 
 const initialState: RolesfState = {
     defined: [],
@@ -27,6 +27,12 @@ export const roleSlice = createSlice({
         });
         builder.addCase(getMyRole.fulfilled, (s, a) => {
             s.assignedToMe = a.payload
+        });
+        builder.addCase(getUniversityRoles.fulfilled, (s, a) => {
+            s.assigned = a.payload
+        });
+        builder.addCase(getUniversityRolesDisplayData.fulfilled, (s, a) => {
+            s.display = a.payload
         });
     }
 });
