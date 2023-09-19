@@ -298,7 +298,7 @@ const CreateStaff = () => {
                                         id="sunday"
                                         label="Send Email Notification"
                                         className="mb-3"
-                                        description="Enabling this field sends email invite to student for joining the university on Academiq."
+                                        description="Enabling this field sends email invite to staff for joining the university on Academiq."
                                         checked={sendEmailNotification}
                                         name="sendEmailNotification"
                                         onChange={handleCheckboxes}

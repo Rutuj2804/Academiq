@@ -323,7 +323,7 @@ const CreateFaculty = () => {
                                             handleDropdowns(dropdownTypes.CLASS, v)
                                         }
                                         className="mb-3"
-                                        placeholder="State"
+                                        placeholder="Class"
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -331,7 +331,7 @@ const CreateFaculty = () => {
                                         id="sunday"
                                         label="Send Email Notification"
                                         className="mb-3"
-                                        description="Enabling this field sends email invite to student for joining the university on Academiq."
+                                        description="Enabling this field sends email invite to faculty for joining the university on Academiq."
                                         checked={sendEmailNotification}
                                         name="sendEmailNotification"
                                         onChange={handleCheckboxes}

@@ -40,6 +40,7 @@ import ClassDetailView from "../pages/class/DetailView";
 import CreateStudent from "../pages/student/CreateStudent";
 import CreateFaculty from "../pages/faculty/CreateFaculty";
 import CreateStaff from "../pages/staff/CreateStaff";
+import CreateCourse from "../pages/course/CreateCourse";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -56,6 +57,7 @@ export const regularRoutes = [
     { path: "/class/:id", element: <ClassDetailView /> },
 
     { path: "/courses", element: <Courses /> },
+    { path: "/courses/add", element: <CreateCourse /> },
 
     { path: "/collaborate", element: <Collaborate /> },
 

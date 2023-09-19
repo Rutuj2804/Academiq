@@ -336,7 +336,7 @@ const CreateStudent = () => {
                                             handleDropdowns(dropdownTypes.CLASS, v)
                                         }
                                         className="mb-3"
-                                        placeholder="State"
+                                        placeholder="Class"
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
