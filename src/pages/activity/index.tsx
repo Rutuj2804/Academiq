@@ -9,6 +9,8 @@ import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { GoPrimitiveDot } from "react-icons/go";
 import { AddRounded, ArrowUpwardRounded } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
+import { getActivitiesGlobal, getActivityCountOnTabNumbers } from "../../store/activity/actions";
+import moment from "moment";
 
 const columns: GridColDef[] = [
     {
@@ -20,7 +22,7 @@ const columns: GridColDef[] = [
         renderCell: (params) => (
             <div className="queryBlock">
                 <h6>
-                    {params.row.firstName}{" "}
+                    {params.row.name}{" "}
                     <span>
                         <GoPrimitiveDot />
                     </span>
@@ -35,7 +37,16 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <span className="tag pending">Pending</span>,
+        renderCell: (params) => <span className={params.row.isActive ? "tag pending" : "tag active"}>{params.row.isActive ? "Pendind" : "Completed"}</span>,
+    },
+    {
+        field: "Class",
+        headerName: "Class",
+        headerAlign: "center",
+        width: 200,
+        align: "center",
+        disableColumnMenu: true,
+        renderCell: (params) => <p className="mb-0">{params.row.classID.name}</p>,
     },
     {
         field: "Dead Line",
@@ -44,7 +55,16 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">25 Feb, 2023</p>,
+        renderCell: (params) => <p className="mb-0">{moment(params.row.deadline).format("DD MMM, YYYY")}</p>,
+    },
+    {
+        field: "Priority",
+        headerName: "Priority",
+        headerAlign: "center",
+        width: 200,
+        align: "center",
+        disableColumnMenu: true,
+        renderCell: (params) => <p className="mb-0">{params.row.priority}</p>,
     },
     {
         field: " ",
@@ -80,20 +100,25 @@ const rows = [
 enum TabType {
     PENDING = "PENDING",
     COMPLETED = "COMPLETED",
-    MISSED = "MISSED",
 }
 
 const Activities = () => {
     const [activeTab, setActiveTab] = useState(TabType.PENDING);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const theme = useSelector((state: RootState) => state.settings.theme);
+
+    const universityID = useSelector((state: RootState) => state.university.university.value);
+
+    const display = useSelector((state: RootState) => state.activity.display)
+
+    const activities = useSelector((state: RootState) => state.activity.activities)
 
     useEffect(() => {
         dispatch(
@@ -103,6 +128,32 @@ const Activities = () => {
             })
         );
     }, [dispatch]);
+
+    useEffect(() => {
+        if(universityID) {
+            dispatch(getActivitiesGlobal({ universityID: universityID, isActive: "T" }))
+            dispatch(getActivityCountOnTabNumbers(universityID))
+        }
+    }, [universityID])
+
+    const onTabClick = (tabType: TabType) => {
+        setActiveTab(tabType);
+        if (tabType === TabType.PENDING) {
+            dispatch(
+                getActivitiesGlobal({
+                    universityID: universityID,
+                    isActive: "T",
+                })
+            );
+        } else if (tabType === TabType.COMPLETED) {
+            dispatch(
+                getActivitiesGlobal({
+                    universityID: universityID,
+                    isActive: "F",
+                })
+            );
+        }
+    };
 
     return (
         <div className="section__Wrapper">
@@ -130,32 +181,24 @@ const Activities = () => {
                     <div className="activities__Header">
                         <div className="left">
                             <Button
-                                onClick={() => setActiveTab(TabType.PENDING)}
+                                onClick={() => onTabClick(TabType.PENDING)}
                                 className={
                                     TabType.PENDING === activeTab
                                         ? "active"
                                         : ""
                                 }
                             >
-                                Pending (27)
+                                Pending ({display.active})
                             </Button>
                             <Button
-                                onClick={() => setActiveTab(TabType.COMPLETED)}
+                                onClick={() => onTabClick(TabType.COMPLETED)}
                                 className={
                                     TabType.COMPLETED === activeTab
                                         ? "active"
                                         : ""
                                 }
                             >
-                                Completed (6)
-                            </Button>
-                            <Button
-                                onClick={() => setActiveTab(TabType.MISSED)}
-                                className={
-                                    TabType.MISSED === activeTab ? "active" : ""
-                                }
-                            >
-                                Missed (6)
+                                Completed ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
                                 <Button className="red">
@@ -174,7 +217,7 @@ const Activities = () => {
                     </div>
                     <div className="data-grid">
                         <DataGrid
-                            rows={rows}
+                            rows={activities}
                             columns={columns}
                             initialState={{
                                 pagination: {
@@ -187,7 +230,7 @@ const Activities = () => {
                             checkboxSelection
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
-                            getRowId={(row) => row.id}
+                            getRowId={(row) => row._id}
                             sx={
                                 theme === layoutTheme[0]
                                     ? null
