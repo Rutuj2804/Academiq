@@ -1,8 +1,9 @@
 import { Avatar } from "@mui/material";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setNotifications } from "../../store/layout/slice";
 import { RootState } from "../../store";
+import { useOutsideClickHandler } from "../../utils/hooks";
 
 const data = [ 
     { avatar: <Avatar />, text: "A lecture scheduled at 4:30pm on 12 Jun, 2023", time: "a while ago" },
@@ -26,20 +27,11 @@ const NotificationMenu = () => {
 
     const notificationRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const triggerFunction = (e: any) => {
-            const { current: wrap } = notificationRef;
-            if (wrap && !wrap.contains(e.target as Node)) {
-                dispatch(setNotifications(false));
-            }
-        };
+    const closeNotifications = () => {
+        dispatch(setNotifications(false));
+    }
 
-        document.addEventListener("mousedown", triggerFunction);
-
-        return () => {
-            document.removeEventListener("mousedown", triggerFunction);
-        };
-    }, []);
+    useOutsideClickHandler(notificationRef, closeNotifications)
 
     return (
         <div

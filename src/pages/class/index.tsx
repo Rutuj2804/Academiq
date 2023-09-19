@@ -51,7 +51,7 @@ const Classes = () => {
     useEffect(()=>{
         dispatch(getUniversityClass({ universityID: universityID, isActive: "A", role: "" }))
         dispatch(getMyClassesCountOnTabNumbers(universityID))
-    }, [universityID])
+    }, [universityID, dispatch])
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType)

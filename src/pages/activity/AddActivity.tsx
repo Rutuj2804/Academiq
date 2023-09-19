@@ -10,8 +10,6 @@ import { CheckboxAndLabel } from "../../common/forms/checkbox";
 import { Button } from "@mui/material";
 import { Dropdown } from "../../common/forms/dropdown";
 import { getUniversityClass } from "../../store/class/actions";
-import { setMessage } from "../../store/messages/slice";
-import { errorType } from "../../store/messages/types";
 import { createActivity } from "../../store/activity/actions";
 
 enum dropdownTypes {
@@ -80,7 +78,7 @@ const AddActivity = () => {
             setClasses(data);
             setClassSelected(data[0]);
         }
-    }, [classesGlobal]);
+    }, [classesGlobal, dispatch]);
 
     useEffect(() => {
         if (universityID)
@@ -91,7 +89,7 @@ const AddActivity = () => {
                     role: "",
                 })
             );
-    }, [universityID]);
+    }, [universityID, dispatch]);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

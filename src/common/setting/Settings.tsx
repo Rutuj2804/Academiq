@@ -6,12 +6,13 @@ import {
     AlignHorizontalLeftRounded,
     AlignHorizontalRightRounded,
 } from "@mui/icons-material";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setSettings } from "../../store/layout/slice";
 import { RootState } from "../../store";
 import { changeSidebar, changeTheme } from "../../store/settings/slice";
 import { layoutTheme, sidebarLayout } from "../../store/settings/types";
+import { useOutsideClickHandler } from "../../utils/hooks";
 
 const Settings = () => {
     const dispatch = useDispatch();
@@ -24,20 +25,11 @@ const Settings = () => {
 
     const settingsRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const triggerFunction = (e: any) => {
-            const { current: wrap } = settingsRef;
-            if (wrap && !wrap.contains(e.target as Node)) {
-                dispatch(setSettings(false));
-            }
-        };
+    const closeSettings = () => {
+        dispatch(setSettings(false));
+    }
 
-        document.addEventListener("mousedown", triggerFunction);
-
-        return () => {
-            document.removeEventListener("mousedown", triggerFunction);
-        };
-    }, [dispatch]);
+    useOutsideClickHandler(settingsRef, closeSettings)
 
     return (
         <div

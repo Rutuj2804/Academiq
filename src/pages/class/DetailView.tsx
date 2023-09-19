@@ -54,7 +54,7 @@ const ClassDetailView = () => {
 
     useEffect(()=>{
         dispatch(getClass(id))
-    }, [id])
+    }, [id, dispatch])
 
     return (
         <div className="section__Wrapper">

@@ -1,10 +1,11 @@
 import { Avatar } from "@mui/material";
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { data } from "../../assets/data/profileDropdown";
 import { useDispatch, useSelector } from "react-redux";
 import { setProfile } from "../../store/layout/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
+import { useOutsideClickHandler } from "../../utils/hooks";
 
 const ProfileMenu = () => {
     const profile = useSelector((state: RootState) => state.layout.profile);
@@ -20,20 +21,11 @@ const ProfileMenu = () => {
         dispatch(setProfile(false));
     }
 
-    useEffect(() => {
-        const triggerFunction = (e: any) => {
-            const { current: wrap } = profileRef;
-            if (wrap && !wrap.contains(e.target as Node)) {
-                dispatch(setProfile(false));
-            }
-        };
+    const closeProfile = () => {
+        dispatch(setProfile(false));
+    }
 
-        document.addEventListener("mousedown", triggerFunction);
-
-        return () => {
-            document.removeEventListener("mousedown", triggerFunction);
-        };
-    }, []);
+    useOutsideClickHandler(profileRef, closeProfile)
 
     return (
         <div
