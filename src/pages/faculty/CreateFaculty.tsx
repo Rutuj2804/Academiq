@@ -124,7 +124,7 @@ const CreateFaculty = () => {
     }, [classesGlobal])
 
     useEffect(()=>{
-        dispatch(getUniversityClass({ universityID: universityID, isActive: "T", role: "" }))
+        dispatch(getUniversityClass({ universityID: universityID, isActive: "T" }))
     }, [])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

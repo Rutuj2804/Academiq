@@ -21,7 +21,7 @@ export const getUniversityClass = createAsyncThunk(
                 },
             };
 
-            const res = await axios.get(`/class/u/${getClassRequest.universityID}/${getClassRequest.isActive}`, config);
+            const res = await axios.patch(`/class/`, getClassRequest,config);
 
             thunkAPI.dispatch(updateLoading(-1));
 
@@ -48,7 +48,7 @@ export const getUniversityClass = createAsyncThunk(
 
 export const getMyClassesCountOnTabNumbers = createAsyncThunk(
     "getMyClassesCountOnTabNumbers/Class",
-    async (universityID: string, thunkAPI) => {
+    async (getClassRequest: GetClassRequest, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
         try {
 
@@ -59,7 +59,7 @@ export const getMyClassesCountOnTabNumbers = createAsyncThunk(
                 },
             };
 
-            const res = await axios.get(`/class/u/${universityID}`, config);
+            const res = await axios.patch(`/class/count`, getClassRequest, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 

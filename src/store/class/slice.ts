@@ -9,6 +9,12 @@ const initialState: ClassState = {
         all: 0,
         active: 0,
         deleted: 0
+    },
+    pagination: {
+        totalDocuments: 0,
+        totalPages: 0,
+        currentPage: 0,
+        currentDocuments: 0
     }
 };
 
@@ -18,7 +24,8 @@ export const classSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getUniversityClass.fulfilled, (s, a) => {
-            s.classes = a.payload
+            s.classes = a.payload.classes
+            s.pagination = a.payload.pagination
         })
         builder.addCase(getMyClassesCountOnTabNumbers.fulfilled, (s, a) => {
             s.display = a.payload

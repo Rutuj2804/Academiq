@@ -1,5 +1,6 @@
 import { NavigateFunction } from "react-router-dom";
 import { ClassInterface } from "../../utils/types/class";
+import { PaginationInterface } from "../../utils/types";
 
 export interface ClassState {
     classes: ClassInterface[];
@@ -8,13 +9,14 @@ export interface ClassState {
         all: number,
         active: number,
         deleted: number
-    }
+    },
+    pagination: PaginationInterface
 }
 
 export interface GetClassRequest {
     isActive: string;
     universityID: string;
-    role: string;
+    page?: number
 }
 
 export interface AddClassRequest {

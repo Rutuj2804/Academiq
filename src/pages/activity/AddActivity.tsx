@@ -86,7 +86,6 @@ const AddActivity = () => {
                 getUniversityClass({
                     universityID: universityID,
                     isActive: "T",
-                    role: "",
                 })
             );
     }, [universityID, dispatch]);

@@ -13,18 +13,31 @@ import {
     FileDownloadRounded,
 } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
-import { getMyClassesCountOnTabNumbers, getUniversityClass } from "../../store/class/actions";
+import {
+    getMyClassesCountOnTabNumbers,
+    getUniversityClass,
+} from "../../store/class/actions";
 import moment from "moment";
+import { Pagination } from "../../common/pagination";
 
 enum TabType {
-    ALL = "ALL",
-    ACTIVE = "ACTIVE",
-    DELETED = "DELETED",
+    ALL = "A",
+    ACTIVE = "T",
+    DELETED = "F",
 }
 
 const Classes = () => {
     const [activeTab, setActiveTab] = useState(TabType.ALL);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
+
+    const [page, setPage] = useState(0);
+    const handlePageChange = (
+        event: React.ChangeEvent<unknown>,
+        value: number
+    ) => {
+        setPage(value);
+        dispatch(getUniversityClass({universityID: universityID, isActive: activeTab, page: value,}));
+    };
 
     const dispatch = useDispatch<any>();
 
@@ -34,10 +47,17 @@ const Classes = () => {
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
-    const universityID = useSelector((state: RootState) => state.university.university.value)
+    const universityID = useSelector(
+        (state: RootState) => state.university.university.value
+    );
 
-    const classesOfUniversity = useSelector((state: RootState) => state.class.classes)
-    const display = useSelector((state: RootState) => state.class.display)
+    const classesOfUniversity = useSelector(
+        (state: RootState) => state.class.classes
+    );
+    const display = useSelector((state: RootState) => state.class.display);
+    const pagination = useSelector(
+        (state: RootState) => state.class.pagination
+    );
 
     useEffect(() => {
         dispatch(
@@ -48,22 +68,24 @@ const Classes = () => {
         );
     }, [dispatch]);
 
-    useEffect(()=>{
-        dispatch(getUniversityClass({ universityID: universityID, isActive: "A", role: "" }))
-        dispatch(getMyClassesCountOnTabNumbers(universityID))
-    }, [universityID, dispatch])
+    useEffect(() => {
+        if (universityID) {
+            dispatch(
+                getUniversityClass({
+                    universityID: universityID,
+                    isActive: TabType.ALL,
+                    page: page,
+                })
+            );
+            dispatch(getMyClassesCountOnTabNumbers({ universityID, isActive: "T" }));
+        }
+    }, [universityID, dispatch]);
 
     const onTabClick = (tabType: TabType) => {
-        setActiveTab(tabType)
-
-        if(tabType === TabType.ACTIVE) {
-            dispatch(getUniversityClass({ universityID: universityID, isActive: "T", role: "" }))
-        } else if(tabType === TabType.DELETED){
-            dispatch(getUniversityClass({ universityID: universityID, isActive: "F", role: "" }))
-        } else if(tabType === TabType.ALL){
-            dispatch(getUniversityClass({ universityID: universityID, isActive: "A", role: "" }))
-        }
-    }
+        setActiveTab(tabType);
+        setPage(0)
+        dispatch(getUniversityClass({ universityID: universityID, isActive: tabType, page: 0,}));
+    };
 
     const columns: GridColDef[] = [
         {
@@ -90,7 +112,15 @@ const Classes = () => {
             width: 200,
             align: "center",
             disableColumnMenu: true,
-            renderCell: (params) => <span className={params.row.isActive ? "tag active": "tag delete"}>{params.row.isActive ? "Active" : "Deleted"}</span>,
+            renderCell: (params) => (
+                <span
+                    className={
+                        params.row.isActive ? "tag active" : "tag delete"
+                    }
+                >
+                    {params.row.isActive ? "Active" : "Deleted"}
+                </span>
+            ),
         },
         {
             field: "Created By",
@@ -99,7 +129,13 @@ const Classes = () => {
             width: 300,
             align: "center",
             disableColumnMenu: true,
-            renderCell: (params) => <p className="mb-0">{params.row.createdBy.firstname + " " + params.row.createdBy.lastname}</p>,
+            renderCell: (params) => (
+                <p className="mb-0">
+                    {params.row.createdBy.firstname +
+                        " " +
+                        params.row.createdBy.lastname}
+                </p>
+            ),
         },
         {
             field: "Created At",
@@ -108,7 +144,9 @@ const Classes = () => {
             width: 200,
             align: "center",
             disableColumnMenu: true,
-            renderCell: (params) => <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>,
+            renderCell: (params) => (
+                <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>
+            ),
         },
         {
             field: " ",
@@ -117,7 +155,11 @@ const Classes = () => {
             disableColumnMenu: true,
             align: "center",
             renderCell: (params) => (
-                <IconButton size="small" className="icon-hover" onClick={() => navigate(`/class/${params.row._id}`)}>
+                <IconButton
+                    size="small"
+                    className="icon-hover"
+                    onClick={() => navigate(`/class/${params.row._id}`)}
+                >
                     <EditRounded fontSize="small" />
                 </IconButton>
             ),
@@ -203,6 +245,22 @@ const Classes = () => {
                                         pageSize: 10,
                                     },
                                 },
+                            }}
+                            slots={{
+                                pagination: (paginationProps) => (
+                                    <Pagination
+                                        page={pagination.currentPage}
+                                        pageCount={pagination.totalPages}
+                                        totalDocuments={
+                                            pagination.totalDocuments
+                                        }
+                                        currentDocuments={
+                                            pagination.currentDocuments
+                                        }
+                                        handlepagechange={handlePageChange}
+                                        {...paginationProps}
+                                    />
+                                ),
                             }}
                             pageSizeOptions={[10]}
                             checkboxSelection
