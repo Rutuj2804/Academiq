@@ -4,21 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import { DataGrid, GridCallbackDetails, GridColDef, GridColumnHeaderParams, GridRowSelectionModel, MuiEvent, } from "@mui/x-data-grid";
 import { GoPrimitiveDot } from "react-icons/go";
-import { Button, IconButton } from "@mui/material";
-import {
-    AddRounded,
-    EditRounded,
-    FileDownloadRounded,
-} from "@mui/icons-material";
+import { Button, IconButton, Tooltip } from "@mui/material";
+import { AddRounded, CheckCircleRounded, DeleteRounded, EditRounded, FileDownloadRounded } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
-import {
-    getMyClassesCountOnTabNumbers,
-    getUniversityClass,
-} from "../../store/class/actions";
+import { deleteClass, deleteClassPermanent, getMyClassesCountOnTabNumbers, getUniversityClass, reactivateClass } from "../../store/class/actions";
 import moment from "moment";
 import { Pagination } from "../../common/pagination";
+import { useCrypto } from "../../utils/hooks";
+import { setDelete } from "../../store/layout/slice";
 
 enum TabType {
     ALL = "A",
@@ -31,17 +26,26 @@ const Classes = () => {
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
     const [page, setPage] = useState(0);
+
     const handlePageChange = (
         event: React.ChangeEvent<unknown>,
         value: number
     ) => {
         setPage(value);
-        dispatch(getUniversityClass({universityID: universityID, isActive: activeTab, page: value,}));
+        dispatch(
+            getUniversityClass({
+                universityID: universityID,
+                isActive: activeTab,
+                page: value,
+            })
+        );
     };
 
     const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
+
+    const { encrypt } = useCrypto();
 
     const theme = useSelector((state: RootState) => state.settings.theme);
 
@@ -73,18 +77,51 @@ const Classes = () => {
             dispatch(
                 getUniversityClass({
                     universityID: universityID,
-                    isActive: TabType.ALL,
+                    isActive: activeTab,
                     page: page,
                 })
             );
-            dispatch(getMyClassesCountOnTabNumbers({ universityID, isActive: "T" }));
+            dispatch(
+                getMyClassesCountOnTabNumbers({ universityID, isActive: "T" })
+            );
         }
     }, [universityID, dispatch]);
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType);
-        setPage(0)
-        dispatch(getUniversityClass({ universityID: universityID, isActive: tabType, page: 0,}));
+        setPage(0);
+        dispatch(
+            getUniversityClass({
+                universityID: universityID,
+                isActive: tabType,
+                page: 0,
+            })
+        );
+    };
+
+    const onRowDelete = (params: any) => {
+        if (activeTab === TabType.DELETED) {
+            dispatch(
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteClassPermanent({
+                                universityID: universityID,
+                                classID: [params.row._id],
+                            })
+                        ),
+                    text: `Are you sure you want to delete class: ${params.row.name} ?`,
+                })
+            );
+        } else {
+            dispatch(
+                deleteClass({
+                    universityID: universityID,
+                    classID: [params.row._id],
+                })
+            );
+        }
     };
 
     const columns: GridColDef[] = [
@@ -150,21 +187,122 @@ const Classes = () => {
         },
         {
             field: " ",
-            headerName: "Update Class",
+            headerAlign: "center",
+            headerName: "Actions",
             width: 150,
             disableColumnMenu: true,
             align: "center",
             renderCell: (params) => (
-                <IconButton
-                    size="small"
-                    className="icon-hover"
-                    onClick={() => navigate(`/class/${params.row._id}`)}
-                >
-                    <EditRounded fontSize="small" />
-                </IconButton>
+                <div className="data-grid-actions">
+                    {!params.row.isActive ? (
+                        <Tooltip title="Reactivate">
+                            <IconButton
+                                size="small"
+                                className="icon-hover"
+                                onClick={() =>
+                                    dispatch(
+                                        reactivateClass({
+                                            universityID: universityID,
+                                            classID: [params.row._id],
+                                        })
+                                    )
+                                }
+                                disabled={
+                                    !params.row.isActive &&
+                                    !(activeTab === TabType.DELETED)
+                                }
+                            >
+                                <CheckCircleRounded fontSize="small" />
+                            </IconButton>
+                        </Tooltip>
+                    ) : (
+                        <Tooltip title="Edit">
+                            <IconButton
+                                size="small"
+                                className="icon-hover"
+                                onClick={() =>
+                                    navigate(
+                                        `/class/update/${encrypt(
+                                            params.row._id
+                                        )}`
+                                    )
+                                }
+                                disabled={!params.row.isActive}
+                            >
+                                <EditRounded fontSize="small" />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+
+                    <Tooltip title="Delete">
+                        <IconButton
+                            size="small"
+                            className="icon-hover-red"
+                            onClick={() => onRowDelete(params)}
+                            disabled={
+                                !params.row.isActive &&
+                                !(activeTab === TabType.DELETED)
+                            }
+                        >
+                            <DeleteRounded fontSize="small" />
+                        </IconButton>
+                    </Tooltip>
+                </div>
             ),
         },
     ];
+
+    const onDeleteMultipleClick = () => {
+        var selected: any[] = selectedRow
+        if(activeTab === TabType.DELETED) {
+            dispatch(
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteClassPermanent({
+                                universityID: universityID,
+                                classID: selected,
+                            })
+                        ),
+                    text: `Are you sure you want to permanentely delete ${selected.length} classes?`,
+                })
+            );
+        } else {
+            dispatch(
+                deleteClass({
+                    universityID: universityID,
+                    classID: selected,
+                })
+            );
+        }
+    }
+
+    const onDeleteCompleteClick = () => {
+        var selected: any[] = selectedRow
+        if(activeTab === TabType.DELETED) {
+            dispatch(
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteClassPermanent({
+                                universityID: universityID,
+                                classID: selected,
+                            })
+                        ),
+                    text: `Are you sure you want to permanentely delete all classes?`,
+                })
+            );
+        } else {
+            dispatch(
+                deleteClass({
+                    universityID: universityID,
+                    classID: selected,
+                })
+            );
+        }
+    }
 
     return (
         <div className="section__Wrapper">
@@ -218,8 +356,13 @@ const Classes = () => {
                                 Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
-                                <Button className="red">
+                                <Button className="red" onClick={onDeleteMultipleClick}>
                                     Delete ({selectedRow.length})
+                                </Button>
+                            ) : null}
+                            {selectedRow.length === 10 ? (
+                                <Button className="red" onClick={onDeleteCompleteClick}>
+                                    Delete All ({display.all})
                                 </Button>
                             ) : null}
                         </div>
@@ -250,11 +393,11 @@ const Classes = () => {
                                 pagination: (paginationProps) => (
                                     <Pagination
                                         page={pagination.currentPage}
-                                        pageCount={pagination.totalPages}
-                                        totalDocuments={
+                                        pagecount={pagination.totalPages}
+                                        totaldocuments={
                                             pagination.totalDocuments
                                         }
-                                        currentDocuments={
+                                        currentdocuments={
                                             pagination.currentDocuments
                                         }
                                         handlepagechange={handlePageChange}
@@ -264,7 +407,9 @@ const Classes = () => {
                             }}
                             pageSizeOptions={[10]}
                             checkboxSelection
-                            onRowSelectionModelChange={(t) => setSelectedRow(t)}
+                            onRowSelectionModelChange={(t, v) =>
+                                setSelectedRow(t)
+                            }
                             disableRowSelectionOnClick
                             getRowId={(row) => row._id}
                             sx={

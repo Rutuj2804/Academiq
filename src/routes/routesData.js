@@ -54,6 +54,7 @@ export const regularRoutes = [
 
     { path: "/classes", element: <Classes /> },
     { path: "/classes/add", element: <AddClass /> },
+    { path: "/class/update/:id", element: <AddClass /> },
     { path: "/class/:id", element: <ClassDetailView /> },
 
     { path: "/courses", element: <Courses /> },

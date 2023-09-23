@@ -7,4 +7,11 @@ export interface LayoutState {
     popup: boolean
     profile: boolean
     notifications: boolean
+    delete: DeleteModal
+}
+
+export interface DeleteModal {
+    isOpen: boolean;
+    callback: () => void;
+    text: string;
 }

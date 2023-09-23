@@ -5,7 +5,7 @@ import { setMessage } from "../messages/slice";
 import { errorType } from "../messages/types";
 import { NavigateFunction } from "react-router-dom";
 import { AxiosError } from "axios";
-import { AddClassRequest, GetClassRequest } from "./types";
+import { AddClassRequest, DeleteClassRequest, GetClassRequest, UpdateClassRequest } from "./types";
 import { getToken } from "../../utils/helpers";
 
 export const getUniversityClass = createAsyncThunk(
@@ -146,6 +146,188 @@ export const createClass = createAsyncThunk(
             thunkAPI.dispatch(updateLoading(-1));
 
             navigate(`/class/${res.data.data._id}`)
+
+            return res.data.data;
+        } catch (err) {
+            console.log(err);
+            
+            thunkAPI.dispatch(updateLoading(-1));
+
+            if (err instanceof AxiosError) {
+                thunkAPI.dispatch(
+                    setMessage({
+                        text: err?.response?.data.message,
+                        type: errorType[0],
+                        _id: Date.now().toString(),
+                    })
+                );
+            }
+
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
+export const updateClass = createAsyncThunk(
+    "updateClass/Class",
+    async ({ name, description, navigate, universityID, classID }: UpdateClassRequest, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const request = JSON.stringify({ name, description, universityID })
+
+            const res = await axios.put(`/class/${classID}`, request, config);
+
+            thunkAPI.dispatch(setMessage({
+                text: res.data.message,
+                type: errorType[1],
+                _id: res.data.data._id
+            }))
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            navigate(`/class/${res.data.data._id}`)
+
+            return res.data.data;
+        } catch (err) {
+            console.log(err);
+            
+            thunkAPI.dispatch(updateLoading(-1));
+
+            if (err instanceof AxiosError) {
+                thunkAPI.dispatch(
+                    setMessage({
+                        text: err?.response?.data.message,
+                        type: errorType[0],
+                        _id: Date.now().toString(),
+                    })
+                );
+            }
+
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
+export const deleteClass = createAsyncThunk(
+    "deleteClass/Class",
+    async ({ classID, universityID }: DeleteClassRequest, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const request = JSON.stringify({ universityID, classID })
+
+            const res = await axios.patch(`/class/delete`, request, config);
+
+            thunkAPI.dispatch(setMessage({
+                text: res.data.message,
+                type: errorType[1],
+                _id: res.data.data._id
+            }))
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            return res.data.data;
+        } catch (err) {
+            console.log(err);
+            
+            thunkAPI.dispatch(updateLoading(-1));
+
+            if (err instanceof AxiosError) {
+                thunkAPI.dispatch(
+                    setMessage({
+                        text: err?.response?.data.message,
+                        type: errorType[0],
+                        _id: Date.now().toString(),
+                    })
+                );
+            }
+
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
+export const deleteClassPermanent = createAsyncThunk(
+    "deleteClassPermanent/Class",
+    async ({ classID, universityID }: DeleteClassRequest, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const request = JSON.stringify({ universityID, classID })
+
+            const res = await axios.patch(`/class/delete/permanent`, request, config);
+
+            thunkAPI.dispatch(setMessage({
+                text: res.data.message,
+                type: errorType[1],
+                _id: res.data.data[0]
+            }))
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            return res.data.data;
+        } catch (err) {
+            console.log(err);
+            
+            thunkAPI.dispatch(updateLoading(-1));
+
+            if (err instanceof AxiosError) {
+                thunkAPI.dispatch(
+                    setMessage({
+                        text: err?.response?.data.message,
+                        type: errorType[0],
+                        _id: Date.now().toString(),
+                    })
+                );
+            }
+
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
+export const reactivateClass = createAsyncThunk(
+    "reactivateClass/Class",
+    async ({ classID, universityID }: DeleteClassRequest, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const request = JSON.stringify({ universityID, classID })
+
+            const res = await axios.patch(`/class/reactivate`, request, config);
+
+            thunkAPI.dispatch(setMessage({
+                text: res.data.message,
+                type: errorType[1],
+                _id: res.data.data._id
+            }))
+
+            thunkAPI.dispatch(updateLoading(-1));
 
             return res.data.data;
         } catch (err) {

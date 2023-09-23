@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { LayoutState } from "./types";
+import { DeleteModal, LayoutState } from "./types";
 
 const initialState: LayoutState = {
     sidebar: true,
@@ -11,6 +11,11 @@ const initialState: LayoutState = {
     popup: false,
     profile: false,
     notifications: false,
+    delete: {
+        isOpen: false,
+        callback: () => {},
+        text: ""
+    }
 };
 
 export const layoutSlice = createSlice({
@@ -28,6 +33,14 @@ export const layoutSlice = createSlice({
             state.popup = action.payload
             state.search = action.payload;
         },
+        setDelete: (state, action: PayloadAction<DeleteModal>) => {
+            if (action.payload.isOpen) state.background_modules = true;
+            else state.background_modules = false;
+            state.popup = action.payload.isOpen
+            state.delete.isOpen = action.payload.isOpen;
+            state.delete.callback = action.payload.callback;
+            state.delete.text = action.payload.text;
+        },
         setSidebar: (state, action: PayloadAction<boolean>) => {
             state.sidebar = action.payload;
         },
@@ -40,6 +53,6 @@ export const layoutSlice = createSlice({
     },
 });
 
-export const { setSettings, setSidebar, setSearch, setProfile, setNotifications } = layoutSlice.actions;
+export const { setSettings, setSidebar, setSearch, setProfile, setNotifications, setDelete } = layoutSlice.actions;
 
 export default layoutSlice.reducer;

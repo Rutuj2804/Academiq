@@ -32,15 +32,15 @@ const Pagination = ({
 const CustomPagination = (props: any) => {
 
     const from = props.page * 10 + 1;
-    const to = props.page * 10 + props.currentDocuments
+    const to = props.page * 10 + props.currentdocuments
 
     return (
         <GridPagination
             ActionsComponent={(paginationProps) => (
-                <Pagination {...paginationProps} pageCount={props.pageCount} page={props.page} onPageChange={props.handlepagechange} />
+                <Pagination {...paginationProps} pageCount={props.pagecount} page={props.page} onPageChange={props.handlepagechange} />
             )}
             {...props}
-            labelDisplayedRows={()=>`${from}–${to} of ${props.totalDocuments}`}
+            labelDisplayedRows={()=>`${from}–${to} of ${props.totaldocuments}`}
         />
     );
 };

@@ -25,3 +25,16 @@ export interface AddClassRequest {
     universityID: string;
     navigate: NavigateFunction;
 }
+
+export interface UpdateClassRequest {
+    name: string;
+    description: string;
+    universityID: string;
+    classID: string;
+    navigate: NavigateFunction;
+}
+
+export interface DeleteClassRequest {
+    universityID: string;
+    classID: string[];
+}

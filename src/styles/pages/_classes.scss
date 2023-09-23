@@ -70,6 +70,17 @@
     }
 }
 
+.data-grid-actions {
+    display: flex;
+    gap: 10px;
+    .delete {
+        &:hover {
+            background-color: $red;
+            color: $white;
+        }
+    }
+}
+
 
 // dark settings
 .dark .classes__Wrapper {

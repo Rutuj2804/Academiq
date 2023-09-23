@@ -1,28 +1,16 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { setSearch } from "../../store/layout/slice";
 import { IconButton } from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
+import { useOutsideClickHandler } from "../../utils/hooks";
 
 const Search = () => {
     const dispatch = useDispatch();
 
     const searchRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const triggerFunction = (e: any) => {
-            const { current: wrap } = searchRef;
-            if (wrap && !wrap.contains(e.target as Node)) {
-                dispatch(setSearch(false));
-            }
-        };
-
-        document.addEventListener("mousedown", triggerFunction);
-
-        return () => {
-            document.removeEventListener("mousedown", triggerFunction);
-        };
-    }, [dispatch]);
+    useOutsideClickHandler(searchRef, () => dispatch(setSearch(false)))
 
     return (
         <div ref={searchRef} className="search__Wrapper standard__Popup">
