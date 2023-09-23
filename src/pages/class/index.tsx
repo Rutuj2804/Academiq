@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { DataGrid, GridCallbackDetails, GridColDef, GridColumnHeaderParams, GridRowSelectionModel, MuiEvent, } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { GoPrimitiveDot } from "react-icons/go";
 import { Button, IconButton, Tooltip } from "@mui/material";
 import { AddRounded, CheckCircleRounded, DeleteRounded, EditRounded, FileDownloadRounded } from "@mui/icons-material";

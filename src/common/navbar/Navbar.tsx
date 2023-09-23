@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { setNotifications, setProfile, setSearch, setSettings, setSidebar } from "../../store/layout/slice";
 import { RootState } from "../../store";
 import { Logo } from "../logo";
-import { useState, useEffect } from "react";
 import ChangeInstituteDropdown from "../forms/dropdown/ChangeInstituteDropdown";
 import ProfileMenu from "./ProfileMenu";
 import NotificationMenu from "./NotificationMenu";

@@ -8,8 +8,6 @@ import { Input } from "../../common/forms/input";
 import { Dropdown } from "../../common/forms/dropdown";
 import { Button } from "@mui/material"
 import { CheckboxAndLabel } from "../../common/forms/checkbox";
-import { createStudentDetails } from "../../store/student/actions";
-import { getUniversityClass } from "../../store/class/actions";
 import { Textarea } from "../../common/forms/textarea";
 import { createStaffDetails } from "../../store/staff/actions";
 

@@ -1,12 +1,9 @@
 import React, {
-    Dispatch,
-    SetStateAction,
     useEffect,
     useRef,
     useState,
 } from "react";
 import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
-import { useDispatch } from "react-redux";
 
 interface Options {
     name: string;

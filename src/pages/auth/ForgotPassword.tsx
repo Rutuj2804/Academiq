@@ -4,7 +4,6 @@ import { Input } from "../../common/forms/input";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../store/auth/actions";
 import { RootState } from "../../store";
 
 const ForgotPassword = () => {

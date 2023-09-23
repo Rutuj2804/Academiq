@@ -1,4 +1,4 @@
-import React, { ChangeEventHandler } from "react";
+import React from "react";
 import { Input } from "../../../common/forms/input";
 import { Textarea } from "../../../common/forms/textarea";
 import { Dropdown } from "../../../common/forms/dropdown";

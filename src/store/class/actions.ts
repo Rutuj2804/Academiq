@@ -3,7 +3,6 @@ import axios from "../axios";
 import { updateLoading } from "../loading/slice";
 import { setMessage } from "../messages/slice";
 import { errorType } from "../messages/types";
-import { NavigateFunction } from "react-router-dom";
 import { AxiosError } from "axios";
 import { AddClassRequest, DeleteClassRequest, GetClassRequest, UpdateClassRequest } from "./types";
 import { getToken } from "../../utils/helpers";

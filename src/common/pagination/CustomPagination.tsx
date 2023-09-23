@@ -1,8 +1,5 @@
 import {
-    gridPageCountSelector,
     GridPagination,
-    useGridApiContext,
-    useGridSelector,
 } from "@mui/x-data-grid";
 import MuiPagination from "@mui/material/Pagination";
 
