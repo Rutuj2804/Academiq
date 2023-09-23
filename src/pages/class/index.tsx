@@ -5,15 +5,18 @@ import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { GoPrimitiveDot } from "react-icons/go";
-import { Button, IconButton, Tooltip } from "@mui/material";
-import { AddRounded, CheckCircleRounded, DeleteRounded, EditRounded, FileDownloadRounded } from "@mui/icons-material";
+import { Button } from "@mui/material";
+import { AddRounded, FileDownloadRounded } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
-import { deleteClass, deleteClassPermanent, getMyClassesCountOnTabNumbers, getUniversityClass, reactivateClass } from "../../store/class/actions";
-import moment from "moment";
+import {
+    deleteClass,
+    deleteClassPermanent,
+    getMyClassesCountOnTabNumbers,
+    getUniversityClass,
+} from "../../store/class/actions";
 import { Pagination } from "../../common/pagination";
-import { useCrypto } from "../../utils/hooks";
 import { setDelete } from "../../store/layout/slice";
+import { GetClassColumns } from "../../components/grid";
 
 enum TabType {
     ALL = "A",
@@ -27,10 +30,7 @@ const Classes = () => {
 
     const [page, setPage] = useState(0);
 
-    const handlePageChange = (
-        event: React.ChangeEvent<unknown>,
-        value: number
-    ) => {
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
         dispatch(
             getUniversityClass({
@@ -44,8 +44,6 @@ const Classes = () => {
     const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
-
-    const { encrypt } = useCrypto();
 
     const theme = useSelector((state: RootState) => state.settings.theme);
 
@@ -99,162 +97,11 @@ const Classes = () => {
         );
     };
 
-    const onRowDelete = (params: any) => {
-        if (activeTab === TabType.DELETED) {
-            dispatch(
-                setDelete({
-                    isOpen: true,
-                    callback: () =>
-                        dispatch(
-                            deleteClassPermanent({
-                                universityID: universityID,
-                                classID: [params.row._id],
-                            })
-                        ),
-                    text: `Are you sure you want to delete class: ${params.row.name} ?`,
-                })
-            );
-        } else {
-            dispatch(
-                deleteClass({
-                    universityID: universityID,
-                    classID: [params.row._id],
-                })
-            );
-        }
-    };
-
-    const columns: GridColDef[] = [
-        {
-            field: "firstName",
-            headerName: "Query",
-            flex: 1,
-            disableColumnMenu: true,
-            minWidth: 200,
-            renderCell: (params) => (
-                <div className="queryBlock">
-                    <h6>
-                        {params.row.name}{" "}
-                        <span>
-                            <GoPrimitiveDot />
-                        </span>
-                    </h6>
-                </div>
-            ),
-        },
-        {
-            field: "Status",
-            headerName: "Status",
-            headerAlign: "center",
-            width: 200,
-            align: "center",
-            disableColumnMenu: true,
-            renderCell: (params) => (
-                <span
-                    className={
-                        params.row.isActive ? "tag active" : "tag delete"
-                    }
-                >
-                    {params.row.isActive ? "Active" : "Deleted"}
-                </span>
-            ),
-        },
-        {
-            field: "Created By",
-            headerName: "Created By",
-            headerAlign: "center",
-            width: 300,
-            align: "center",
-            disableColumnMenu: true,
-            renderCell: (params) => (
-                <p className="mb-0">
-                    {params.row.createdBy.firstname +
-                        " " +
-                        params.row.createdBy.lastname}
-                </p>
-            ),
-        },
-        {
-            field: "Created At",
-            headerName: "Created At",
-            headerAlign: "center",
-            width: 200,
-            align: "center",
-            disableColumnMenu: true,
-            renderCell: (params) => (
-                <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>
-            ),
-        },
-        {
-            field: " ",
-            headerAlign: "center",
-            headerName: "Actions",
-            width: 150,
-            disableColumnMenu: true,
-            align: "center",
-            renderCell: (params) => (
-                <div className="data-grid-actions">
-                    {!params.row.isActive ? (
-                        <Tooltip title="Reactivate">
-                            <IconButton
-                                size="small"
-                                className="icon-hover"
-                                onClick={() =>
-                                    dispatch(
-                                        reactivateClass({
-                                            universityID: universityID,
-                                            classID: [params.row._id],
-                                        })
-                                    )
-                                }
-                                disabled={
-                                    !params.row.isActive &&
-                                    !(activeTab === TabType.DELETED)
-                                }
-                            >
-                                <CheckCircleRounded fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                    ) : (
-                        <Tooltip title="Edit">
-                            <IconButton
-                                size="small"
-                                className="icon-hover"
-                                onClick={() =>
-                                    navigate(
-                                        `/class/update/${encrypt(
-                                            params.row._id
-                                        )}`
-                                    )
-                                }
-                                disabled={!params.row.isActive}
-                            >
-                                <EditRounded fontSize="small" />
-                            </IconButton>
-                        </Tooltip>
-                    )}
-
-                    <Tooltip title="Delete">
-                        <IconButton
-                            size="small"
-                            className="icon-hover-red"
-                            onClick={() => onRowDelete(params)}
-                            disabled={
-                                !params.row.isActive &&
-                                !(activeTab === TabType.DELETED)
-                            }
-                        >
-                            <DeleteRounded fontSize="small" />
-                        </IconButton>
-                    </Tooltip>
-                </div>
-            ),
-        },
-    ];
+    const columns: GridColDef[] = GetClassColumns({ activeTab });
 
     const onDeleteMultipleClick = () => {
-        var selected: any[] = selectedRow
-        if(activeTab === TabType.DELETED) {
+        var selected: any[] = selectedRow;
+        if (activeTab === TabType.DELETED) {
             dispatch(
                 setDelete({
                     isOpen: true,
@@ -276,11 +123,11 @@ const Classes = () => {
                 })
             );
         }
-    }
+    };
 
     const onDeleteCompleteClick = () => {
-        var selected: any[] = selectedRow
-        if(activeTab === TabType.DELETED) {
+        var selected: any[] = selectedRow;
+        if (activeTab === TabType.DELETED) {
             dispatch(
                 setDelete({
                     isOpen: true,
@@ -302,7 +149,7 @@ const Classes = () => {
                 })
             );
         }
-    }
+    };
 
     return (
         <div className="section__Wrapper">
@@ -356,12 +203,18 @@ const Classes = () => {
                                 Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
-                                <Button className="red" onClick={onDeleteMultipleClick}>
+                                <Button
+                                    className="red"
+                                    onClick={onDeleteMultipleClick}
+                                >
                                     Delete ({selectedRow.length})
                                 </Button>
                             ) : null}
                             {selectedRow.length === 10 ? (
-                                <Button className="red" onClick={onDeleteCompleteClick}>
+                                <Button
+                                    className="red"
+                                    onClick={onDeleteCompleteClick}
+                                >
                                     Delete All ({display.all})
                                 </Button>
                             ) : null}

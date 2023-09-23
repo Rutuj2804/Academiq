@@ -59,11 +59,7 @@ export const classSlice = createSlice({
             s.display.deleted = s.display.deleted - a.payload.length
         })
         builder.addCase(deleteClassPermanent.fulfilled, (s, a) => {
-            s.classes = s.classes.filter(t=>{
-                if(!a.payload.includes(t._id)) {
-                    return t
-                }
-            })
+            s.classes = s.classes.filter(t=>!a.payload.includes(t._id))
             s.display.deleted = s.display.deleted - a.payload.length
             s.display.all = s.display.all - a.payload.length
         })

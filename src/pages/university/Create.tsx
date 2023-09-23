@@ -111,11 +111,11 @@ const CreateUniversity = () => {
 
     useEffect(() => {
         dispatch(getCountries());
-    }, []);
+    }, [dispatch, getCountries]);
 
     useEffect(() => {
         if (country_holiday) dispatch(getHolidayList(country_holiday.iso2));
-    }, [country_holiday]);
+    }, [country_holiday, dispatch, getHolidayList]);
 
     useEffect(() => {
         setFormData({ ...formData, country: location.country[0] });
