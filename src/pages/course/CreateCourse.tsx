@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { Button } from "@mui/material";
 import { Input } from "../../common/forms/input";
 import { Textarea } from "../../common/forms/textarea";
-import { createCourse } from "../../store/course/actions";
+import { createCourse, getCourse, updateCourse } from "../../store/course/actions";
+import { useCrypto } from "../../utils/hooks";
+
+enum ComponentMode {
+    ADD = "ADD",
+    UPDATE = "UPDATE",
+}
 
 const CreateCourse = () => {
 
@@ -22,9 +28,21 @@ const CreateCourse = () => {
 
     const navigate = useNavigate();
 
+    const { decrypt } = useCrypto();
+
+    const isUpdate = useMatch("/course/update/:id");
+
+    const [currentRouteState] = useState(
+        isUpdate ? ComponentMode.UPDATE : ComponentMode.ADD
+    );
+
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector((state: RootState) => state.university.university.value)
+
+    const { id }: any = useParams();
+
+    const course = useSelector((state: RootState) => state.course.course);
 
     useEffect(() => {
         dispatch(
@@ -43,8 +61,31 @@ const CreateCourse = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        dispatch(createCourse({ name, description: note, navigate, universityID: universityID }))
+        if (currentRouteState === ComponentMode.ADD)
+            dispatch(createCourse({ name, description: note, navigate, universityID: universityID }))
+        else{
+            const courseID:any = decrypt(id)
+            dispatch(updateCourse({ name, description: note, navigate, universityID: universityID, courseID: courseID }))
+        }
     };
+
+    useEffect(() => {
+        if (currentRouteState === ComponentMode.UPDATE && universityID) {
+            const decode: any = decrypt(id);
+            dispatch(getCourse({ universityID: universityID, courseID: decode }));
+        }
+    }, [currentRouteState, universityID, id, dispatch]);
+
+    useEffect(() => {
+        if (course && currentRouteState === ComponentMode.UPDATE) {
+            const name: any = course.name;
+            const description: any = course.description;
+            setFormData({
+                name: name,
+                note: description,
+            });
+        }
+    }, [course, currentRouteState]);
 
     return (
         <div className="section__Wrapper">
@@ -115,7 +156,7 @@ const CreateCourse = () => {
                             </div>
 
                             <div className="addClass__Buttons">
-                                <Button type="submit">Create Course</Button>
+                                <Button type="submit">{isUpdate ? "Update" :"Create"} Course</Button>
                             </div>
                         </form>
                     </div>

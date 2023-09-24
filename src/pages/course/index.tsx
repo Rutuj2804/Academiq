@@ -5,25 +5,43 @@ import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
 import {
+    deleteAllCourse,
+    deleteAllCoursePermanent,
+    deleteCourse,
+    deleteCoursePermanent,
     getCoursesGlobal,
     getMyCoursesCountOnTabNumbers,
 } from "../../store/course/actions";
-import { Button, IconButton } from "@mui/material";
+import { Button } from "@mui/material";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { GoPrimitiveDot } from "react-icons/go";
-import moment from "moment";
-import { AddRounded, EditRounded, FileDownloadRounded } from "@mui/icons-material";
+import { AddRounded, FileDownloadRounded } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
+import { Pagination } from "../../common/pagination";
+import { GetCourseColumns } from "../../components/grid";
+import { setDelete } from "../../store/layout/slice";
 
 enum TabType {
-    ALL = "ALL",
-    ACTIVE = "ACTIVE",
-    DELETED = "DELETED",
+    ALL = "A",
+    ACTIVE = "T",
+    DELETED = "F",
 }
 
 const Courses = () => {
     const [activeTab, setActiveTab] = useState(TabType.ALL);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
+
+    const [page, setPage] = useState(0);
+
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+        dispatch(
+            getCoursesGlobal({
+                universityID: universityID,
+                isActive: activeTab,
+                page: value,
+            })
+        );
+    };
 
     const dispatch = useDispatch<any>();
 
@@ -39,6 +57,7 @@ const Courses = () => {
 
     const courses = useSelector((state: RootState) => state.course.courses)
     const display = useSelector((state: RootState) => state.course.display)
+    const pagination = useSelector((state: RootState) => state.course.pagination)
 
     useEffect(() => {
         dispatch(
@@ -50,87 +69,74 @@ const Courses = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(
-            getCoursesGlobal({ universityID: universityID, isActive: "A" })
-        );
-        dispatch(
-            getMyCoursesCountOnTabNumbers({
-                universityID: universityID,
-                isActive: "A",
-            })
-        );
+        if(universityID) {
+            dispatch(
+                getCoursesGlobal({ universityID: universityID, isActive: "A", page: page })
+            );
+            dispatch(
+                getMyCoursesCountOnTabNumbers({
+                    universityID: universityID,
+                    isActive: "A",
+                })
+            );
+        }
     }, [universityID]);
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType)
-
-        if(tabType === TabType.ACTIVE) {
-            dispatch(getCoursesGlobal({ universityID: universityID, isActive: "T" }))
-        } else if(tabType === TabType.DELETED){
-            dispatch(getCoursesGlobal({ universityID: universityID, isActive: "F" }))
-        } else if(tabType === TabType.ALL){
-            dispatch(getCoursesGlobal({ universityID: universityID, isActive: "A" }))
-        }
+        dispatch(getCoursesGlobal({ universityID: universityID, isActive: tabType, page: 0 }))
     }
 
-    const columns: GridColDef[] = [
-        {
-            field: "firstName",
-            headerName: "Query",
-            flex: 1,
-            disableColumnMenu: true,
-            minWidth: 200,
-            renderCell: (params) => (
-                <div className="queryBlock">
-                    <h6>
-                        {params.row.name}{" "}
-                        <span>
-                            <GoPrimitiveDot />
-                        </span>
-                    </h6>
-                </div>
-            ),
-        },
-        {
-            field: "Status",
-            headerName: "Status",
-            headerAlign: "center",
-            width: 200,
-            align: "center",
-            disableColumnMenu: true,
-            renderCell: (params) => <span className={params.row.isActive ? "tag active": "tag delete"}>{params.row.isActive ? "Active" : "Deleted"}</span>,
-        },
-        {
-            field: "Total Faculties",
-            headerName: "Total Faculties",
-            headerAlign: "center",
-            width: 300,
-            align: "center",
-            disableColumnMenu: true,
-            renderCell: (params) => <p className="mb-0">{params.row.facultyID.length}</p>,
-        },
-        {
-            field: "Created At",
-            headerName: "Created At",
-            headerAlign: "center",
-            width: 200,
-            align: "center",
-            disableColumnMenu: true,
-            renderCell: (params) => <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>,
-        },
-        {
-            field: " ",
-            headerName: "Update Class",
-            width: 150,
-            disableColumnMenu: true,
-            align: "center",
-            renderCell: (params) => (
-                <IconButton size="small" className="icon-hover" onClick={() => navigate(`/class/${params.row._id}`)}>
-                    <EditRounded fontSize="small" />
-                </IconButton>
-            ),
-        },
-    ];
+    const columns: GridColDef[] = GetCourseColumns({ activeTab })
+
+    const onDeleteMultipleClick = () => {
+        var selected: any[] = selectedRow;
+        if (activeTab === TabType.DELETED) {
+            dispatch(
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteCoursePermanent({
+                                universityID: universityID,
+                                courseID: selected,
+                            })
+                        ),
+                    text: `Are you sure you want to permanentely delete ${selected.length} courses?`,
+                })
+            );
+        } else {
+            dispatch(
+                deleteCourse({
+                    universityID: universityID,
+                    courseID: selected,
+                })
+            );
+        }
+    };
+
+    const onDeleteCompleteClick = () => {
+        if (activeTab === TabType.DELETED) {
+            dispatch(
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteAllCoursePermanent({
+                                universityID: universityID,
+                            })
+                        ),
+                    text: `Are you sure you want to permanentely delete all courses?`,
+                })
+            );
+        } else {
+            dispatch(
+                deleteAllCourse({
+                    universityID: universityID,
+                })
+            );
+        }
+    };
 
     return (
         <div className="section__Wrapper">
@@ -184,8 +190,19 @@ const Courses = () => {
                                 Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
-                                <Button className="red">
+                                <Button 
+                                    className="red"
+                                    onClick={onDeleteMultipleClick}
+                                >
                                     Delete ({selectedRow.length})
+                                </Button>
+                            ) : null}
+                            {selectedRow.length === 10 ? (
+                                <Button
+                                    className="red"
+                                    onClick={onDeleteCompleteClick}
+                                >
+                                    Delete All ({display.all})
                                 </Button>
                             ) : null}
                         </div>
@@ -211,6 +228,22 @@ const Courses = () => {
                                         pageSize: 10,
                                     },
                                 },
+                            }}
+                            slots={{
+                                pagination: (paginationProps) => (
+                                    <Pagination
+                                        page={pagination.currentPage}
+                                        pagecount={pagination.totalPages}
+                                        totaldocuments={
+                                            pagination.totalDocuments
+                                        }
+                                        currentdocuments={
+                                            pagination.currentDocuments
+                                        }
+                                        handlepagechange={handlePageChange}
+                                        {...paginationProps}
+                                    />
+                                ),
                             }}
                             pageSizeOptions={[10]}
                             checkboxSelection

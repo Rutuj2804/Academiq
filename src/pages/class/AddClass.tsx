@@ -79,18 +79,18 @@ const AddClass = () => {
     useEffect(() => {
         dispatch(
             setBreadcrumps({
-                name: ["ACADEMIC", "Classes", "Add"],
-                link: "/classes/add",
+                name: ["ACADEMIC", "Classes", isUpdate? "Update" :"Add"],
+                link: `/classes`,
             })
         );
-    }, [dispatch]);
+    }, [dispatch, isUpdate]);
 
     useEffect(() => {
         if (currentRouteState === ComponentMode.UPDATE) {
             const decode: any = decrypt(id);
             dispatch(getClass(decode));
         }
-    }, [currentRouteState, universityID, id]);
+    }, [currentRouteState, universityID, id, dispatch]);
 
     useEffect(() => {
         if (classFetched && currentRouteState === ComponentMode.UPDATE) {

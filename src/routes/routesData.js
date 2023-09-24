@@ -59,6 +59,7 @@ export const regularRoutes = [
 
     { path: "/courses", element: <Courses /> },
     { path: "/courses/add", element: <CreateCourse /> },
+    { path: "/course/update/:id", element: <CreateCourse /> },
 
     { path: "/collaborate", element: <Collaborate /> },
 

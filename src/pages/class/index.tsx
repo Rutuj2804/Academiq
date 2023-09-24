@@ -9,6 +9,8 @@ import { Button } from "@mui/material";
 import { AddRounded, FileDownloadRounded } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
 import {
+    deleteAllClass,
+    deleteAllClassPermanent,
     deleteClass,
     deleteClassPermanent,
     getMyClassesCountOnTabNumbers,
@@ -126,16 +128,14 @@ const Classes = () => {
     };
 
     const onDeleteCompleteClick = () => {
-        var selected: any[] = selectedRow;
         if (activeTab === TabType.DELETED) {
             dispatch(
                 setDelete({
                     isOpen: true,
                     callback: () =>
                         dispatch(
-                            deleteClassPermanent({
+                            deleteAllClassPermanent({
                                 universityID: universityID,
-                                classID: selected,
                             })
                         ),
                     text: `Are you sure you want to permanentely delete all classes?`,
@@ -143,9 +143,8 @@ const Classes = () => {
             );
         } else {
             dispatch(
-                deleteClass({
+                deleteAllClass({
                     universityID: universityID,
-                    classID: selected,
                 })
             );
         }

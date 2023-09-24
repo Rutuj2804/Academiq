@@ -1,3 +1,26 @@
 .delete__Wrapper.standard__Popup {
     width: 350px!important;
+    .top {
+        .title h4 {
+            font-size: 20px;
+        }
+    }
+    .body {
+        margin-top: 15px;
+        p {
+            font-size: 14px;
+            font-weight: 400;
+        }
+    }
+    .actions {
+        display: flex;
+        justify-content: flex-end;
+        button {
+            background-color: $red;
+            color: $white;
+            font-size: 14px;
+            text-transform: capitalize;
+            padding: 7px 20px;
+        }
+    }
 }

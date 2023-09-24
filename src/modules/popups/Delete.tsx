@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDelete } from "../../store/layout/slice";
 import { IconButton, Button } from "@mui/material";
-import { CloseRounded } from "@mui/icons-material";
+import { CloseRounded, DeleteRounded } from "@mui/icons-material";
 import { useOutsideClickHandler } from "../../utils/hooks";
 import { RootState } from "../../store";
 
@@ -58,7 +58,9 @@ const Delete = () => {
             </div>
             <div className="body">
                 <p>{deleteModal.text}</p>
-                <Button onClick={performAction}>Delete</Button>
+            </div>
+            <div className="actions">
+                <Button onClick={performAction} startIcon={<DeleteRounded />}>Delete</Button>
             </div>
         </div>
     );

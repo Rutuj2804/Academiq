@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ClassState } from "./types";
-import { getUniversityClass, getClass, createClass, getMyClassesCountOnTabNumbers, deleteClass, reactivateClass, deleteClassPermanent } from "./actions";
+import { getUniversityClass, getClass, createClass, getMyClassesCountOnTabNumbers, deleteClass, reactivateClass, deleteClassPermanent, deleteAllClass, deleteAllClassPermanent } from "./actions";
 
 const initialState: ClassState = {
     classes: [],
@@ -62,6 +62,20 @@ export const classSlice = createSlice({
             s.classes = s.classes.filter(t=>!a.payload.includes(t._id))
             s.display.deleted = s.display.deleted - a.payload.length
             s.display.all = s.display.all - a.payload.length
+        })
+        builder.addCase(deleteAllClass.fulfilled, (s, a) => {
+            s.classes = s.classes.map(t=>{
+                    t.isActive = false
+                    return t
+                })
+            s.display.active = 0
+            s.display.deleted = s.display.all
+        })
+        builder.addCase(deleteAllClassPermanent.fulfilled, (s, a) => {
+            s.classes = []
+            s.display.deleted = 0
+            s.display.active = 0
+            s.display.all = 0
         })
     }
 });

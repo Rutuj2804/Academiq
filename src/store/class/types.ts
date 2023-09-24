@@ -38,3 +38,7 @@ export interface DeleteClassRequest {
     universityID: string;
     classID: string[];
 }
+
+export interface DeleteAllClassRequest {
+    universityID: string;
+}
