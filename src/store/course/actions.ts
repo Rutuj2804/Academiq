@@ -60,7 +60,7 @@ export const getMyCoursesCountOnTabNumbers = createAsyncThunk(
 
             const body = JSON.stringify({ universityID: getCoursesRequest.universityID })
 
-            const res = await axios.patch(`/course/count/${getCoursesRequest.isActive}`, body, config);
+            const res = await axios.patch(`/course/count`, body, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 

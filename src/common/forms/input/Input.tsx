@@ -13,6 +13,7 @@ const Input = ({
     name,
     type,
     regex,
+    disabled
 }: CustomInputCP) => {
     const ref = useRef<HTMLInputElement>(null);
 
@@ -56,6 +57,7 @@ const Input = ({
                     required={required}
                     placeholder={placeholder}
                     autoComplete="off"
+                    disabled={disabled}
                 />
                 {required ? (
                     <span className={valid ? "valid" : "invalid"}>

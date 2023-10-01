@@ -3,14 +3,15 @@ import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { Input } from "../../common/forms/input";
 import { Dropdown } from "../../common/forms/dropdown";
 import { Button } from "@mui/material"
 import { CheckboxAndLabel } from "../../common/forms/checkbox";
-import { createStudentDetails } from "../../store/student/actions";
+import { createStudentDetails, getStudentDetails, updateStudentDetails } from "../../store/student/actions";
 import { getUniversityClass } from "../../store/class/actions";
 import { Textarea } from "../../common/forms/textarea";
+import { useCrypto } from "../../utils/hooks";
 
 const genderArray = [
     { name: "Male", value: "G" },
@@ -35,6 +36,11 @@ enum dropdownTypes {
     "GENDER" = "GENDER",
     "BLOOD_GROUP" = "BLOOD_GROUP",
     "CLASS" = "CLASS",
+}
+
+enum ComponentMode {
+    ADD = "ADD",
+    UPDATE = "UPDATE",
 }
 
 const CreateStudent = () => {
@@ -77,12 +83,24 @@ const CreateStudent = () => {
 
     const dispatch = useDispatch<any>();
 
+    const { decrypt } = useCrypto();
+
+    const isUpdate = useMatch("/student/update/:id");
+
+    const [currentRouteState] = useState(
+        isUpdate ? ComponentMode.UPDATE : ComponentMode.ADD
+    );
+
     const navigate = useNavigate();
+
+    const { id }: any = useParams();
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector((state: RootState) => state.university.university.value)
     const classesGlobal = useSelector((state: RootState) => state.class.classes)
+
+    const student = useSelector((state: RootState) => state.student.student);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -101,13 +119,42 @@ const CreateStudent = () => {
     };
 
     useEffect(() => {
+        if(currentRouteState === ComponentMode.UPDATE && Object.keys(student).length > 0) {
+            const s :any = student
+            setFormData({
+                email: s.userID.email,
+                enrollnmentNo: s.enrollnmentNo,
+                rollNumber: s.rollNumber,
+                admissionYear: s.admissionYear,
+                phone: s.phone,
+                address: s.address,
+                alternatePhone: s.alternatePhone,
+                mothersName: s.mothersName,
+                fathersName: s.fathersName,
+                gender: genderArray.filter(t=>t.value === s.gender)[0],
+                bloodGroup: bloodGroupArray.filter(t=>t.value === s.bloodGroup)[0],
+                extraField1: s.extraField1,
+                extraField2: s.extraField2,
+                sendEmailNotification: true
+            })
+        }
+    }, [student, currentRouteState])
+
+    useEffect(() => {
+        if (currentRouteState === ComponentMode.UPDATE) {
+            const decode: any = decrypt(id);
+            dispatch(getStudentDetails(decode));
+        }
+    }, [currentRouteState, universityID, id, dispatch]);
+
+    useEffect(() => {
         dispatch(
             setBreadcrumps({
-                name: ["ACADEMIC", "Courses"],
-                link: "/courses",
+                name: ["ADMINISTRATION", "Student", isUpdate? "Update" :"Add"],
+                link: "/students",
             })
         );
-    }, [dispatch]);
+    }, [dispatch, isUpdate]);
 
     useEffect(() => {
 
@@ -126,11 +173,13 @@ const CreateStudent = () => {
     }, [classesGlobal])
 
     useEffect(()=>{
-        dispatch(getUniversityClass({ universityID: universityID, isActive: "T" }))
-    }, [])
+        if(universityID)
+            dispatch(getUniversityClass({ universityID: universityID, isActive: "T" }))
+    }, [universityID])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if (currentRouteState === ComponentMode.ADD)
         dispatch(createStudentDetails({
             universityID: universityID,
             classID: classSelected.value,
@@ -148,23 +197,29 @@ const CreateStudent = () => {
             rollNumber: rollNumber,
             extraField1: extraField1,
             extraField2: extraField2,
+            navigate: navigate
         }))
-        setFormData({
-            email: "",
-            enrollnmentNo: "",
-            rollNumber: "",
-            admissionYear: "",
-            phone: "",
-            address: "",
-            alternatePhone: "",
-            mothersName: "",
-            fathersName: "",
-            gender: genderArray[0],
-            bloodGroup: bloodGroupArray[0],
-            extraField1: "",
-            extraField2: "",
-            sendEmailNotification: true
-        })
+        else
+        dispatch(updateStudentDetails({
+            studentID: student._id!,
+            universityID: universityID,
+            classID: classSelected.value,
+            email: email,
+            enrollnmentNo: enrollnmentNo,
+            admissionYear: admissionYear,
+            isActive: true,
+            address: address,
+            phone: phone,
+            alternatePhone: alternatePhone,
+            fathersName: fathersName,
+            mothersName: mothersName,
+            gender: gender.value,
+            bloodGroup: bloodGroup.value,
+            rollNumber: rollNumber,
+            extraField1: extraField1,
+            extraField2: extraField2,
+            navigate: navigate
+        }))
     }
 
     const handleCheckboxes = (_: React.ChangeEvent<HTMLInputElement>, c: boolean) => {
@@ -193,7 +248,7 @@ const CreateStudent = () => {
                 <div className="paper">
                     <div className="createStudent__Form">
                         <div className="header">
-                            <h4>Add Student</h4>
+                            <h4>{currentRouteState === ComponentMode.ADD ? "Add" : "Update"} Student</h4>
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="row">
@@ -207,6 +262,7 @@ const CreateStudent = () => {
                                         autoComplete="off"
                                         placeholder="Email"
                                         autoFocus
+                                        disabled={currentRouteState === ComponentMode.UPDATE}
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -227,6 +283,7 @@ const CreateStudent = () => {
                                         required
                                         autoComplete="off"
                                         placeholder="Enrollnment Number"
+                                        disabled={currentRouteState === ComponentMode.UPDATE}
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">
@@ -351,7 +408,7 @@ const CreateStudent = () => {
                                     />
                                 </div>
                                 <div className="createStudent__FormButton">
-                                    <Button type="submit">Create Student</Button>
+                                    <Button type="submit">{currentRouteState === ComponentMode.ADD ? "Create" : "Update"} Student</Button>
                                 </div>
                             </div>
                         </form>

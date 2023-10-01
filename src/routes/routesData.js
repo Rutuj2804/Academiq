@@ -87,6 +87,7 @@ export const regularRoutes = [
 
     { path: "/students", element: <Student /> },
     { path: "/student/create", element: <CreateStudent /> },
+    { path: "/student/update/:id", element: <CreateStudent /> },
 
     { path: "/faculties", element: <Faculty /> },
     { path: "/faculty/create", element: <CreateFaculty /> },
