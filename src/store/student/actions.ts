@@ -133,6 +133,12 @@ export const createStudentDetails = createAsyncThunk(
 
             body.navigate("/students")
 
+            thunkAPI.dispatch(setMessage({
+                text: res.data.message,
+                type: errorType[1],
+                _id: res.data.data._id
+            }))
+
             return res.data.data;
         } catch (err) {
 
@@ -328,6 +334,12 @@ export const updateStudentDetails = createAsyncThunk(
             thunkAPI.dispatch(updateLoading(-1));
 
             updateStudentRequest.navigate("/students")
+
+            thunkAPI.dispatch(setMessage({
+                text: res.data.message,
+                type: errorType[1],
+                _id: res.data.data._id
+            }))
 
             return res.data.data;
         } catch (err) {

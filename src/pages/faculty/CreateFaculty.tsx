@@ -76,9 +76,6 @@ const CreateFaculty = () => {
         sendEmailNotification
     } = formData;
 
-    const [classes, setClasses] = useState<any[]>([])
-    const [classSelected, setClassSelected] = useState<any>({ name: "", value: ""})
-
     const dispatch = useDispatch<any>();
 
     const { decrypt } = useCrypto();
@@ -96,7 +93,6 @@ const CreateFaculty = () => {
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector((state: RootState) => state.university.university.value)
-    const classesGlobal = useSelector((state: RootState) => state.class.classes)
 
     const faculty = useSelector((state: RootState) => state.faculty.faculty);
 
@@ -111,8 +107,6 @@ const CreateFaculty = () => {
             setFormData({ ...formData, gender: v });
         } else if (t === dropdownTypes.BLOOD_GROUP) {
             setFormData({ ...formData, bloodGroup: v });
-        }else if (t === dropdownTypes.CLASS) {
-            setClassSelected(v)
         }
     };
 
@@ -153,32 +147,11 @@ const CreateFaculty = () => {
         );
     }, [dispatch]);
 
-    useEffect(() => {
-
-        if(classesGlobal.length) {
-            const data = []
-            for (let i = 0; i < classesGlobal.length; i++) {
-                data.push({
-                    name: classesGlobal[i].name,
-                    value: classesGlobal[i]._id
-                })
-            }
-            setClassSelected(data[0])
-            setClasses(data)
-        }
-        
-    }, [classesGlobal])
-
-    useEffect(()=>{
-        dispatch(getUniversityClass({ universityID: universityID, isActive: "T" }))
-    }, [])
-
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (currentRouteState === ComponentMode.ADD)
             dispatch(createFacultyDetails({
                 universityID: universityID,
-                classID: classSelected.value,
                 email: email,
                 enrollnmentNo: enrollnmentNo,
                 joiningYear: joiningYear,
@@ -198,7 +171,6 @@ const CreateFaculty = () => {
             dispatch(updateFacultyDetails({
                 facultyID: faculty._id!,
                 universityID: universityID,
-                classID: classSelected.value,
                 email: email,
                 enrollnmentNo: enrollnmentNo,
                 joiningYear: joiningYear,
@@ -381,17 +353,6 @@ const CreateFaculty = () => {
                                         autoComplete="off"
                                         placeholder="Address"
                                         rows={6}
-                                    />
-                                </div>
-                                <div className="col-lg-6 col-md-6 col-12">
-                                    <Dropdown
-                                        optionsArr={classes}
-                                        selected={classSelected}
-                                        setSelected={(v: number | string) =>
-                                            handleDropdowns(dropdownTypes.CLASS, v)
-                                        }
-                                        className="mb-3"
-                                        placeholder="Class"
                                     />
                                 </div>
                                 <div className="col-lg-6 col-md-6 col-12">

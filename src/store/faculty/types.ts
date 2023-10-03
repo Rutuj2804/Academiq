@@ -15,7 +15,6 @@ export interface FacultyState {
 
 export interface CreateFacultyRequest {
     universityID: string
-    classID: string
     email: string
     enrollnmentNo: string
     joiningYear: string

@@ -107,6 +107,12 @@ export const createStaffDetails = createAsyncThunk(
 
             body.navigate("/staffs")
 
+            thunkAPI.dispatch(setMessage({
+                text: res.data.message,
+                type: errorType[1],
+                _id: res.data.data._id
+            }))
+
             return res.data.data;
         } catch (err) {
             console.log(err);
@@ -135,7 +141,13 @@ export const updateStaffDetails = createAsyncThunk(
 
             thunkAPI.dispatch(updateLoading(-1));
 
-            body.navigate("staffs")
+            body.navigate("/staffs")
+
+            thunkAPI.dispatch(setMessage({
+                text: res.data.message,
+                type: errorType[1],
+                _id: res.data.data._id
+            }))
 
             return res.data.data;
         } catch (err) {
