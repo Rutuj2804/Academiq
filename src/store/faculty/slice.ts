@@ -44,8 +44,8 @@ export const facultySlice = createSlice({
                 }
                 return t
             })
-            s.display.active = s.display.active - a.payload.length
-            s.display.deleted = s.display.deleted + a.payload.length
+            s.display.active = s.faculties.filter(t=>t.isActive === true).length
+            s.display.deleted = s.display.all - s.display.active
         })
         builder.addCase(deleteFacultyPermanent.fulfilled, (s, a) => {
             s.faculties = s.faculties.filter(t=>!a.payload.includes(t._id))

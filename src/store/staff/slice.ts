@@ -44,8 +44,8 @@ export const staffSlice = createSlice({
                 }
                 return t
             })
-            s.display.active = s.display.active - a.payload.length
-            s.display.deleted = s.display.deleted + a.payload.length
+            s.display.active = s.staffs.filter(t=>t.isActive === true).length
+            s.display.deleted = s.display.all - s.display.active
         })
         builder.addCase(deleteStaffPermanent.fulfilled, (s, a) => {
             s.staffs = s.staffs.filter(t=>!a.payload.includes(t._id))

@@ -135,6 +135,8 @@ export const updateStaffDetails = createAsyncThunk(
 
             thunkAPI.dispatch(updateLoading(-1));
 
+            body.navigate("staffs")
+
             return res.data.data;
         } catch (err) {
             console.log(err);

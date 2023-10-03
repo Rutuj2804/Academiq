@@ -135,6 +135,8 @@ export const updateFacultyDetails = createAsyncThunk(
 
             thunkAPI.dispatch(updateLoading(-1));
 
+            body.navigate("faculties")
+
             return res.data.data;
         } catch (err) {
             console.log(err);

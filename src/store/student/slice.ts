@@ -44,8 +44,8 @@ export const studentSlice = createSlice({
                 }
                 return t
             })
-            s.display.active = s.display.active - a.payload.length
-            s.display.deleted = s.display.deleted + a.payload.length
+            s.display.active = s.students.filter(t=>t.isActive === true).length
+            s.display.deleted = s.display.all - s.display.active
         })
         builder.addCase(deleteStudentsPermanent.fulfilled, (s, a) => {
             s.students = s.students.filter(t=>!a.payload.includes(t._id))
