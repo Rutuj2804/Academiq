@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axios";
 import { updateLoading } from "../loading/slice";
 import { getToken } from "../../utils/helpers";
-import { CreateStaffRequest, DeleteStaffRequest, GetUniversityStaffRequest } from "./types";
+import { CreateStaffRequest, DeleteStaffRequest, GetUniversityStaffRequest, UpdateStaffRequest } from "./types";
 import { setMessage } from "../messages/slice";
 import { AxiosError } from "axios";
 import { errorType } from "../messages/types";
@@ -120,7 +120,7 @@ export const createStaffDetails = createAsyncThunk(
 
 export const updateStaffDetails = createAsyncThunk(
     "updateStaffDetails/Staff",
-    async (body: {}, thunkAPI) => {
+    async (body: UpdateStaffRequest, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
 
         try {
@@ -131,7 +131,7 @@ export const updateStaffDetails = createAsyncThunk(
                 },
             };
 
-            const res = await axios.post(`/staff/`, body, config);
+            const res = await axios.put(`/staff/${body.staffID}`, body, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 

@@ -12,7 +12,8 @@ import {
     EditRounded,
 } from "@mui/icons-material";
 import { setDelete } from "../../store/layout/slice";
-import { deleteStaff, deleteStaffPermanent } from "../../store/staff/actions";
+import { deleteStudents, deleteStudentsPermanent } from "../../store/student/actions";
+import { deleteFaculty, deleteFacultyPermanent } from "../../store/faculty/actions";
 
 enum TabType {
     ALL = "A",
@@ -24,7 +25,7 @@ interface Props {
     activeTab: TabType;
 }
 
-export const GetStaffColumns = ({ activeTab }: Props) => {
+export const GetFacultyColumns = ({ activeTab }: Props) => {
     const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
@@ -42,9 +43,9 @@ export const GetStaffColumns = ({ activeTab }: Props) => {
                     isOpen: true,
                     callback: () =>
                         dispatch(
-                            deleteStaffPermanent({
+                            deleteFacultyPermanent({
                                 universityID: universityID,
-                                staffID: [params.row._id],
+                                facultyID: [params.row._id],
                             })
                         ),
                     text: `Are you sure you want to delete student: ${params.row.name} ?`,
@@ -52,9 +53,9 @@ export const GetStaffColumns = ({ activeTab }: Props) => {
             );
         } else {
             dispatch(
-                deleteStaff({
+                deleteFaculty({
                     universityID: universityID,
-                    staffID: [params.row._id],
+                    facultyID: [params.row._id],
                 })
             );
         }
@@ -144,7 +145,7 @@ export const GetStaffColumns = ({ activeTab }: Props) => {
                                 className="icon-hover"
                                 onClick={() =>
                                     navigate(
-                                        `/staff/update/${encrypt(
+                                        `/faculty/update/${encrypt(
                                             params.row._id
                                         )}`
                                     )

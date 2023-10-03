@@ -4,124 +4,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { GoPrimitiveDot } from "react-icons/go";
-import { Button, IconButton } from "@mui/material";
+import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
 import {
     AddRounded,
-    EditRounded,
     FileDownloadRounded,
 } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
-import { getFacultyCountOnTabNumbers, getUniversityFaculty } from "../../store/faculty/actions";
-import moment from "moment";
-
-const getName = (t:any) => {
-    if(t.midname === undefined) {
-        return `${t.firstname} ${t.lastname}`
-    } else {
-        return `${t.firstname} ${t.midname} ${t.lastname}`
-    }
-}
-
-const columns: GridColDef[] = [
-    {
-        field: "firstName",
-        headerName: "Name",
-        flex: 1,
-        disableColumnMenu: true,
-        minWidth: 200,
-        renderCell: (params) => (
-            <div className="queryBlock">
-                <h6>
-                    {getName(params.row.userID)}{" "}
-                    <span>
-                        <GoPrimitiveDot />
-                    </span>
-                </h6>
-            </div>
-        ),
-    },
-    {
-        field: "Status",
-        headerName: "Status",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => (
-            <span className={params.row.isActive ? "tag active" : "tag delete"}>
-                {params.row.isActive ? "Active" : "Deleted"}
-            </span>
-        ),
-    },
-    {
-        field: "Enrollment No",
-        headerName: "Enrollment No",
-        headerAlign: "center",
-        width: 300,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => (
-            <p className="mb-0">{`${params.row.enrollnmentNo}`}</p>
-        ),
-    },
-    {
-        field: "Created At",
-        headerName: "Created At",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => (
-            <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>
-        ),
-    },
-    {
-        field: " ",
-        headerName: "Update Faculty",
-        width: 150,
-        disableColumnMenu: true,
-        align: "center",
-        renderCell: (params) => (
-            <IconButton size="small" className="icon-hover">
-                <EditRounded fontSize="small" />
-            </IconButton>
-        ),
-    },
-];
-
-const rows = [
-    {
-        id: 1,
-        lastName: "Snow Snow Snow Snow Snow Snow Snow Snow Snow Snow",
-        firstName: "Jon",
-        age: 35,
-    },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-    { id: 10, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 16, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
-    { id: 17, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 18, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 19, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+import { deleteAllFaculty, deleteAllFacultyPermanent, deleteFaculty, deleteFacultyPermanent, getFacultyCountOnTabNumbers, getUniversityFaculty } from "../../store/faculty/actions";
+import { GetFacultyColumns } from "../../components/grid";
+import { setDelete } from "../../store/layout/slice";
+import { Pagination } from "../../common/pagination";
 
 enum TabType {
-    ALL = "ALL",
-    ACTIVE = "ACTIVE",
-    DELETED = "DELETED",
+    ALL = "A",
+    ACTIVE = "T",
+    DELETED = "F",
 }
 
 const Faculty = () => {
     const [activeTab, setActiveTab] = useState(TabType.ALL);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
+
+    const [page, setPage] = useState(0);
+
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+        dispatch(
+            getUniversityFaculty({
+                universityID: universityID,
+                isActive: activeTab,
+                page: value,
+            })
+        );
+    };
 
     const dispatch = useDispatch<any>();
 
@@ -140,6 +56,10 @@ const Faculty = () => {
     );
     const display = useSelector((state: RootState) => state.faculty.display)
 
+    const pagination = useSelector((state: RootState) => state.faculty.pagination)
+
+    const columns = GetFacultyColumns({ activeTab })
+
     useEffect(() => {
         dispatch(
             setBreadcrumps({
@@ -150,37 +70,75 @@ const Faculty = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(
-            getUniversityFaculty({
-                universityID: universityID,
-                isActive: "A",
-            })
-        );
-        dispatch(getFacultyCountOnTabNumbers(universityID))
+        if(universityID) {
+            dispatch(
+                getUniversityFaculty({
+                    universityID: universityID,
+                    isActive: activeTab,
+                    page: page
+                })
+            );
+            dispatch(getFacultyCountOnTabNumbers(universityID))
+        }
     }, [universityID]);
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType);
+        dispatch(
+            getUniversityFaculty({
+                universityID: universityID,
+                isActive: tabType,
+                page: 0
+            })
+        );
+    };
 
-        if (tabType === TabType.ALL) {
+    const onDeleteMultipleClick = () => {
+        var selected: any[] = selectedRow;
+        if (activeTab === TabType.DELETED) {
             dispatch(
-                getUniversityFaculty({
-                    universityID: universityID,
-                    isActive: "A",
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteFacultyPermanent({
+                                universityID: universityID,
+                                facultyID: selected,
+                            })
+                        ),
+                    text: `Are you sure you want to permanentely delete ${selected.length} classes?`,
                 })
             );
-        } else if (tabType === TabType.ACTIVE) {
+        } else {
             dispatch(
-                getUniversityFaculty({
+                deleteFaculty({
                     universityID: universityID,
-                    isActive: "T",
+                    facultyID: selected,
                 })
             );
-        } else if (tabType === TabType.DELETED) {
+        }
+    };
+
+    const onDeleteCompleteClick = () => {
+        if (activeTab === TabType.DELETED) {
             dispatch(
-                getUniversityFaculty({
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteAllFacultyPermanent({
+                                universityID: universityID,
+                                facultyID: []
+                            })
+                        ),
+                    text: `Are you sure you want to permanentely delete all faculties?`,
+                })
+            );
+        } else {
+            dispatch(
+                deleteAllFaculty({
                     universityID: universityID,
-                    isActive: "F",
+                    facultyID: []
                 })
             );
         }
@@ -238,8 +196,16 @@ const Faculty = () => {
                                 Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
-                                <Button className="red">
+                                <Button className="red" onClick={onDeleteMultipleClick}>
                                     Delete ({selectedRow.length})
+                                </Button>
+                            ) : null}
+                            {selectedRow.length === 10 ? (
+                                <Button
+                                    className="red"
+                                    onClick={onDeleteCompleteClick}
+                                >
+                                    Delete All ({display.all})
                                 </Button>
                             ) : null}
                         </div>
@@ -265,6 +231,22 @@ const Faculty = () => {
                                         pageSize: 10,
                                     },
                                 },
+                            }}
+                            slots={{
+                                pagination: (paginationProps) => (
+                                    <Pagination
+                                        page={pagination.currentPage}
+                                        pagecount={pagination.totalPages}
+                                        totaldocuments={
+                                            pagination.totalDocuments
+                                        }
+                                        currentdocuments={
+                                            pagination.currentDocuments
+                                        }
+                                        handlepagechange={handlePageChange}
+                                        {...paginationProps}
+                                    />
+                                ),
                             }}
                             pageSizeOptions={[10]}
                             checkboxSelection

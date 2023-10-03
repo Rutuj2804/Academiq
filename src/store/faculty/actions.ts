@@ -2,7 +2,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../axios";
 import { updateLoading } from "../loading/slice";
 import { getToken } from "../../utils/helpers";
-import { CreateFacultyRequest, GetUniversityFacultyRequest } from "./types";
+import { CreateFacultyRequest, DeleteFacultyRequest, GetUniversityFacultyRequest, UpdateFacultyRequest } from "./types";
+import { setMessage } from "../messages/slice";
+import { AxiosError } from "axios";
+import { errorType } from "../messages/types";
 
 export const getUniversityFaculty = createAsyncThunk(
     "getUniversityFaculty/Faculty",
@@ -16,7 +19,7 @@ export const getUniversityFaculty = createAsyncThunk(
                 },
             };
 
-            const res = await axios.get(`/faculty/u/${getUniversityFacultyRequest.universityID}/${getUniversityFacultyRequest.isActive}`, config);
+            const res = await axios.patch(`/faculty/`, getUniversityFacultyRequest, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 
@@ -43,7 +46,7 @@ export const getFacultyCountOnTabNumbers = createAsyncThunk(
                 },
             };
 
-            const res = await axios.get(`/faculty/u/${universityID}`, config);
+            const res = await axios.patch(`/faculty/count/`, { universityID }, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 
@@ -102,6 +105,8 @@ export const createFacultyDetails = createAsyncThunk(
 
             thunkAPI.dispatch(updateLoading(-1));
 
+            body.navigate("/faculties")
+
             return res.data.data;
         } catch (err) {
             console.log(err);
@@ -115,7 +120,7 @@ export const createFacultyDetails = createAsyncThunk(
 
 export const updateFacultyDetails = createAsyncThunk(
     "updateFacultyDetails/Faculty",
-    async (body: {}, thunkAPI) => {
+    async (body: UpdateFacultyRequest, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
 
         try {
@@ -126,7 +131,7 @@ export const updateFacultyDetails = createAsyncThunk(
                 },
             };
 
-            const res = await axios.post(`/faculty/`, body, config);
+            const res = await axios.put(`/faculty/${body.facultyID}`, body, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 
@@ -136,6 +141,146 @@ export const updateFacultyDetails = createAsyncThunk(
 
             thunkAPI.dispatch(updateLoading(-1));
 
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
+export const deleteFaculty = createAsyncThunk(
+    "deleteFaculty/Faculty",
+    async (deleteFacultyRequest: DeleteFacultyRequest, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const res = await axios.patch(`/faculty/delete`, deleteFacultyRequest, config);
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            return res.data.data;
+
+        } catch (err) {
+            thunkAPI.dispatch(updateLoading(-1));
+
+            if (err instanceof AxiosError) {
+                thunkAPI.dispatch(
+                    setMessage({
+                        text: err?.response?.data.message,
+                        type: errorType[0],
+                        _id: Date.now().toString(),
+                    })
+                );
+            }
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
+export const deleteAllFaculty = createAsyncThunk(
+    "deleteAllFaculty/Faculty",
+    async (deleteFacultyRequest: DeleteFacultyRequest, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const res = await axios.patch(`/faculty/delete/all`, deleteFacultyRequest, config);
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            return res.data.data;
+
+        } catch (err) {
+            thunkAPI.dispatch(updateLoading(-1));
+
+            if (err instanceof AxiosError) {
+                thunkAPI.dispatch(
+                    setMessage({
+                        text: err?.response?.data.message,
+                        type: errorType[0],
+                        _id: Date.now().toString(),
+                    })
+                );
+            }
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
+export const deleteFacultyPermanent = createAsyncThunk(
+    "deleteFacultyPermanent/Faculty",
+    async (deleteFacultyRequest: DeleteFacultyRequest, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const res = await axios.patch(`/faculty/delete/permanent`, deleteFacultyRequest, config);
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            return res.data.data;
+
+        } catch (err) {
+            thunkAPI.dispatch(updateLoading(-1));
+
+            if (err instanceof AxiosError) {
+                thunkAPI.dispatch(
+                    setMessage({
+                        text: err?.response?.data.message,
+                        type: errorType[0],
+                        _id: Date.now().toString(),
+                    })
+                );
+            }
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
+export const deleteAllFacultyPermanent = createAsyncThunk(
+    "deleteAllFacultyPermanent/Faculty",
+    async (deleteFacultyRequest: DeleteFacultyRequest, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const res = await axios.patch(`/faculty/delete/all/permanent`, deleteFacultyRequest, config);
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            return res.data.data;
+
+        } catch (err) {
+            thunkAPI.dispatch(updateLoading(-1));
+
+            if (err instanceof AxiosError) {
+                thunkAPI.dispatch(
+                    setMessage({
+                        text: err?.response?.data.message,
+                        type: errorType[0],
+                        _id: Date.now().toString(),
+                    })
+                );
+            }
             return thunkAPI.rejectWithValue(err);
         }
     }

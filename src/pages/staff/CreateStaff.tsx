@@ -3,13 +3,14 @@ import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
-import { useNavigate } from "react-router-dom";
+import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { Input } from "../../common/forms/input";
 import { Dropdown } from "../../common/forms/dropdown";
 import { Button } from "@mui/material"
 import { CheckboxAndLabel } from "../../common/forms/checkbox";
 import { Textarea } from "../../common/forms/textarea";
-import { createStaffDetails } from "../../store/staff/actions";
+import { createStaffDetails, getStaffDetails, updateStaffDetails } from "../../store/staff/actions";
+import { useCrypto } from "../../utils/hooks";
 
 const genderArray = [
     { name: "Male", value: "G" },
@@ -34,6 +35,11 @@ enum dropdownTypes {
     "GENDER" = "GENDER",
     "BLOOD_GROUP" = "BLOOD_GROUP",
     "CLASS" = "CLASS",
+}
+
+enum ComponentMode {
+    ADD = "ADD",
+    UPDATE = "UPDATE",
 }
 
 const CreateStaff = () => {
@@ -71,11 +77,23 @@ const CreateStaff = () => {
 
     const dispatch = useDispatch<any>();
 
+    const { decrypt } = useCrypto();
+
+    const isUpdate = useMatch("/staff/update/:id");
+
+    const [currentRouteState] = useState(
+        isUpdate ? ComponentMode.UPDATE : ComponentMode.ADD
+    );
+
     const navigate = useNavigate();
+
+    const { id }: any = useParams();
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector((state: RootState) => state.university.university.value)
+
+    const staff = useSelector((state: RootState) => state.staff.staff);
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -92,16 +110,45 @@ const CreateStaff = () => {
     };
 
     useEffect(() => {
+        if(currentRouteState === ComponentMode.UPDATE && Object.keys(staff).length > 0) {
+            const s :any = staff
+            setFormData({
+                email: s.userID.email,
+                enrollnmentNo: s.enrollnmentNo,
+                joiningYear: s.joiningYear,
+                phone: s.phone,
+                address: s.address,
+                alternatePhone: s.alternatePhone,
+                mothersName: s.mothersName,
+                fathersName: s.fathersName,
+                gender: genderArray.filter(t=>t.value === s.gender)[0],
+                bloodGroup: bloodGroupArray.filter(t=>t.value === s.bloodGroup)[0],
+                extraField1: s.extraField1,
+                extraField2: s.extraField2,
+                sendEmailNotification: true
+            })
+        }
+    }, [staff, currentRouteState])
+
+    useEffect(() => {
+        if (currentRouteState === ComponentMode.UPDATE) {
+            const decode: any = decrypt(id);
+            dispatch(getStaffDetails(decode));
+        }
+    }, [currentRouteState, universityID, id, dispatch]);
+
+    useEffect(() => {
         dispatch(
             setBreadcrumps({
-                name: ["ACADEMIC", "Courses"],
-                link: "/courses",
+                name: ["ADMINISTRATION", "Staff", isUpdate? "Update" :"Add"],
+                link: "/staffs",
             })
         );
     }, [dispatch]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if(currentRouteState === ComponentMode.ADD)
         dispatch(createStaffDetails({
             universityID: universityID,
             email: email,
@@ -119,6 +166,26 @@ const CreateStaff = () => {
             extraField2: extraField2,
             navigate: navigate
         }))
+        else{
+            dispatch(updateStaffDetails({
+                staffID: staff._id!,
+                universityID: universityID,
+                email: email,
+                enrollnmentNo: enrollnmentNo,
+                isActive: true,
+                joiningYear: joiningYear,
+                address: address,
+                phone: phone,
+                alternatePhone: alternatePhone,
+                fathersName: fathersName,
+                mothersName: mothersName,
+                gender: gender.value,
+                bloodGroup: bloodGroup.value,
+                extraField1: extraField1,
+                extraField2: extraField2,
+                navigate: navigate
+            }))
+        }
         setFormData({
             email: "",
             enrollnmentNo: "",
@@ -162,7 +229,7 @@ const CreateStaff = () => {
                 <div className="paper">
                     <div className="createStudent__Form">
                         <div className="header">
-                            <h4>Add Staff</h4>
+                            <h4>{currentRouteState === ComponentMode.ADD ? "Add" : "Update"} Staff</h4>
                         </div>
                         <form onSubmit={handleSubmit}>
                             <div className="row">
@@ -300,7 +367,7 @@ const CreateStaff = () => {
                                     />
                                 </div>
                                 <div className="createStudent__FormButton">
-                                    <Button type="submit">Create Student</Button>
+                                    <Button type="submit">{currentRouteState === ComponentMode.ADD ? "Create" : "Update"} Staff</Button>
                                 </div>
                             </div>
                         </form>

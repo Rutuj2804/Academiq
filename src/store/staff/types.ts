@@ -30,6 +30,10 @@ export interface CreateStaffRequest {
     navigate: NavigateFunction
 }
 
+export interface UpdateStaffRequest extends CreateStaffRequest {
+    staffID: string;
+}
+
 export interface GetUniversityStaffRequest {
     universityID: string;
     isActive: string;

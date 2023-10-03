@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FacultyState } from "./types";
-import { getFacultyCountOnTabNumbers, getFacultyDetails, getUniversityFaculty, updateFacultyDetails } from "./actions";
+import { deleteAllFaculty, deleteAllFacultyPermanent, deleteFaculty, deleteFacultyPermanent, getFacultyCountOnTabNumbers, getFacultyDetails, getUniversityFaculty, updateFacultyDetails } from "./actions";
 
 const initialState: FacultyState = {
     faculties: [],
@@ -9,6 +9,12 @@ const initialState: FacultyState = {
         all: 0,
         active: 0,
         deleted: 0
+    },
+    pagination: {
+        currentDocuments: 0,
+        currentPage: 0,
+        totalDocuments: 0,
+        totalPages: 0,
     }
 };
 
@@ -18,7 +24,8 @@ export const facultySlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getUniversityFaculty.fulfilled, (s, a) => {
-            s.faculties = a.payload
+            s.faculties = a.payload.faculty
+            s.pagination = a.payload.pagination
         });
         builder.addCase(getFacultyCountOnTabNumbers.fulfilled, (s, a) => {
             s.display = a.payload
@@ -28,6 +35,36 @@ export const facultySlice = createSlice({
         });
         builder.addCase(updateFacultyDetails.fulfilled, (s, a) => {
             s.faculty = a.payload
+        })
+        builder.addCase(deleteFaculty.fulfilled, (s, a) => {
+            s.faculties = s.faculties.map(t=>{
+                if(a.payload.includes(t._id)) {
+                    t.isActive = false
+                    return t
+                }
+                return t
+            })
+            s.display.active = s.display.active - a.payload.length
+            s.display.deleted = s.display.deleted + a.payload.length
+        })
+        builder.addCase(deleteFacultyPermanent.fulfilled, (s, a) => {
+            s.faculties = s.faculties.filter(t=>!a.payload.includes(t._id))
+            s.display.deleted = s.display.deleted - a.payload.length
+            s.display.all = s.display.all - a.payload.length
+        })
+        builder.addCase(deleteAllFaculty.fulfilled, (s, a) => {
+            s.faculties = s.faculties.map(t=>{
+                t.isActive = false
+                return t
+            })
+            s.display.active = 0
+            s.display.deleted = s.display.all
+        })
+        builder.addCase(deleteAllFacultyPermanent.fulfilled, (s, a) => {
+            s.faculties = []
+            s.display.deleted = 0
+            s.display.active = 0
+            s.display.all = 0
         })
     }
 });

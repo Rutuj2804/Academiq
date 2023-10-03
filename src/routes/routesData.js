@@ -91,9 +91,11 @@ export const regularRoutes = [
 
     { path: "/faculties", element: <Faculty /> },
     { path: "/faculty/create", element: <CreateFaculty /> },
+    { path: "/faculty/update/:id", element: <CreateFaculty /> },
 
     { path: "/staffs", element: <Staff /> },
     { path: "/staff/create", element: <CreateStaff /> },
+    { path: "/staff/update/:id", element: <CreateStaff /> },
 
     { path: "/change-password", element: <ChangePassword /> },
     { path: "/edit/:username", element: <EditProfile /> },
