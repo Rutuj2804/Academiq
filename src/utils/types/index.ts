@@ -5,3 +5,5 @@ export * from "./activity"
 export * from "./pagination"
 
 export * from "./student"
+
+export * from "./staff"

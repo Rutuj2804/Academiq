@@ -12,7 +12,6 @@ import {
     EditRounded,
 } from "@mui/icons-material";
 import { setDelete } from "../../store/layout/slice";
-import { deleteCourse, deleteCoursePermanent } from "../../store/course/actions";
 import { deleteStudents, deleteStudentsPermanent } from "../../store/student/actions";
 
 enum TabType {

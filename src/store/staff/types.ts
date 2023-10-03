@@ -1,11 +1,15 @@
+import { NavigateFunction } from "react-router-dom"
+import { PaginationInterface, StaffInterface } from "../../utils/types"
+
 export interface StaffState {
-    staffs: [],
-    staff: {},
+    staffs: StaffInterface[],
+    staff: StaffInterface,
     display: {
         all: number,
         active: number,
         deleted: number
-    }
+    },
+    pagination: PaginationInterface
 }
 
 export interface CreateStaffRequest {
@@ -22,10 +26,17 @@ export interface CreateStaffRequest {
     gender: string
     bloodGroup: string
     extraField1: string
-    extraField2: string
+    extraField2: string;
+    navigate: NavigateFunction
 }
 
 export interface GetUniversityStaffRequest {
     universityID: string;
-    isActive: string
+    isActive: string;
+    page? : number
+}
+
+export interface DeleteStaffRequest {
+    staffID: string[];
+    universityID: string
 }

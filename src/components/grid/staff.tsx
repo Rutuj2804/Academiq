@@ -5,11 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useCrypto } from "../../utils/hooks";
 import { IconButton, Tooltip } from "@mui/material";
-import {
-    deleteClass,
-    deleteClassPermanent,
-    reactivateClass,
-} from "../../store/class/actions";
 import { RootState } from "../../store";
 import {
     CheckCircleRounded,
@@ -17,6 +12,7 @@ import {
     EditRounded,
 } from "@mui/icons-material";
 import { setDelete } from "../../store/layout/slice";
+import { deleteStaff, deleteStaffPermanent } from "../../store/staff/actions";
 
 enum TabType {
     ALL = "A",
@@ -28,7 +24,7 @@ interface Props {
     activeTab: TabType;
 }
 
-export const GetClassColumns = ({ activeTab }: Props) => {
+export const GetStaffColumns = ({ activeTab }: Props) => {
     const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
@@ -46,35 +42,43 @@ export const GetClassColumns = ({ activeTab }: Props) => {
                     isOpen: true,
                     callback: () =>
                         dispatch(
-                            deleteClassPermanent({
+                            deleteStaffPermanent({
                                 universityID: universityID,
-                                classID: [params.row._id],
+                                staffID: [params.row._id],
                             })
                         ),
-                    text: `Are you sure you want to delete class: ${params.row.name} ?`,
+                    text: `Are you sure you want to delete student: ${params.row.name} ?`,
                 })
             );
         } else {
             dispatch(
-                deleteClass({
+                deleteStaff({
                     universityID: universityID,
-                    classID: [params.row._id],
+                    staffID: [params.row._id],
                 })
             );
         }
     };
 
+    const getName = (t:any) => {
+        if(t.midname === undefined) {
+            return `${t.firstname} ${t.lastname}`
+        } else {
+            return `${t.firstname} ${t.midname} ${t.lastname}`
+        }
+    }
+
     const columns: GridColDef[] = [
         {
             field: "firstName",
-            headerName: "Query",
+            headerName: "Name",
             flex: 1,
             disableColumnMenu: true,
             minWidth: 200,
             renderCell: (params) => (
                 <div className="queryBlock">
                     <h6>
-                        {params.row.name}{" "}
+                        {getName(params.row.userID)}{" "}
                         <span>
                             <GoPrimitiveDot />
                         </span>
@@ -89,15 +93,7 @@ export const GetClassColumns = ({ activeTab }: Props) => {
             width: 200,
             align: "center",
             disableColumnMenu: true,
-            renderCell: (params) => (
-                <span
-                    className={
-                        params.row.isActive ? "tag active" : "tag delete"
-                    }
-                >
-                    {params.row.isActive ? "Active" : "Deleted"}
-                </span>
-            ),
+            renderCell: (params) => <span className={params.row.isActive ? "tag active": "tag delete"}>{params.row.isActive ? "Active" : "Deleted"}</span>,
         },
         {
             field: "Created By",
@@ -106,13 +102,7 @@ export const GetClassColumns = ({ activeTab }: Props) => {
             width: 300,
             align: "center",
             disableColumnMenu: true,
-            renderCell: (params) => (
-                <p className="mb-0">
-                    {params.row.createdBy.firstname +
-                        " " +
-                        params.row.createdBy.lastname}
-                </p>
-            ),
+            renderCell: (params) => <p className="mb-0">Rutuj Bokade</p>,
         },
         {
             field: "Created At",
@@ -121,9 +111,7 @@ export const GetClassColumns = ({ activeTab }: Props) => {
             width: 200,
             align: "center",
             disableColumnMenu: true,
-            renderCell: (params) => (
-                <p className="mb-0">{moment(params.row.createdAt).format("DD MMM, YY")}</p>
-            ),
+            renderCell: (params) => <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>,
         },
         {
             field: " ",
@@ -139,13 +127,7 @@ export const GetClassColumns = ({ activeTab }: Props) => {
                             <IconButton
                                 size="small"
                                 className="icon-hover"
-                                onClick={() =>
-                                    dispatch(
-                                        reactivateClass({
-                                            universityID: universityID,
-                                            classID: [params.row._id],
-                                        })
-                                    )
+                                onClick={() =>{}
                                 }
                                 disabled={
                                     !params.row.isActive &&
@@ -162,7 +144,7 @@ export const GetClassColumns = ({ activeTab }: Props) => {
                                 className="icon-hover"
                                 onClick={() =>
                                     navigate(
-                                        `/class/update/${encrypt(
+                                        `/student/update/${encrypt(
                                             params.row._id
                                         )}`
                                     )

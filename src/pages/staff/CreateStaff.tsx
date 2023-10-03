@@ -69,9 +69,6 @@ const CreateStaff = () => {
         sendEmailNotification
     } = formData;
 
-    const [classes, setClasses] = useState<any[]>([])
-    const [classSelected, setClassSelected] = useState<any>({ name: "", value: ""})
-
     const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
@@ -79,7 +76,6 @@ const CreateStaff = () => {
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector((state: RootState) => state.university.university.value)
-    const classesGlobal = useSelector((state: RootState) => state.class.classes)
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -121,6 +117,7 @@ const CreateStaff = () => {
             bloodGroup: bloodGroup.value,
             extraField1: extraField1,
             extraField2: extraField2,
+            navigate: navigate
         }))
         setFormData({
             email: "",

@@ -4,94 +4,40 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { GoPrimitiveDot } from "react-icons/go";
-import { Button, IconButton } from "@mui/material";
+import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
 import {
     AddRounded,
-    EditRounded,
     FileDownloadRounded,
 } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
-import { getStaffCountOnTabNumbers, getUniversityStaff } from "../../store/staff/actions";
-import moment from "moment";
-
-const getName = (t:any) => {
-    if(t.midname === undefined) {
-        return `${t.firstname} ${t.lastname}`
-    } else {
-        return `${t.firstname} ${t.midname} ${t.lastname}`
-    }
-}
-
-const columns: GridColDef[] = [
-    {
-        field: "firstName",
-        headerName: "Name",
-        flex: 1,
-        disableColumnMenu: true,
-        minWidth: 200,
-        renderCell: (params) => (
-            <div className="queryBlock">
-                <h6>
-                    {getName(params.row.userID)}{" "}
-                    <span>
-                        <GoPrimitiveDot />
-                    </span>
-                </h6>
-            </div>
-        ),
-    },
-    {
-        field: "Status",
-        headerName: "Status",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <span className={params.row.isActive ? "tag active" : "tag delete"}>{params.row.isActive ? "Active" : "Deleted"}</span>,
-    },
-    {
-        field: "Created By",
-        headerName: "Created By",
-        headerAlign: "center",
-        width: 300,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">Rutuj Bokade</p>,
-    },
-    {
-        field: "Created At",
-        headerName: "Created At",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">{moment(params.row.createdAt).fromNow()}</p>,
-    },
-    {
-        field: " ",
-        headerName: "Update Staff",
-        width: 150,
-        disableColumnMenu: true,
-        align: "center",
-        renderCell: (params) => (
-            <IconButton size="small" className="icon-hover">
-                <EditRounded fontSize="small" />
-            </IconButton>
-        ),
-    },
-];
+import { deleteAllStaff, deleteAllStaffPermanent, deleteStaff, deleteStaffPermanent, getStaffCountOnTabNumbers, getUniversityStaff } from "../../store/staff/actions";
+import { Pagination } from "../../common/pagination";
+import { GetStaffColumns } from "../../components/grid";
+import { setDelete } from "../../store/layout/slice";
 
 enum TabType {
-    ALL = "ALL",
-    ACTIVE = "ACTIVE",
-    DELETED = "DELETED",
+    ALL = "A",
+    ACTIVE = "T",
+    DELETED = "F",
 }
 
 const Staff = () => {
     const [activeTab, setActiveTab] = useState(TabType.ALL);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
+
+    const [page, setPage] = useState(0);
+
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+        dispatch(
+            getUniversityStaff({
+                universityID: universityID,
+                isActive: activeTab,
+                page: value,
+            })
+        );
+    };
 
     const dispatch = useDispatch<any>();
 
@@ -106,6 +52,10 @@ const Staff = () => {
     const staffsGlobal = useSelector((state: RootState) => state.staff.staffs)
     const display = useSelector((state: RootState) => state.staff.display)
 
+    const pagination = useSelector((state: RootState) => state.staff.pagination)
+
+    const columns = GetStaffColumns({ activeTab })
+
     useEffect(() => {
         dispatch(
             setBreadcrumps({
@@ -116,35 +66,73 @@ const Staff = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getUniversityStaff({
-            universityID: universityID,
-            isActive: "A",
-        }))
-        dispatch(getStaffCountOnTabNumbers(universityID))
+        if(universityID) {
+            dispatch(getUniversityStaff({
+                universityID: universityID,
+                isActive: activeTab,
+                page: page
+            }))
+            dispatch(getStaffCountOnTabNumbers(universityID))
+        }
     }, [universityID])
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType);
+        dispatch(
+            getUniversityStaff({
+                universityID: universityID,
+                isActive: tabType,
+                page: 0
+            })
+        );
+    };
 
-        if (tabType === TabType.ALL) {
+    const onDeleteMultipleClick = () => {
+        var selected: any[] = selectedRow;
+        if (activeTab === TabType.DELETED) {
             dispatch(
-                getUniversityStaff({
-                    universityID: universityID,
-                    isActive: "A",
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteStaffPermanent({
+                                universityID: universityID,
+                                staffID: selected,
+                            })
+                        ),
+                    text: `Are you sure you want to permanentely delete ${selected.length} classes?`,
                 })
             );
-        } else if (tabType === TabType.ACTIVE) {
+        } else {
             dispatch(
-                getUniversityStaff({
+                deleteStaff({
                     universityID: universityID,
-                    isActive: "T",
+                    staffID: selected,
                 })
             );
-        } else if (tabType === TabType.DELETED) {
+        }
+    };
+
+    const onDeleteCompleteClick = () => {
+        if (activeTab === TabType.DELETED) {
             dispatch(
-                getUniversityStaff({
+                setDelete({
+                    isOpen: true,
+                    callback: () =>
+                        dispatch(
+                            deleteAllStaffPermanent({
+                                universityID: universityID,
+                                staffID: []
+                            })
+                        ),
+                    text: `Are you sure you want to permanentely delete all students?`,
+                })
+            );
+        } else {
+            dispatch(
+                deleteAllStaff({
                     universityID: universityID,
-                    isActive: "F",
+                    staffID: []
                 })
             );
         }
@@ -202,8 +190,16 @@ const Staff = () => {
                                 Deleted ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
-                                <Button className="red">
+                                <Button className="red" onClick={onDeleteMultipleClick}>
                                     Delete ({selectedRow.length})
+                                </Button>
+                            ) : null}
+                            {selectedRow.length === 10 ? (
+                                <Button
+                                    className="red"
+                                    onClick={onDeleteCompleteClick}
+                                >
+                                    Delete All ({display.all})
                                 </Button>
                             ) : null}
                         </div>
@@ -229,6 +225,22 @@ const Staff = () => {
                                         pageSize: 10,
                                     },
                                 },
+                            }}
+                            slots={{
+                                pagination: (paginationProps) => (
+                                    <Pagination
+                                        page={pagination.currentPage}
+                                        pagecount={pagination.totalPages}
+                                        totaldocuments={
+                                            pagination.totalDocuments
+                                        }
+                                        currentdocuments={
+                                            pagination.currentDocuments
+                                        }
+                                        handlepagechange={handlePageChange}
+                                        {...paginationProps}
+                                    />
+                                ),
                             }}
                             pageSizeOptions={[10]}
                             checkboxSelection
