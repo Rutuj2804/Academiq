@@ -1,5 +1,5 @@
 import { NavigateFunction } from "react-router-dom";
-import { ActivityInterface } from "../../utils/types";
+import { ActivityInterface, PaginationInterface } from "../../utils/types";
 
 export interface ActivityState {
     activities: ActivityInterface[];
@@ -8,12 +8,14 @@ export interface ActivityState {
         all: number,
         active: number,
         deleted: number
-    }
+    },
+    pagination: PaginationInterface
 }
 
 export interface GetActivityRequest {
     isActive: string;
     universityID: string;
+    page?: number;
 }
 
 export interface AddActivityRequest {

@@ -20,9 +20,7 @@ export const getActivitiesGlobal = createAsyncThunk(
                 },
             };
 
-            const body = JSON.stringify({ universityID: getActivityRequest.universityID, activityID: "" })
-
-            const res = await axios.patch(`/activity/${getActivityRequest.isActive}`, body, config);
+            const res = await axios.patch(`/activity/`, getActivityRequest, config);
 
             thunkAPI.dispatch(updateLoading(-1));
 

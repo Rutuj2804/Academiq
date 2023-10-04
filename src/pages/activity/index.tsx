@@ -11,6 +11,7 @@ import { AddRounded, ArrowUpwardRounded } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
 import { getActivitiesGlobal, getActivityCountOnTabNumbers } from "../../store/activity/actions";
 import moment from "moment";
+import { Pagination } from "../../common/pagination";
 
 const columns: GridColDef[] = [
     {
@@ -46,7 +47,7 @@ const columns: GridColDef[] = [
         width: 200,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">{params.row.classID.name}</p>,
+        renderCell: (params) => <p className="mb-0">{params.row.classID?.name}</p>,
     },
     {
         field: "Dead Line",
@@ -81,8 +82,8 @@ const columns: GridColDef[] = [
 ];
 
 enum TabType {
-    PENDING = "PENDING",
-    COMPLETED = "COMPLETED",
+    PENDING = "T",
+    COMPLETED = "F",
 }
 
 const Activities = () => {
@@ -90,6 +91,19 @@ const Activities = () => {
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
     const dispatch = useDispatch<any>();
+
+    const [page, setPage] = useState(0);
+
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+        dispatch(
+            getActivitiesGlobal({
+                universityID: universityID,
+                isActive: activeTab,
+                page: value,
+            })
+        );
+    };
 
     const navigate = useNavigate();
 
@@ -103,6 +117,8 @@ const Activities = () => {
 
     const activities = useSelector((state: RootState) => state.activity.activities)
 
+    const pagination = useSelector((state: RootState) => state.activity.pagination)
+
     useEffect(() => {
         dispatch(
             setBreadcrumps({
@@ -114,28 +130,19 @@ const Activities = () => {
 
     useEffect(() => {
         if(universityID) {
-            dispatch(getActivitiesGlobal({ universityID: universityID, isActive: "T" }))
+            dispatch(getActivitiesGlobal({ universityID: universityID, isActive: "T", page: page }))
             dispatch(getActivityCountOnTabNumbers(universityID))
         }
     }, [universityID, dispatch])
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType);
-        if (tabType === TabType.PENDING) {
-            dispatch(
-                getActivitiesGlobal({
-                    universityID: universityID,
-                    isActive: "T",
-                })
-            );
-        } else if (tabType === TabType.COMPLETED) {
-            dispatch(
-                getActivitiesGlobal({
-                    universityID: universityID,
-                    isActive: "F",
-                })
-            );
-        }
+        dispatch(
+            getActivitiesGlobal({
+                universityID: universityID,
+                isActive: tabType,
+            })
+        );
     };
 
     return (
@@ -208,6 +215,22 @@ const Activities = () => {
                                         pageSize: 10,
                                     },
                                 },
+                            }}
+                            slots={{
+                                pagination: (paginationProps) => (
+                                    <Pagination
+                                        page={pagination.currentPage}
+                                        pagecount={pagination.totalPages}
+                                        totaldocuments={
+                                            pagination.totalDocuments
+                                        }
+                                        currentdocuments={
+                                            pagination.currentDocuments
+                                        }
+                                        handlepagechange={handlePageChange}
+                                        {...paginationProps}
+                                    />
+                                ),
                             }}
                             pageSizeOptions={[10]}
                             checkboxSelection
