@@ -17,6 +17,7 @@ import {
     UtilityView,
 } from "../../components/micro/class";
 import { getClass } from "../../store/class/actions";
+import { useCrypto } from "../../utils/hooks";
 
 const Tabs = [
     { number: "1", name: "Students", view: <StudentView /> },
@@ -31,6 +32,8 @@ const ClassDetailView = () => {
     const [currentTab, setCurrentTab] = useState(Tabs[0]);
 
     const dispatch = useDispatch<any>();
+
+    const { decrypt } = useCrypto()
 
     const navigate = useNavigate();
 
@@ -53,7 +56,8 @@ const ClassDetailView = () => {
     }, [dispatch]);
 
     useEffect(()=>{
-        dispatch(getClass(id))
+        if(id)
+        dispatch(getClass(decrypt(id)!))
     }, [id, dispatch])
 
     return (

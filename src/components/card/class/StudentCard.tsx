@@ -2,13 +2,17 @@ import React from "react";
 import { Avatar, IconButton } from "@mui/material";
 import { MoreVert } from "@mui/icons-material";
 
-const StudentCard = () => {
+interface StudentCProps {
+    name: string
+}
+
+const StudentCard = ({ name }: StudentCProps) => {
     return (
         <div className="studentCard__Wrapper">
             <div className="left">
                 <Avatar />
                 <div className="user-details">
-                    <h6>Rutuj Jeevan Bokade</h6>
+                    <h6>{name}</h6>
                     <p>Pune, Maharashtra</p>
                 </div>
             </div>

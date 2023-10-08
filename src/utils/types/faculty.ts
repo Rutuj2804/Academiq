@@ -6,7 +6,7 @@ export interface FacultyInterface extends DocumentInterface {
     admissionYear?: string
     alternatePhone?: boolean
     bloodGroup?: string
-    userID?: AuthInterface | string
+    userID?: AuthInterface
     createdAt?: string
     enrollnmentNo?: string
     extraField1?: string

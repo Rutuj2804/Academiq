@@ -1,0 +1,20 @@
+.charge__Wrapper {
+    .header{
+        padding: 10px;
+        padding-bottom: 0%;
+    }
+    .charge__Container {
+        padding: 10px;
+        .charge__FormButtons {
+            display: flex;
+            justify-content: flex-end;
+            button {
+                background-color: $blue;
+                color: $white;
+                text-transform: capitalize;
+                padding: 7px 20px;
+                font-size: 14px;
+            }
+        }
+    }
+}

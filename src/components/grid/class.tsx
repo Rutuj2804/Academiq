@@ -67,12 +67,12 @@ export const GetClassColumns = ({ activeTab }: Props) => {
     const columns: GridColDef[] = [
         {
             field: "firstName",
-            headerName: "Query",
+            headerName: "Class",
             flex: 1,
             disableColumnMenu: true,
             minWidth: 200,
             renderCell: (params) => (
-                <div className="queryBlock">
+                <div className="queryBlock" onClick={()=>navigate(`/class/${encrypt(params.row._id)}`)}>
                     <h6>
                         {params.row.name}{" "}
                         <span>

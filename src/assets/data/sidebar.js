@@ -140,6 +140,25 @@ export const sideBarData = [
         ],
     },
     {
+        title: "Charge",
+        links: [
+            {
+                name: "Faculty",
+                link: "/charge/faculty",
+                icon: <BsPersonCheck />,
+                notifications: 0,
+                matches: ["/charge/faculty"],
+            },
+            {
+                name: "Staffs",
+                link: "/charge/staff",
+                icon: <BsPersonGear />,
+                notifications: 0,
+                matches: ["/charge/staff"],
+            },
+        ],
+    },
+    {
         title: "Responsibilities",
         links: [
             {

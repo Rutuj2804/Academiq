@@ -88,6 +88,33 @@ export const getFacultyDetails = createAsyncThunk(
     }
 );
 
+export const getClassFaculty = createAsyncThunk(
+    "getClassFaculty/Faculty",
+    async (classId: string, thunkAPI) => {
+        thunkAPI.dispatch(updateLoading(1));
+        try {
+            const config = {
+                headers: {
+                    "Content-Type": "Application/json",
+                    "Authorization": `Bearer ${getToken()}`,
+                },
+            };
+
+            const res = await axios.get(`/faculty/c/${classId}`, config);
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            return res.data.data;
+        } catch (err) {
+            console.log(err);
+
+            thunkAPI.dispatch(updateLoading(-1));
+
+            return thunkAPI.rejectWithValue(err);
+        }
+    }
+);
+
 export const createFacultyDetails = createAsyncThunk(
     "createFacultyDetails/Faculty",
     async (body: CreateFacultyRequest, thunkAPI) => {

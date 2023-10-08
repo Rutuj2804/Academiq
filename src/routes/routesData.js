@@ -41,6 +41,8 @@ import CreateStudent from "../pages/student/CreateStudent";
 import CreateFaculty from "../pages/faculty/CreateFaculty";
 import CreateStaff from "../pages/staff/CreateStaff";
 import CreateCourse from "../pages/course/CreateCourse";
+import FacultyCharge from "../pages/charge/Faculty";
+import StaffCharge from "../pages/charge/Staff";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -72,6 +74,9 @@ export const regularRoutes = [
 
     { path: "/demand-letters", element: <DemandLetters /> },
     { path: "/demand-letters/add", element: <AddDemand /> },
+
+    { path: "/charge/faculty", element: <FacultyCharge /> },
+    { path: "/charge/staff", element: <StaffCharge /> },
 
     { path: "/schedules", element: <Schedules /> },
 

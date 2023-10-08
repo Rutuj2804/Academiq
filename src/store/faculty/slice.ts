@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { FacultyState } from "./types";
-import { deleteAllFaculty, deleteAllFacultyPermanent, deleteFaculty, deleteFacultyPermanent, getFacultyCountOnTabNumbers, getFacultyDetails, getUniversityFaculty, updateFacultyDetails } from "./actions";
+import { deleteAllFaculty, deleteAllFacultyPermanent, deleteFaculty, deleteFacultyPermanent, getClassFaculty, getFacultyCountOnTabNumbers, getFacultyDetails, getUniversityFaculty, updateFacultyDetails } from "./actions";
 
 const initialState: FacultyState = {
     faculties: [],
@@ -32,6 +32,9 @@ export const facultySlice = createSlice({
         });
         builder.addCase(getFacultyDetails.fulfilled, (s, a) => {
             s.faculty = a.payload
+        });
+        builder.addCase(getClassFaculty.fulfilled, (s, a) => {
+            s.faculties = a.payload
         });
         builder.addCase(updateFacultyDetails.fulfilled, (s, a) => {
             s.faculty = a.payload

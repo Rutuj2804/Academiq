@@ -13,6 +13,7 @@ import {
 } from "@mui/icons-material";
 import { setDelete } from "../../store/layout/slice";
 import { deleteStaff, deleteStaffPermanent } from "../../store/staff/actions";
+import { getUserName } from "../../utils/helpers";
 
 enum TabType {
     ALL = "A",
@@ -60,14 +61,6 @@ export const GetStaffColumns = ({ activeTab }: Props) => {
         }
     };
 
-    const getName = (t:any) => {
-        if(t.midname === undefined) {
-            return `${t.firstname} ${t.lastname}`
-        } else {
-            return `${t.firstname} ${t.midname} ${t.lastname}`
-        }
-    }
-
     const columns: GridColDef[] = [
         {
             field: "firstName",
@@ -78,7 +71,7 @@ export const GetStaffColumns = ({ activeTab }: Props) => {
             renderCell: (params) => (
                 <div className="queryBlock">
                     <h6>
-                        {getName(params.row.userID)}{" "}
+                        {getUserName(params.row.userID)}{" "}
                         <span>
                             <GoPrimitiveDot />
                         </span>

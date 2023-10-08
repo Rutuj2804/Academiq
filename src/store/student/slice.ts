@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { StudentState } from "./types";
-import { createStudentDetails, deleteAllStudents, deleteAllStudentsPermanent, deleteStudents, deleteStudentsPermanent, getStudentDetails, getStudentsCountOnTabNumbers, getUniversityStudents } from "./actions";
+import { createStudentDetails, deleteAllStudents, deleteAllStudentsPermanent, deleteStudents, deleteStudentsPermanent, getStudentDetails, getStudentFromClass, getStudentsCountOnTabNumbers, getUniversityStudents } from "./actions";
 
 const initialState: StudentState = {
     students: [],
@@ -29,6 +29,9 @@ export const studentSlice = createSlice({
         });
         builder.addCase(getStudentDetails.fulfilled, (s, a) => {
             s.student = a.payload
+        });
+        builder.addCase(getStudentFromClass.fulfilled, (s, a) => {
+            s.students = a.payload
         });
         builder.addCase(getStudentsCountOnTabNumbers.fulfilled, (s, a) => {
             s.display = a.payload

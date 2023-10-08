@@ -12,8 +12,8 @@ import {
     EditRounded,
 } from "@mui/icons-material";
 import { setDelete } from "../../store/layout/slice";
-import { deleteStudents, deleteStudentsPermanent } from "../../store/student/actions";
 import { deleteFaculty, deleteFacultyPermanent } from "../../store/faculty/actions";
+import { getUserName } from "../../utils/helpers";
 
 enum TabType {
     ALL = "A",
@@ -61,14 +61,6 @@ export const GetFacultyColumns = ({ activeTab }: Props) => {
         }
     };
 
-    const getName = (t:any) => {
-        if(t.midname === undefined) {
-            return `${t.firstname} ${t.lastname}`
-        } else {
-            return `${t.firstname} ${t.midname} ${t.lastname}`
-        }
-    }
-
     const columns: GridColDef[] = [
         {
             field: "firstName",
@@ -79,7 +71,7 @@ export const GetFacultyColumns = ({ activeTab }: Props) => {
             renderCell: (params) => (
                 <div className="queryBlock">
                     <h6>
-                        {getName(params.row.userID)}{" "}
+                        {getUserName(params.row.userID)}{" "}
                         <span>
                             <GoPrimitiveDot />
                         </span>
