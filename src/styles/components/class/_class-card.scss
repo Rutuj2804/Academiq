@@ -1,0 +1,46 @@
+.classCard__Wrapper {
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    box-shadow: $shadow-light;
+    &:hover {
+        transition: all 0.2s linear;
+        box-shadow: $shadow;
+    }
+    .classCard__Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            .classCard__Details {
+                h6 {
+                    margin-bottom: 0%;
+                    font-size: 14px;
+                }
+                p {
+                    margin-bottom: 0%;
+                    font-size: 12px;
+                }
+            }
+        }
+    }
+    .classCard__Body {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .right {
+            button {
+                background-color: $blue;
+                text-transform: capitalize;
+                color: $white;
+                font-size: 12px;
+                padding: 7px 20px;
+            }
+        }
+    }
+}

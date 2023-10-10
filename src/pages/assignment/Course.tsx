@@ -5,7 +5,7 @@ import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { FcBarChart, FcPieChart } from "react-icons/fc";
 
-const StaffCharge = () => {
+const CourseAssignment = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
@@ -15,8 +15,8 @@ const StaffCharge = () => {
     useEffect(() => {
         dispatch(
             setBreadcrumps({
-                name: ["CHARGE", "Staff"],
-                link: "/Sample",
+                name: ["Assignment", "Courses"],
+                link: "/assignment/course",
             })
         );
     }, [dispatch]);
@@ -39,9 +39,9 @@ const StaffCharge = () => {
                 </div>
             </header>
 
-            <main>Staff charge</main>
+            <main>Course Assignment</main>
         </div>
     );
 };
 
-export default StaffCharge;
+export default CourseAssignment;

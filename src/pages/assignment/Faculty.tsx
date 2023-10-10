@@ -8,16 +8,20 @@ import { Input } from "../../common/forms/input";
 import { Dropdown } from "../../common/forms/dropdown";
 import { getUniversityFaculty } from "../../store/faculty/actions";
 import { getUserName } from "../../utils/helpers";
-import { Button } from "@mui/material"
+import { Button } from "@mui/material";
+import { ClassCard } from "../../components/card/class";
+import { getFacultyAssignments } from "../../store/assignment/actions";
+import { setAssignment } from "../../store/layout/slice";
+import moment from "moment";
 
-interface Dropdown {
+interface DropdownProps {
     name: string;
     value: string;
 }
 
-const FacultyCharge = () => {
-    const [faculty, setFaculty] = useState<Dropdown[]>([]);
-    const [selectedFaculty, setSelectedFaculty] = useState<Dropdown>({
+const FacultyAssignment = () => {
+    const [faculty, setFaculty] = useState<DropdownProps[]>([]);
+    const [selectedFaculty, setSelectedFaculty] = useState<DropdownProps>({
         name: "",
         value: "",
     });
@@ -34,12 +38,15 @@ const FacultyCharge = () => {
     const faculties = useSelector(
         (state: RootState) => state.faculty.faculties
     );
+    const assignedClasses = useSelector(
+        (state: RootState) => state.assignment.assignments
+    );
 
     useEffect(() => {
         dispatch(
             setBreadcrumps({
-                name: ["CHARGE", "Faculty"],
-                link: "/Sample",
+                name: ["Assignment", "Faculties"],
+                link: "/assignment/faculty",
             })
         );
     }, [dispatch]);
@@ -52,7 +59,7 @@ const FacultyCharge = () => {
                     isActive: "T",
                 })
             );
-    }, [university]);
+    }, [university, dispatch]);
 
     useEffect(() => {
         if (faculties.length) {
@@ -67,10 +74,15 @@ const FacultyCharge = () => {
         }
     }, [faculties]);
 
-    const handleSubmit = (e :React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault()
-        console.log(selectedFaculty)
-    }
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        dispatch(
+            getFacultyAssignments({
+                universityID: university,
+                facultyID: selectedFaculty.value,
+            })
+        );
+    };
 
     return (
         <div className="section__Wrapper">
@@ -90,19 +102,33 @@ const FacultyCharge = () => {
                 </div>
             </header>
 
-            <main className="charge__Wrapper">
+            <main className="assignment__Wrapper">
                 <div className="paper">
                     <div className="header">
-                        <h4>Faculty Charge</h4>
+                        <h4>Faculty Assignment</h4>
+                        <div className="right">
+                            <Button
+                                onClick={() =>
+                                    dispatch(
+                                        setAssignment({
+                                            isOpen: true,
+                                            type: "FACULTY",
+                                        })
+                                    )
+                                }
+                            >
+                                Add New
+                            </Button>
+                        </div>
                     </div>
-                    <div className="charge__Container">
+                    <div className="assignment__Container">
                         <form onSubmit={handleSubmit}>
                             <div className="row">
                                 <div className="col-lg-6 col-md-6 col-12">
                                     <Dropdown
                                         optionsArr={faculty}
                                         selected={selectedFaculty}
-                                        setSelected={(e: Dropdown) =>
+                                        setSelected={(e: DropdownProps) =>
                                             setSelectedFaculty(e)
                                         }
                                         placeholder="Select Faculty"
@@ -116,10 +142,30 @@ const FacultyCharge = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="charge__FormButtons">
+                            <div className="assignment__FormButtons">
                                 <Button type="submit">Submit</Button>
                             </div>
                         </form>
+                        <div className="assignment__Data">
+                            <div className="row">
+                                {assignedClasses.map((t) => (
+                                    <div
+                                        key={t._id}
+                                        className="col-lg-4 col-md-6 col-12"
+                                    >
+                                        <ClassCard
+                                            name={t.name!}
+                                            date={moment(t.createdAt).format(
+                                                "DD MMM, YY"
+                                            )}
+                                            facultyID={t.facultyID!}
+                                            classID={t._id!}
+                                            selected={selectedFaculty.value}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -127,4 +173,4 @@ const FacultyCharge = () => {
     );
 };
 
-export default FacultyCharge;
+export default FacultyAssignment;
