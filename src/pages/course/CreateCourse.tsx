@@ -7,20 +7,38 @@ import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { Button } from "@mui/material";
 import { Input } from "../../common/forms/input";
 import { Textarea } from "../../common/forms/textarea";
-import { createCourse, getCourse, updateCourse } from "../../store/course/actions";
+import {
+    createCourse,
+    getCourse,
+    updateCourse,
+} from "../../store/course/actions";
 import { useCrypto } from "../../utils/hooks";
+import { CheckboxAndLabel } from "../../common/forms/checkbox";
+import { getUniversityFaculty } from "../../store/faculty/actions";
+import { getUserName } from "../../utils/helpers";
+import { Dropdown } from "../../common/forms/dropdown";
+import { FacultyCard } from "../../components/card/class";
 
 enum ComponentMode {
     ADD = "ADD",
     UPDATE = "UPDATE",
 }
 
-const CreateCourse = () => {
+interface DropdownProps {
+    name: string;
+    value: string;
+}
 
+const CreateCourse = () => {
     const [formData, setFormData] = useState({
         name: "",
         note: "",
     });
+
+    const [sendEmailNotification, setSendEmailNotification] = useState(true)
+
+    const [faculty, setFaculty] = useState<DropdownProps[]>([]);
+    const [selectedFaculty, setSelectedFaculty] = useState<DropdownProps[]>([]);
 
     const { name, note } = formData;
 
@@ -32,60 +50,79 @@ const CreateCourse = () => {
 
     const isUpdate = useMatch("/course/update/:id");
 
-    const [currentRouteState] = useState(
-        isUpdate ? ComponentMode.UPDATE : ComponentMode.ADD
-    );
+    const [currentRouteState] = useState(isUpdate ? ComponentMode.UPDATE : ComponentMode.ADD);
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
-    const universityID = useSelector((state: RootState) => state.university.university.value)
+    const universityID = useSelector((state: RootState) => state.university.university.value);
 
     const { id }: any = useParams();
 
     const course = useSelector((state: RootState) => state.course.course);
 
+    const university = useSelector((state: RootState) => state.university.university.value);
+
+    const faculties = useSelector((state: RootState) => state.faculty.faculties);
+
     useEffect(() => {
-        dispatch(
-            setBreadcrumps({
-                name: ["ACADEMIC", "Courses", "Add"],
-                link: "/courses/add",
-            })
-        );
+        dispatch(setBreadcrumps({ name: ["ACADEMIC", "Courses", "Add"], link: "/courses/add" }));
     }, [dispatch]);
 
-    const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (currentRouteState === ComponentMode.ADD)
-            dispatch(createCourse({ name, description: note, navigate, universityID: universityID }))
-        else{
-            const courseID:any = decrypt(id)
-            dispatch(updateCourse({ name, description: note, navigate, universityID: universityID, courseID: courseID }))
+    useEffect(() => {
+        if (university) dispatch(getUniversityFaculty({ universityID: university, isActive: "T" }));
+    }, [university, dispatch]);
+
+    useEffect(() => {
+        if (faculties.length) {
+            const data = [];
+            for (let i = 0; i < faculties.length; i++) {
+                data.push({
+                    name: getUserName(faculties[i].userID!),
+                    value: faculties[i].userID?._id!,
+                });
+            }
+            setFaculty(data);
         }
-    };
+    }, [faculties]);
 
     useEffect(() => {
         if (currentRouteState === ComponentMode.UPDATE && universityID) {
-            const decode: any = decrypt(id);
-            dispatch(getCourse({ universityID: universityID, courseID: decode }));
+            dispatch(getCourse({ universityID: universityID, courseID: decrypt(id)! }));
         }
     }, [currentRouteState, universityID, id, dispatch]);
 
     useEffect(() => {
-        if (course && currentRouteState === ComponentMode.UPDATE) {
-            const name: any = course.name;
-            const description: any = course.description;
+        if (Object.keys(course).length && currentRouteState === ComponentMode.UPDATE) {
             setFormData({
-                name: name,
-                note: description,
+                name: course.name!,
+                note: course.description!,
             });
+            const data = []
+            for (let i = 0; i < course.facultyID!.length; i++) {
+                data.push({
+                    name: getUserName(course.facultyID![i]),
+                    value: course.facultyID![i]._id!
+                })
+            }
+            setSelectedFaculty(data)
         }
     }, [course, currentRouteState]);
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const facultyID = []
+        for (let i = 0; i < selectedFaculty.length; i++) {
+            facultyID.push(selectedFaculty[i].value)
+        }
+
+        if (currentRouteState === ComponentMode.ADD)
+            dispatch(createCourse({ name, description: note, navigate, universityID: universityID, facultyID: facultyID }));
+        else 
+            dispatch(updateCourse({ name, description: note, navigate, universityID: universityID, courseID: decrypt(id)!, facultyID: facultyID }))
+    };
 
     return (
         <div className="section__Wrapper">
@@ -111,52 +148,59 @@ const CreateCourse = () => {
                         <h4>Add Course</h4>
                         <Button>Bulk Add</Button>
                     </div>
-
                     <div className="addClass__Form mt-3">
                         <form onSubmit={handleSubmit}>
-                            <Input
-                                type="text"
-                                name="name"
-                                value={name}
-                                onChange={handleInputChange}
-                                required
-                                placeholder="Course name"
-                            />
-                            <Textarea
-                                name="note"
-                                value={note}
-                                onChange={handleInputChange}
-                                placeholder="Note describing course"
-                                rows={6}
-                            />
-                            <div className="addClass__Suggestions">
-                                <div className="row">
-                                    {/* <div className="col-md-6 col-12">
-                                        <ol>
-                                            <li>
-                                                Please try to keep names of
-                                                classes as per academic year or
-                                                financial year of the university
-                                                to avoid confusion.
-                                            </li>
-                                            <li>
-                                                After Submit adding timetable,
-                                                courses, students and faculties
-                                                to class are necessary steps to
-                                                make a class operational.
-                                            </li>
-                                            <li>
-                                                You can add faculties and
-                                                students either manually or
-                                                through a .csv file.
-                                            </li>
-                                        </ol>
-                                    </div> */}
+                            <div className="row">
+                                <div className="col-lg-6 col-md-6 col-12">
+                                    <Input
+                                        type="text"
+                                        name="name"
+                                        value={name}
+                                        onChange={handleInputChange}
+                                        required
+                                        placeholder="Course name"
+                                    />
                                 </div>
+                                <div className="col-lg-6 col-md-6 col-12">
+                                    <Textarea
+                                        name="note"
+                                        value={note}
+                                        onChange={handleInputChange}
+                                        placeholder="Note describing course"
+                                        rows={4}
+                                    />
+                                </div>
+                                <div className="col-lg-6 col-md-6 col-12">
+                                    <Dropdown
+                                        optionsArr={faculty}
+                                        selected={{name: "", value: ""}}
+                                        setSelected={(e: DropdownProps) =>
+                                            setSelectedFaculty(v=>v.filter(t=>t.value === e.value).length > 0 ? v : [...v, e])
+                                        }
+                                        placeholder="Select Faculties"
+                                    />
+                                </div>
+                                <div className="col-lg-6 col-md-6 col-12">
+                                    <CheckboxAndLabel
+                                        id="sunday"
+                                        label="Send Email Notification"
+                                        className="mb-3"
+                                        description="Enabling this field sends email invite to faculty for joining the course on Academiq."
+                                        checked={sendEmailNotification}
+                                        name="sendEmailNotification"
+                                        onChange={(_ :React.ChangeEvent<HTMLInputElement>, t :boolean) => setSendEmailNotification(t)}
+                                    />
+                                </div>
+                                {
+                                    selectedFaculty.map(t=><div className="col-lg-6 col-md-6 col-12 my-2" key={t.value}>
+                                        <FacultyCard name={t.name} />
+                                    </div>)
+                                }
                             </div>
-
                             <div className="addClass__Buttons">
-                                <Button type="submit">{isUpdate ? "Update" :"Create"} Course</Button>
+                                <Button type="submit">
+                                    {isUpdate ? "Update" : "Create"} Course
+                                </Button>
                             </div>
                         </form>
                     </div>

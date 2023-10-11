@@ -124,7 +124,7 @@ export const getCourse = createAsyncThunk(
 
 export const createCourse = createAsyncThunk(
     "createCourse/Course",
-    async ({ name, description, navigate, universityID }: AddCourseRequest, thunkAPI) => {
+    async ({ name, description, navigate, universityID, facultyID }: AddCourseRequest, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
         try {
             const config = {
@@ -134,7 +134,7 @@ export const createCourse = createAsyncThunk(
                 },
             };
 
-            const request = JSON.stringify({ name, description, universityID })
+            const request = JSON.stringify({ name, description, universityID, facultyID })
 
             const res = await axios.post(`/course`, request, config);
 
@@ -171,7 +171,7 @@ export const createCourse = createAsyncThunk(
 
 export const updateCourse = createAsyncThunk(
     "updateCourse/Course",
-    async ({ name, description, navigate, universityID, courseID }: UpdateCourseRequest, thunkAPI) => {
+    async ({ name, description, navigate, universityID, courseID, facultyID }: UpdateCourseRequest, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
         try {
             const config = {
@@ -181,7 +181,7 @@ export const updateCourse = createAsyncThunk(
                 },
             };
 
-            const request = JSON.stringify({ name, description, universityID })
+            const request = JSON.stringify({ name, description, universityID, facultyID })
 
             const res = await axios.put(`/course/${courseID}`, request, config);
 

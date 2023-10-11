@@ -7,5 +7,5 @@ export interface CourseInterface extends DocumentInterface {
     isActive?: boolean
     universityID?: string
     createdBy?: AuthInterface | string
-    facultyId?: string[]
+    facultyID?: AuthInterface[]
 }

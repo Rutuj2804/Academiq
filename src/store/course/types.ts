@@ -28,6 +28,7 @@ export interface AddCourseRequest {
     name: string;
     description: string;
     universityID: string;
+    facultyID: string[];
     navigate: NavigateFunction;
 }
 
@@ -36,6 +37,7 @@ export interface UpdateCourseRequest {
     description: string;
     universityID: string;
     courseID: string;
+    facultyID: string[];
     navigate: NavigateFunction;
 }
 

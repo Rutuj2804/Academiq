@@ -8,4 +8,5 @@ export interface ClassInterface extends DocumentInterface {
     courseID?: string
     createdBy?: AuthInterface | string
     facultyID?: AuthInterface[]
+    studentID?: AuthInterface[]
 }

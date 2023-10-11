@@ -100,9 +100,9 @@ const ClassDetailView = () => {
                         </div>
                         <div className="classDetailView__Options">
                             <div></div>
-                            <div className="buttons">
+                            {/* <div className="buttons">
                                 <Button>Add Students</Button>
-                            </div>
+                            </div> */}
                         </div>
                         <div className="classDetailView__Tabs">
                             <DetailViewTabs
