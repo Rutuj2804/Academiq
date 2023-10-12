@@ -18,6 +18,11 @@ export interface GetActivityRequest {
     page?: number;
 }
 
+export interface GetActivityFromClassRequest {
+    classID: string;
+    universityID: string;
+}
+
 export interface AddActivityRequest {
     name: string;
     description: string;

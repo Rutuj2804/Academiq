@@ -4,7 +4,7 @@ import { updateLoading } from "../loading/slice";
 import { setMessage } from "../messages/slice";
 import { errorType } from "../messages/types";
 import { AxiosError } from "axios";
-import { AddActivityRequest, GetActivityRequest } from "./types";
+import { AddActivityRequest, GetActivityFromClassRequest, GetActivityRequest } from "./types";
 import { getToken } from "../../utils/helpers";
 
 export const getActivitiesGlobal = createAsyncThunk(
@@ -85,9 +85,9 @@ export const getActivityCountOnTabNumbers = createAsyncThunk(
     }
 );
 
-export const getActivity = createAsyncThunk(
-    "getActivity/Activity",
-    async (classID: string | undefined, thunkAPI) => {
+export const getClassActivity = createAsyncThunk(
+    "getClassActivity/Activity",
+    async (getActivityFromClassRequest: GetActivityFromClassRequest, thunkAPI) => {
         thunkAPI.dispatch(updateLoading(1));
         try {
 
@@ -98,7 +98,7 @@ export const getActivity = createAsyncThunk(
                 },
             };
 
-            const res = await axios.get(`/class/${classID}`, config);
+            const res = await axios.patch(`/activity/c/${getActivityFromClassRequest.classID}`, getActivityFromClassRequest,config);
 
             thunkAPI.dispatch(updateLoading(-1));
 

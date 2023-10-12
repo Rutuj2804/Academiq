@@ -18,12 +18,13 @@ import {
 } from "../../components/micro/class";
 import { getClass } from "../../store/class/actions";
 import { useCrypto } from "../../utils/hooks";
+import { getClassActivity } from "../../store/activity/actions";
 
 const Tabs = [
     { number: "1", name: "Students", view: <StudentView /> },
     { number: "2", name: "Faculties", view: <FacultyView /> },
     { number: "3", name: "Lectures", view: <LectureView /> },
-    { number: "4", name: "Assignments", view: <AssignmentView /> },
+    { number: "4", name: "Activities", view: <AssignmentView /> },
     { number: "5", name: "Utility", view: <UtilityView /> },
     { number: "6", name: "Courses", view: <CourseView /> },
 ];
@@ -41,6 +42,7 @@ const ClassDetailView = () => {
 
     const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
     const classFetched = useSelector((state: RootState) => state.class.class)
+    const universityID = useSelector((state: RootState) => state.university.university.value)
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
         setCurrentTab((v) => Tabs.filter((t) => t.number === newValue)[0]);
@@ -56,9 +58,11 @@ const ClassDetailView = () => {
     }, [dispatch]);
 
     useEffect(()=>{
-        if(id)
-        dispatch(getClass(decrypt(id)!))
-    }, [id, dispatch])
+        if(id) {
+            dispatch(getClass(decrypt(id)!))
+            dispatch(getClassActivity({classID: decrypt(id)!, universityID: universityID }))
+        }
+    }, [id, dispatch, universityID])
 
     return (
         <div className="section__Wrapper">

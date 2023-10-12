@@ -1,8 +1,11 @@
 import React from "react";
-import { Avatar, IconButton, AvatarGroup, Button } from "@mui/material"
+import { Avatar, IconButton, AvatarGroup, Button } from "@mui/material";
 import { MoreVertRounded } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { removeFacultyFromClass } from "../../../store/assignment/actions";
+import {
+    removeCourseFromClass,
+    removeFacultyFromClass,
+} from "../../../store/assignment/actions";
 import { RootState } from "../../../store";
 
 interface CardCProps {
@@ -14,10 +17,13 @@ interface CardCProps {
 }
 
 const Card = ({ name, date, facultyID, classID, selected }: CardCProps) => {
+    const dispatch = useDispatch<any>();
 
-    const dispatch = useDispatch<any>()
+    const universityID = useSelector(
+        (state: RootState) => state.university.university.value
+    );
 
-    const universityID = useSelector((state: RootState) => state.university.university.value)
+    const layout = useSelector((state: RootState) => state.layout.assignment);
 
     return (
         <div className="classCard__Wrapper">
@@ -38,11 +44,31 @@ const Card = ({ name, date, facultyID, classID, selected }: CardCProps) => {
             <div className="classCard__Body">
                 <div className="left">
                     <AvatarGroup max={4}>
-                        {facultyID.map(t=><Avatar />)}
+                        {facultyID.map((t) => (
+                            <Avatar />
+                        ))}
                     </AvatarGroup>
                 </div>
                 <div className="right">
-                    <Button onClick={()=>dispatch(removeFacultyFromClass({ universityID, classID, facultyID: selected }))}>Revoke</Button>
+                    <Button
+                        onClick={() =>
+                            dispatch(
+                                layout.type === "FACULTY"
+                                    ? removeFacultyFromClass({
+                                          universityID,
+                                          classID,
+                                          facultyID: selected,
+                                      })
+                                    : removeCourseFromClass({
+                                          universityID,
+                                          classID,
+                                          courseID: selected,
+                                      })
+                            )
+                        }
+                    >
+                        Revoke
+                    </Button>
                 </div>
             </div>
         </div>

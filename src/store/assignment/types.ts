@@ -5,13 +5,24 @@ export interface AssignmentState {
     assignments: ClassInterface[]
 }
 
-export interface GetAssignmentRequest {
+export interface GetFacultyAssignmentRequest {
     universityID: string;
     facultyID: string
+}
+
+export interface GetCourseAssignmentRequest {
+    universityID: string;
+    courseID: string
 }
 
 export interface AddFacultyToClassRequest {
     universityID: string;
     classID: string;
     facultyID: string
+}
+
+export interface AddCourseToClassRequest {
+    universityID: string;
+    courseID: string;
+    classID: string
 }

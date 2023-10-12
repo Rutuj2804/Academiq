@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AssignmentState } from "./types";
-import { getFacultyAssignments, removeFacultyFromClass } from "./actions";
+import { getCourseAssignments, getFacultyAssignments, removeFacultyFromClass } from "./actions";
 
 const initialState: AssignmentState = {
     assignments: []
@@ -12,6 +12,9 @@ export const assignmentSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getFacultyAssignments.fulfilled, (s, a) => {
+            s.assignments = a.payload
+        })
+        builder.addCase(getCourseAssignments.fulfilled, (s, a) => {
             s.assignments = a.payload
         })
         // builder.addCase(addFacultyToClass.fulfilled, (s, a) => {

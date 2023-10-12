@@ -9,7 +9,8 @@ import { Dropdown } from "../../common/forms/dropdown";
 import { getUniversityFaculty } from "../../store/faculty/actions";
 import { getUserName } from "../../utils/helpers";
 import { getUniversityClass } from "../../store/class/actions";
-import { addFacultyToClass } from "../../store/assignment/actions";
+import { addCourseToClass, addFacultyToClass } from "../../store/assignment/actions";
+import { getCoursesGlobal } from "../../store/course/actions";
 
 interface DropdownProps {
     name: string;
@@ -32,7 +33,8 @@ const AddAssignment = () => {
 
     const assignmentRef = useRef<HTMLDivElement>(null);
 
-    const closeModal = () => dispatch(setAssignment({ isOpen: false, type: null, }));
+    const closeModal = () =>
+        dispatch(setAssignment({ isOpen: false, type: null }));
 
     useOutsideClickHandler(assignmentRef, () => closeModal());
 
@@ -42,21 +44,31 @@ const AddAssignment = () => {
     const faculties = useSelector(
         (state: RootState) => state.faculty.faculties
     );
+    const courses = useSelector(
+        (state: RootState) => state.course.courses
+    );
     const classesGlobal = useSelector(
         (state: RootState) => state.class.classes
     );
-    const layout = useSelector(
-        (state: RootState) => state.layout.assignment
-    );
+    const layout = useSelector((state: RootState) => state.layout.assignment);
 
     useEffect(() => {
         if (university) {
-            dispatch(
-                getUniversityFaculty({
-                    universityID: university,
-                    isActive: "T",
-                })
-            );
+            if(layout.type === "FACULTY") {
+                dispatch(
+                    getUniversityFaculty({
+                        universityID: university,
+                        isActive: "T",
+                    })
+                );
+            } else {
+                dispatch(
+                    getCoursesGlobal({
+                        universityID: university,
+                        isActive: "T",
+                    })
+                );
+            }
             dispatch(
                 getUniversityClass({
                     universityID: university,
@@ -64,7 +76,7 @@ const AddAssignment = () => {
                 })
             );
         }
-    }, [university, dispatch]);
+    }, [university, dispatch, layout.type]);
 
     useEffect(() => {
         if (faculties.length) {
@@ -78,6 +90,19 @@ const AddAssignment = () => {
             setFaculty(data);
         }
     }, [faculties]);
+
+    useEffect(() => {
+        if (courses.length) {
+            const data = [];
+            for (let i = 0; i < courses.length; i++) {
+                data.push({
+                    name: courses[i].name!,
+                    value: courses[i]._id!,
+                });
+            }
+            setFaculty(data);
+        }
+    }, [courses]);
 
     useEffect(() => {
         if (classesGlobal.length) {
@@ -94,7 +119,7 @@ const AddAssignment = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if(layout.type === "FACULTY")
+        if (layout.type === "FACULTY")
             dispatch(
                 addFacultyToClass({
                     universityID: university,
@@ -102,8 +127,16 @@ const AddAssignment = () => {
                     facultyID: selectedFaculty.value,
                 })
             );
-        else if(layout.type === "COURSES") {}
-        closeModal()
+        else if (layout.type === "COURSES") {
+            dispatch(
+                addCourseToClass({
+                    universityID: university,
+                    classID: selectedClass.value,
+                    courseID: selectedFaculty.value,
+                })
+            );
+        }
+        closeModal();
     };
 
     return (
@@ -118,14 +151,25 @@ const AddAssignment = () => {
                 <form onSubmit={handleSubmit}>
                     <div className="row">
                         <div className="col-lg-6 col-md-6 col-12">
-                            <Dropdown
-                                optionsArr={faculty}
-                                selected={selectedFaculty}
-                                setSelected={(e: DropdownProps) =>
-                                    setSelectedFaculty(e)
-                                }
-                                placeholder="Select Faculty"
-                            />
+                            {layout.type === "FACULTY" ? (
+                                <Dropdown
+                                    optionsArr={faculty}
+                                    selected={selectedFaculty}
+                                    setSelected={(e: DropdownProps) =>
+                                        setSelectedFaculty(e)
+                                    }
+                                    placeholder="Select Faculty"
+                                />
+                            ) : (
+                                <Dropdown
+                                    optionsArr={faculty}
+                                    selected={selectedFaculty}
+                                    setSelected={(e: DropdownProps) =>
+                                        setSelectedFaculty(e)
+                                    }
+                                    placeholder="Select Courses"
+                                />
+                            )}
                         </div>
                         <div className="col-lg-6 col-md-6 col-12">
                             <Dropdown
