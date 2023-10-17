@@ -1,0 +1,19 @@
+.profile__Wrapper {
+    .profile__Container {
+        padding: 15px;
+        .profile__UserFields {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            .profile__Subtext {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                p {
+                    color: $gray;
+                }
+            }
+        }
+    }
+}

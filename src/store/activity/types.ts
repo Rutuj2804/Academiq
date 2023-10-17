@@ -34,3 +34,12 @@ export interface AddActivityRequest {
     files: File[]
     navigate: NavigateFunction;
 }
+
+export interface AddSubmissionRequest {
+    title: string;
+    description: string;
+    files: FileList | null;
+    activityID: string
+    navigate: NavigateFunction;
+    universityID: string;
+}

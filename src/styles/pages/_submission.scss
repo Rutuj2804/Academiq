@@ -1,0 +1,16 @@
+.submission__Wrapper {
+    .submission__Container {
+        padding: 10px;
+        .submission__FormButton {
+            display: flex;
+            justify-content: flex-end;
+            button {
+                background-color: $blue;
+                padding: 7px 20px;
+                color: $white;
+                font-size: 14px;
+                text-transform: capitalize;
+            }
+        }
+    }
+}

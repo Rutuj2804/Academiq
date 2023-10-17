@@ -4,82 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { Button, IconButton } from "@mui/material";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { GoPrimitiveDot } from "react-icons/go";
-import { AddRounded, ArrowUpwardRounded } from "@mui/icons-material";
+import { Button } from "@mui/material";
+import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
+import { AddRounded } from "@mui/icons-material";
 import { layoutTheme } from "../../store/settings/types";
 import { getActivitiesGlobal, getActivityCountOnTabNumbers } from "../../store/activity/actions";
-import moment from "moment";
 import { Pagination } from "../../common/pagination";
-
-const columns: GridColDef[] = [
-    {
-        field: "firstName",
-        headerName: "Activity",
-        flex: 1,
-        disableColumnMenu: true,
-        minWidth: 200,
-        renderCell: (params) => (
-            <div className="queryBlock">
-                <h6>
-                    {params.row.name}{" "}
-                    <span>
-                        <GoPrimitiveDot />
-                    </span>
-                </h6>
-            </div>
-        ),
-    },
-    {
-        field: "Status",
-        headerName: "Status",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <span className={params.row.isActive ? "tag pending" : "tag active"}>{params.row.isActive ? "Pendind" : "Completed"}</span>,
-    },
-    {
-        field: "Class",
-        headerName: "Class",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">{params.row.classID?.name}</p>,
-    },
-    {
-        field: "Dead Line",
-        headerName: "Dead Line",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">{moment(params.row.deadline).format("DD MMM, YYYY")}</p>,
-    },
-    {
-        field: "Priority",
-        headerName: "Priority",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">{params.row.priority}</p>,
-    },
-    {
-        field: " ",
-        headerName: "Upload Solution",
-        width: 150,
-        disableColumnMenu: true,
-        align: "center",
-        renderCell: (params) => (
-            <IconButton size="small" className="icon-hover">
-                <ArrowUpwardRounded fontSize="small" />
-            </IconButton>
-        ),
-    },
-];
+import { GetActivityColumns } from "../../components/grid";
 
 enum TabType {
     PENDING = "T",
@@ -118,6 +49,8 @@ const Activities = () => {
     const activities = useSelector((state: RootState) => state.activity.activities)
 
     const pagination = useSelector((state: RootState) => state.activity.pagination)
+
+    const columns = GetActivityColumns()
 
     useEffect(() => {
         dispatch(

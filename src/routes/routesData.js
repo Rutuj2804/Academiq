@@ -43,12 +43,14 @@ import CreateStaff from "../pages/staff/CreateStaff";
 import CreateCourse from "../pages/course/CreateCourse";
 import CourseAssignment from "../pages/assignment/Course";
 import FacultyAssignment from "../pages/assignment/Faculty";
+import AddSubmission from "../pages/activity/AddSubmission";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
 
     { path: "/activities", element: <Activities /> },
     { path: "/activities/add", element: <AddActivity /> },
+    { path: "/activities/submission/:id", element: <AddSubmission /> },
 
     { path: "/calls", element: <Calls /> },
 
