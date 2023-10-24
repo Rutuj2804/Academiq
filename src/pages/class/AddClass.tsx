@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useNavigate, useMatch, useParams } from "react-router-dom";
 import { Button } from "@mui/material";
 import { Input } from "../../common/forms/input";
@@ -34,8 +33,6 @@ const AddClass = () => {
     });
 
     const { name, note } = formData;
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector(
         (state: RootState) => state.university.university.value
@@ -90,6 +87,7 @@ const AddClass = () => {
             const decode: any = decrypt(id);
             dispatch(getClass(decode));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentRouteState, universityID, id, dispatch]);
 
     useEffect(() => {
@@ -101,26 +99,10 @@ const AddClass = () => {
                 note: description,
             });
         }
-    }, [classFetched, currentRouteState]);
+    }, [classFetched, currentRouteState, setFormData]);
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="addClass__Wrapper">
                 <div className="paper">
                     <div className="header">

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
@@ -8,7 +7,6 @@ import { Input } from "../../common/forms/input";
 import { Dropdown } from "../../common/forms/dropdown";
 import { Button } from "@mui/material"
 import { CheckboxAndLabel } from "../../common/forms/checkbox";
-import { getUniversityClass } from "../../store/class/actions";
 import { Textarea } from "../../common/forms/textarea";
 import { createFacultyDetails, getFacultyDetails, updateFacultyDetails } from "../../store/faculty/actions";
 import { useCrypto } from "../../utils/hooks";
@@ -90,8 +88,6 @@ const CreateFaculty = () => {
 
     const { id }: any = useParams();
 
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
-
     const universityID = useSelector((state: RootState) => state.university.university.value)
 
     const faculty = useSelector((state: RootState) => state.faculty.faculty);
@@ -129,13 +125,14 @@ const CreateFaculty = () => {
                 sendEmailNotification: true
             })
         }
-    }, [faculty, currentRouteState])
+    }, [faculty, currentRouteState, setFormData])
 
     useEffect(() => {
         if (currentRouteState === ComponentMode.UPDATE) {
             const decode: any = decrypt(id);
             dispatch(getFacultyDetails(decode));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentRouteState, universityID, id, dispatch]);
 
     useEffect(() => {
@@ -145,7 +142,7 @@ const CreateFaculty = () => {
                 link: "/faculties",
             })
         );
-    }, [dispatch]);
+    }, [dispatch, isUpdate]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -209,22 +206,6 @@ const CreateFaculty = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="createStudent__Wrapper">
                 <div className="paper">
                     <div className="createStudent__Form">

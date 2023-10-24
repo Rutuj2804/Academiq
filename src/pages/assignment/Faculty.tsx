@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { Input } from "../../common/forms/input";
 import { Dropdown } from "../../common/forms/dropdown";
 import { getUniversityFaculty } from "../../store/faculty/actions";
@@ -27,10 +25,6 @@ const FacultyAssignment = () => {
     });
 
     const dispatch = useDispatch<any>();
-
-    const navigate = useNavigate();
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const university = useSelector(
         (state: RootState) => state.university.university.value
@@ -72,7 +66,7 @@ const FacultyAssignment = () => {
             }
             setFaculty(data);
         }
-    }, [faculties]);
+    }, [faculties, setFaculty]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -86,22 +80,6 @@ const FacultyAssignment = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="assignment__Wrapper">
                 <div className="paper">
                     <div className="header">

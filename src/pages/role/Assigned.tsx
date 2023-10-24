@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
-import { useNavigate } from "react-router-dom";
 import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { GoPrimitiveDot } from "react-icons/go";
 import { Button, IconButton } from "@mui/material";
@@ -15,14 +13,7 @@ import {
 import { layoutTheme } from "../../store/settings/types";
 import { getUniversityRoles, getUniversityRolesDisplayData } from "../../store/roles/actions";
 import moment from "moment";
-
-const getName = (t:any) => {
-    if(t.midname === undefined) {
-        return `${t.firstname} ${t.lastname}`
-    } else {
-        return `${t.firstname} ${t.midname} ${t.lastname}`
-    }
-}
+import { getUserName } from "../../utils/helpers";
 
 const columns: GridColDef[] = [
     {
@@ -49,7 +40,7 @@ const columns: GridColDef[] = [
         width: 300,
         align: "center",
         disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">{getName(params.row.userID)}</p>,
+        renderCell: (params) => <p className="mb-0">{getUserName(params.row.userID)}</p>,
     },
     {
         field: "Assigned On",
@@ -74,26 +65,9 @@ const columns: GridColDef[] = [
     },
 ];
 
-const rows = [
-    {
-        id: 1,
-        lastName: "Snow Snow Snow Snow Snow Snow Snow Snow Snow Snow",
-        firstName: "Jon",
-        age: 35,
-    },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
-
 enum TabType {
-    ACTIVE = "ACTIVE",
-    DELETED = "DELETED",
+    ACTIVE = "T",
+    DELETED = "F",
 }
 
 const Assigned = () => {
@@ -101,10 +75,6 @@ const Assigned = () => {
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
 
     const dispatch = useDispatch<any>();
-
-    const navigate = useNavigate();
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const theme = useSelector((state: RootState) => state.settings.theme);
 
@@ -124,38 +94,20 @@ const Assigned = () => {
 
     useEffect(() => {
         if(universityID)
-        dispatch(getUniversityRoles({ universityID: universityID, isActive: "T" }))
-        dispatch(getUniversityRolesDisplayData(universityID))
-    }, [universityID])
+            dispatch(getUniversityRoles({ universityID: universityID, isActive: activeTab }))
+    }, [universityID, dispatch, activeTab])
+
+    useEffect(() => {
+        if(universityID)
+            dispatch(getUniversityRolesDisplayData(universityID))
+    }, [universityID, dispatch])
 
     const onTabClick = (tabType: TabType) => {
-        if(tabType === TabType.ACTIVE) {
-            setActiveTab(tabType)
-            dispatch(getUniversityRoles({ universityID: universityID, isActive: "T" }))
-        } else if(tabType === TabType.DELETED) {
-            setActiveTab(tabType)
-            dispatch(getUniversityRoles({ universityID: universityID, isActive: "F" }))
-        }
+        setActiveTab(tabType)
     }
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="classes__Wrapper">
                 <div className="paper">
                     <div className="header">

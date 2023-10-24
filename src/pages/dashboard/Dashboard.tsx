@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import { MdVerified } from "react-icons/md";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
-import { RootState } from "../../store";
-import { useNavigate } from "react-router-dom";
-import { BsCalendar2Event } from "react-icons/bs";
-import { Avatar, Button, IconButton } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import PieChart from "../../common/chart/PieChart";
 import {
     AssignmentComponent,
@@ -13,36 +10,8 @@ import {
     HolidayComponent,
 } from "../../components/micro/dashboard";
 
-const getDate = () => {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, "0");
-    var mm = today.getMonth(); //January is 0!
-    var yyyy = today.getFullYear();
-
-    const months = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Nov",
-        "Dec",
-    ];
-
-    const res = dd + " " + months[mm] + ", " + yyyy;
-    return res;
-};
-
 const Dashboard = () => {
     const dispatch = useDispatch();
-
-    const navigate = useNavigate();
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     useEffect(() => {
         dispatch(
@@ -55,24 +24,6 @@ const Dashboard = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name.join(", ")}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        Track your progress here
-                    </div>
-                </div>
-                <div className="right dashboard__Breadcrumps">
-                    <h4>{getDate()}</h4>
-                    <IconButton disableRipple>
-                        <BsCalendar2Event />
-                    </IconButton>
-                </div>
-            </header>
-
             <main className="dashboard__Wrapper">
                 <div className="row">
                     <div className="col-lg-4 col-md-6 col-12">

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { Input } from "../../common/forms/input";
 import { Textarea } from "../../common/forms/textarea";
@@ -34,7 +33,7 @@ const AddActivity = () => {
         sendEmailNotification: true,
     });
 
-    const [files, setFiles] = useState<File[]>([]);
+    const [files] = useState<File[]>([]);
     const [classes, setClasses] = useState<any[]>([]);
     const [classSelected, setClassSelected] = useState<any>({
         name: "",
@@ -47,8 +46,6 @@ const AddActivity = () => {
     const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector(
         (state: RootState) => state.university.university.value
@@ -78,7 +75,7 @@ const AddActivity = () => {
             setClasses(data);
             setClassSelected(data[0]);
         }
-    }, [classesGlobal, dispatch]);
+    }, [classesGlobal, dispatch, setClasses, setClassSelected]);
 
     useEffect(() => {
         if (universityID)
@@ -130,22 +127,6 @@ const AddActivity = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="addActivity__Wrapper">
                 <div className="paper">
                     <div className="createStudent__Form">

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
@@ -95,8 +94,6 @@ const CreateStudent = () => {
 
     const { id }: any = useParams();
 
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
-
     const universityID = useSelector((state: RootState) => state.university.university.value)
     const classesGlobal = useSelector((state: RootState) => state.class.classes)
 
@@ -138,14 +135,15 @@ const CreateStudent = () => {
                 sendEmailNotification: true
             })
         }
-    }, [student, currentRouteState])
+    }, [student, currentRouteState, setFormData])
 
     useEffect(() => {
         if (currentRouteState === ComponentMode.UPDATE) {
             const decode: any = decrypt(id);
             dispatch(getStudentDetails(decode));
         }
-    }, [currentRouteState, universityID, id, dispatch]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentRouteState, universityID, id, dispatch, getStudentDetails]);
 
     useEffect(() => {
         dispatch(
@@ -170,12 +168,12 @@ const CreateStudent = () => {
             setClasses(data)
         }
         
-    }, [classesGlobal])
+    }, [classesGlobal, setClassSelected, setClasses])
 
     useEffect(()=>{
         if(universityID)
             dispatch(getUniversityClass({ universityID: universityID, isActive: "T" }))
-    }, [universityID])
+    }, [universityID, dispatch])
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -228,22 +226,6 @@ const CreateStudent = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="createStudent__Wrapper">
                 <div className="paper">
                     <div className="createStudent__Form">

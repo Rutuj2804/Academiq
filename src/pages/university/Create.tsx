@@ -111,23 +111,23 @@ const CreateUniversity = () => {
 
     useEffect(() => {
         dispatch(getCountries());
-    }, [dispatch, getCountries]);
+    }, [dispatch]);
 
     useEffect(() => {
         if (country_holiday) dispatch(getHolidayList(country_holiday.iso2));
-    }, [country_holiday, dispatch, getHolidayList]);
+    }, [country_holiday, dispatch]);
 
     useEffect(() => {
-        setFormData({ ...formData, country: location.country[0] });
-    }, [location.country]);
+        setFormData(v=>({ ...v, country: location.country[0] }));
+    }, [location.country, setFormData]);
 
     useEffect(() => {
-        setFormData({ ...formData, state: location.state[0] });
-    }, [location.state]);
+        setFormData(v=>({ ...v, state: location.state[0] }));
+    }, [location.state, setFormData]);
 
     useEffect(() => {
         if (country) dispatch(getStates(country.value));
-    }, [country]);
+    }, [country, dispatch]);
 
 
     const onSubmit = () => {

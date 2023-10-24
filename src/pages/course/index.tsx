@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
@@ -34,20 +33,11 @@ const Courses = () => {
 
     const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
-        dispatch(
-            getCoursesGlobal({
-                universityID: universityID,
-                isActive: activeTab,
-                page: value,
-            })
-        );
     };
 
     const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector(
         (state: RootState) => state.university.university.value
@@ -69,22 +59,18 @@ const Courses = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if(universityID) {
-            dispatch(
-                getCoursesGlobal({ universityID: universityID, isActive: "A", page: page })
-            );
-            dispatch(
-                getMyCoursesCountOnTabNumbers({
-                    universityID: universityID,
-                    isActive: "A",
-                })
-            );
-        }
-    }, [universityID]);
+        if(universityID)
+            dispatch(getMyCoursesCountOnTabNumbers({ universityID: universityID, isActive: "A" }));
+    }, [universityID, dispatch]);
+
+    useEffect(() => {
+        if(universityID)
+            dispatch(getCoursesGlobal({ universityID: universityID, isActive: activeTab, page: page }));
+    }, [universityID, dispatch, activeTab, page])
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType)
-        dispatch(getCoursesGlobal({ universityID: universityID, isActive: tabType, page: 0 }))
+        setPage(0)
     }
 
     const columns: GridColDef[] = GetCourseColumns({ activeTab })
@@ -140,22 +126,6 @@ const Courses = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="classes__Wrapper">
                 <div className="paper">
                     <div className="header">

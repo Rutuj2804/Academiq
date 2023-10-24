@@ -1,10 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 import moment from "moment";
-import React from "react";
-import { GoPrimitiveDot } from "react-icons/go";
 import { IconButton, Tooltip } from "@mui/material";
 import {
-    ArrowUpwardRounded,
     EditRounded,
     VisibilityRounded,
 } from "@mui/icons-material";

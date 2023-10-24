@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FcAbout, FcDocument } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
@@ -90,8 +89,6 @@ const DemandLetters = () => {
 
     const navigate = useNavigate();
 
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
-
     const theme = useSelector((state: RootState) => state.settings.theme);
 
     useEffect(() => {
@@ -105,22 +102,6 @@ const DemandLetters = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcAbout />
-                    <FcDocument />
-                </div>
-            </header>
-
             <main className="classes__Wrapper">
                 <div className="paper">
                     <div className="header">

@@ -20,7 +20,7 @@
 @import "./activity-detail";
 
 .section__Wrapper {
-    padding: 10px 20px;
+    padding: 0px 20px;
     header {
         display: flex;
         justify-content: space-between;
@@ -44,6 +44,11 @@
         margin: 20px 0;
         margin-bottom: 50px;
     }
+}
+
+.header__Wrapper {
+    padding: 10px 20px;
+    padding-bottom: 0%;
 }
 
 

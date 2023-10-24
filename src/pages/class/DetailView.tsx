@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import classBg from "../../assets/images/library.jpg";
 import { Button, IconButton } from "@mui/material";
 import { MoreVertRounded } from "@mui/icons-material";
@@ -36,11 +35,8 @@ const ClassDetailView = () => {
 
     const { decrypt } = useCrypto()
 
-    const navigate = useNavigate();
-
     const { id } = useParams()
 
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
     const classFetched = useSelector((state: RootState) => state.class.class)
     const universityID = useSelector((state: RootState) => state.university.university.value)
 
@@ -62,26 +58,11 @@ const ClassDetailView = () => {
             dispatch(getClass(decrypt(id)!))
             dispatch(getClassActivity({classID: decrypt(id)!, universityID: universityID }))
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, dispatch, universityID])
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="classDetailView__Wrapper">
                 <div className="paper">
                     <div className="classDetailView__Box">

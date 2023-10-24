@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
@@ -37,13 +36,6 @@ const Student = () => {
 
     const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
         setPage(value);
-        dispatch(
-            getUniversityStudents({
-                universityID: universityID,
-                isActive: activeTab,
-                page: value,
-            })
-        );
     };
 
     const dispatch = useDispatch<any>();
@@ -51,8 +43,6 @@ const Student = () => {
     const navigate = useNavigate();
 
     const theme = useSelector((state: RootState) => state.settings.theme);
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const pagination = useSelector((state: RootState) => state.student.pagination)
 
@@ -81,21 +71,21 @@ const Student = () => {
             dispatch(
                 getUniversityStudents({
                     universityID: universityID,
-                    isActive: "A",
+                    isActive: activeTab,
                     page: page
                 })
             );
-            dispatch(getStudentsCountOnTabNumbers(universityID));
         }
-    }, [universityID]);
+    }, [universityID, dispatch, page, activeTab]);
+
+    useEffect(() => {
+        if(universityID)
+            dispatch(getStudentsCountOnTabNumbers(universityID));
+    }, [universityID, dispatch])
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType);
-        dispatch(getUniversityStudents({
-            universityID: universityID,
-            isActive: tabType,
-            page: 0
-        }))
+        setPage(0)
     };
 
     const onDeleteMultipleClick = () => {
@@ -151,22 +141,6 @@ const Student = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="classes__Wrapper">
                 <div className="paper">
                     <div className="header">

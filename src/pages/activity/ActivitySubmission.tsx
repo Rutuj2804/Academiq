@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { Button } from "@mui/material"
 import { FileDownloadRounded } from "@mui/icons-material";
 import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
@@ -20,7 +19,7 @@ enum TabType {
 const ActivitySubmission = () => {
     const [activeTab, setActiveTab] = useState(TabType.ACTIVE);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
-
+console.log(selectedRow)
     const dispatch = useDispatch<any>();
 
     const [page, setPage] = useState(0);
@@ -28,10 +27,6 @@ const ActivitySubmission = () => {
     const { id } = useParams()
 
     const { decrypt } = useCrypto()
-
-    const navigate = useNavigate();
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const universityID = useSelector((state: RootState) => state.university.university.value);
 
@@ -54,7 +49,8 @@ const ActivitySubmission = () => {
     useEffect(() => {
         if(universityID)
         dispatch(getActivitySubmissions({ activityID: decrypt(id!)!, universityID, page, isActive: activeTab }))
-    }, [id, universityID, activeTab])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id, universityID, activeTab, page, dispatch])
 
     const onTabClick = (tabType: TabType) => {
         setActiveTab(tabType);
@@ -63,22 +59,6 @@ const ActivitySubmission = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="classes__Wrapper">
                 <div className="paper">
                     <div className="header">

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
@@ -89,8 +88,6 @@ const CreateStaff = () => {
 
     const { id }: any = useParams();
 
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
-
     const universityID = useSelector((state: RootState) => state.university.university.value)
 
     const staff = useSelector((state: RootState) => state.staff.staff);
@@ -128,13 +125,14 @@ const CreateStaff = () => {
                 sendEmailNotification: true
             })
         }
-    }, [staff, currentRouteState])
+    }, [staff, currentRouteState, setFormData])
 
     useEffect(() => {
         if (currentRouteState === ComponentMode.UPDATE) {
             const decode: any = decrypt(id);
             dispatch(getStaffDetails(decode));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentRouteState, universityID, id, dispatch]);
 
     useEffect(() => {
@@ -144,7 +142,7 @@ const CreateStaff = () => {
                 link: "/staffs",
             })
         );
-    }, [dispatch]);
+    }, [dispatch, isUpdate]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -209,22 +207,6 @@ const CreateStaff = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="createStudent__Wrapper">
                 <div className="paper">
                     <div className="createStudent__Form">

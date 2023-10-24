@@ -10,7 +10,6 @@ import {
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useCrypto } from "../../utils/hooks";
-import { BsEye } from "react-icons/bs";
 
 enum TabType {
     PENDING = "T",

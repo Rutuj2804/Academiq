@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
@@ -84,8 +83,8 @@ const columns: GridColDef[] = [
 ];
 
 enum TabType {
-    ACTIVE = "ACTIVE",
-    DELETED = "DELETED",
+    ACTIVE = "T",
+    DELETED = "F",
 }
 
 const RolesDefinition = () => {
@@ -95,8 +94,6 @@ const RolesDefinition = () => {
     const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
-
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
 
     const theme = useSelector((state: RootState) => state.settings.theme);
 
@@ -114,39 +111,21 @@ const RolesDefinition = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if(universityID) {
-            dispatch(getUniversityRoleDefinition({ universityID: universityID, isActive: "T" }))
+        if(universityID) 
+            dispatch(getUniversityRoleDefinition({ universityID: universityID, isActive: activeTab }))
+    }, [universityID, dispatch, activeTab])
+
+    useEffect(() => {
+        if(universityID)
             dispatch(getRolesDefinitionDisplayCount(universityID))
-        }
-    }, [universityID])
+    }, [universityID, dispatch])
 
     const onTabClick = (tabType : TabType) => {
-        if(tabType === TabType.ACTIVE) {
-            setActiveTab(tabType)
-            dispatch(getUniversityRoleDefinition({ universityID: universityID, isActive: "T" }))
-        } else if(tabType === TabType.DELETED) {
-            setActiveTab(tabType)
-            dispatch(getUniversityRoleDefinition({ universityID: universityID, isActive: "F" }))
-        }
+        setActiveTab(tabType)
     }
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
 
             <main className="classes__Wrapper">
                 <div className="paper">

@@ -12,6 +12,7 @@ import { Footer } from "../common/footer";
 import { Loader } from "../common/loader";
 import { getUniversity } from "../store/university/actions";
 import { getMyRole } from "../store/roles/actions";
+import { Header } from "../common/header";
 
 interface CProps {
     children: React.ReactNode;
@@ -32,13 +33,13 @@ const Layout = ({ children }: CProps) => {
 
     useEffect(()=>{
         dispatch(getUniversity())
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if(universityID) {
             dispatch(getMyRole(universityID))
         }
-    }, [universityID])
+    }, [universityID, dispatch])
 
     return (
         <div>
@@ -59,6 +60,7 @@ const Layout = ({ children }: CProps) => {
                 <Navbar />
                 <Messages />
                 <Popups />
+                <Header />
                 {children}
                 <Footer />
             </div>

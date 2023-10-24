@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../store";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
-import { FcBarChart, FcPieChart } from "react-icons/fc";
 import { Button } from "@mui/material";
 import { Input } from "../../common/forms/input";
 import { Textarea } from "../../common/forms/textarea";
@@ -52,8 +51,6 @@ const CreateCourse = () => {
 
     const [currentRouteState] = useState(isUpdate ? ComponentMode.UPDATE : ComponentMode.ADD);
 
-    const breadcrumps = useSelector((state: RootState) => state.breadcrumps);
-
     const universityID = useSelector((state: RootState) => state.university.university.value);
 
     const { id }: any = useParams();
@@ -85,12 +82,13 @@ const CreateCourse = () => {
             }
             setFaculty(data);
         }
-    }, [faculties]);
+    }, [faculties, setFaculty]);
 
     useEffect(() => {
         if (currentRouteState === ComponentMode.UPDATE && universityID) {
             dispatch(getCourse({ universityID: universityID, courseID: decrypt(id)! }));
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [currentRouteState, universityID, id, dispatch]);
 
     useEffect(() => {
@@ -108,7 +106,7 @@ const CreateCourse = () => {
             }
             setSelectedFaculty(data)
         }
-    }, [course, currentRouteState]);
+    }, [course, currentRouteState, setFormData, setSelectedFaculty]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -126,22 +124,6 @@ const CreateCourse = () => {
 
     return (
         <div className="section__Wrapper">
-            <header>
-                <div className="left">
-                    <h4>{breadcrumps.name[1]}</h4>
-                    <div
-                        className="breadcrumps"
-                        onClick={() => navigate(breadcrumps.link)}
-                    >
-                        {breadcrumps.name.join(" > ")}
-                    </div>
-                </div>
-                <div className="right">
-                    <FcPieChart />
-                    <FcBarChart />
-                </div>
-            </header>
-
             <main className="addClass__Wrapper">
                 <div className="paper">
                     <div className="header">
