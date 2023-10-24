@@ -50,7 +50,7 @@ const Activities = () => {
 
     const pagination = useSelector((state: RootState) => state.activity.pagination)
 
-    const columns = GetActivityColumns()
+    const columns = GetActivityColumns({ activeTab })
 
     useEffect(() => {
         dispatch(

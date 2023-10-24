@@ -10,3 +10,13 @@ export interface ActivityInterface extends DocumentInterface {
     createdBy?: AuthInterface | string
     files?: string[]
 }
+
+export interface SubmissionInterface extends DocumentInterface {
+    title?: string
+    description?: string
+    activityID?: string
+    studentID?: AuthInterface | string
+    files?: string[]
+    status?: string
+    remarks?: string
+}

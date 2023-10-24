@@ -44,11 +44,19 @@ import CreateCourse from "../pages/course/CreateCourse";
 import CourseAssignment from "../pages/assignment/Course";
 import FacultyAssignment from "../pages/assignment/Faculty";
 import AddSubmission from "../pages/activity/AddSubmission";
+import ActivityDetailView from "../pages/activity/DetailView";
+import ActivitySubmission from "../pages/activity/ActivitySubmission";
+import DetailActivitySubmission from "../pages/activity/DetailActivitySubmission";
+import EditActivitySubmission from "../pages/activity/EditActivitySubmission";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
 
     { path: "/activities", element: <Activities /> },
+    { path: "/activity/submission/:id", element: <ActivitySubmission /> },
+    { path: "/activity/sub/edit/:id", element: <EditActivitySubmission /> },
+    { path: "/activity/sub/:id", element: <DetailActivitySubmission /> },
+    { path: "/activity/:id", element: <ActivityDetailView /> },
     { path: "/activities/add", element: <AddActivity /> },
     { path: "/activities/submission/:id", element: <AddSubmission /> },
 

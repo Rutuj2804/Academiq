@@ -2,17 +2,30 @@ import { GridColDef } from "@mui/x-data-grid";
 import moment from "moment";
 import React from "react";
 import { GoPrimitiveDot } from "react-icons/go";
-import { IconButton } from "@mui/material"
-import { ArrowUpwardRounded } from "@mui/icons-material";
+import { IconButton, Tooltip } from "@mui/material";
+import {
+    ArrowUpwardRounded,
+    CropDinRounded,
+    VisibilityRounded,
+} from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useCrypto } from "../../utils/hooks";
+import { BsEye } from "react-icons/bs";
 
-export const GetActivityColumns = () => {
+enum TabType {
+    PENDING = "T",
+    COMPLETED = "F",
+}
 
-    const navigate = useNavigate()
+interface CProps {
+    activeTab: TabType;
+}
 
-    const { encrypt } = useCrypto()
-    
+export const GetActivityColumns = ({ activeTab }: CProps) => {
+    const navigate = useNavigate();
+
+    const { encrypt } = useCrypto();
+
     const columns: GridColDef[] = [
         {
             field: "firstName",
@@ -85,17 +98,63 @@ export const GetActivityColumns = () => {
         },
         {
             field: " ",
-            headerName: "Upload Solution",
+            headerName: "Actions",
+            headerAlign: "center",
             width: 150,
             disableColumnMenu: true,
             align: "center",
             renderCell: (params) => (
-                <IconButton size="small" className="icon-hover" onClick={()=>navigate(`/activities/submission/${encrypt(params.row._id)}`)} >
-                    <ArrowUpwardRounded fontSize="small" />
-                </IconButton>
+                <div className="data-grid-actions">
+                    {activeTab === TabType.PENDING ? (
+                        <Tooltip title="Upload Solution">
+                            <IconButton
+                                size="small"
+                                className="icon-hover"
+                                onClick={() =>
+                                    navigate(
+                                        `/activities/submission/${encrypt(
+                                            params.row._id
+                                        )}`
+                                    )
+                                }
+                            >
+                                <ArrowUpwardRounded fontSize="small" />
+                            </IconButton>
+                        </Tooltip>
+                    ) : (
+                        <Tooltip title="View Activity">
+                            <IconButton
+                                size="small"
+                                className="icon-hover"
+                                onClick={() =>
+                                    navigate(
+                                        `/activity/${encrypt(params.row._id)}`
+                                    )
+                                }
+                            >
+                                <VisibilityRounded fontSize="small" />
+                            </IconButton>
+                        </Tooltip>
+                    )}
+                    <Tooltip title="View Submissions">
+                        <IconButton
+                            size="small"
+                            className="icon-hover"
+                            onClick={() =>
+                                navigate(
+                                    `/activity/submission/${encrypt(
+                                        params.row._id
+                                    )}`
+                                )
+                            }
+                        >
+                            <CropDinRounded fontSize="small" />
+                        </IconButton>
+                    </Tooltip>
+                </div>
             ),
         },
     ];
 
-    return columns
+    return columns;
 };
