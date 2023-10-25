@@ -1,0 +1,28 @@
+.submissions__Wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    .submissions__User {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        .details {
+            h6 {
+                margin: 0%;
+            }
+            p {
+                margin: 0%;
+                font-size: 14px;
+                color: $gray;
+            }
+        }
+    }
+    button {
+        background-color: $blue!important;
+        color: $white;
+        text-transform: capitalize;
+        padding: 7px 20px;
+    }
+}

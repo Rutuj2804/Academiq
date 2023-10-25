@@ -1,7 +1,7 @@
-.activityDetail__Wrapper {
-    .activityDetail__Container {
+.detailCourseView__Wrapper {
+    .detailCourseView__Container {
         padding: 15px;
-        .activityDetail__ActionBar {
+        .detailCourseView__ActionBar {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -12,7 +12,7 @@
                 display: flex;
                 align-items: center;
                 gap: 20px;
-                .activityDetail__Minitab {
+                .detailCourseView__Minitab {
                     h6 {
                         margin: 0;
                     }
@@ -24,7 +24,7 @@
                 }
             }
             .right {
-                .activityDetail__Buttons {
+                .detailCourseView__Buttons {
                     display: flex;
                     align-items: center;
                     gap: 14px;
@@ -41,7 +41,7 @@
                 }
             }
         }
-        .activityDetail__Tabs {
+        .detailCourseView__Tabs {
             margin-top: 20px;
         }
     }

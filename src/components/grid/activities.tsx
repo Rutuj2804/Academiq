@@ -5,7 +5,6 @@ import { GoPrimitiveDot } from "react-icons/go";
 import { IconButton, Tooltip } from "@mui/material";
 import {
     ArrowUpwardRounded,
-    CropDinRounded,
     VisibilityRounded,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
@@ -104,7 +103,7 @@ export const GetActivityColumns = ({ activeTab }: CProps) => {
             align: "center",
             renderCell: (params) => (
                 <div className="data-grid-actions">
-                    {activeTab === TabType.PENDING ? (
+                    {/* {activeTab === TabType.PENDING ? ( */}
                         <Tooltip title="Upload Solution">
                             <IconButton
                                 size="small"
@@ -120,7 +119,7 @@ export const GetActivityColumns = ({ activeTab }: CProps) => {
                                 <ArrowUpwardRounded fontSize="small" />
                             </IconButton>
                         </Tooltip>
-                    ) : (
+                    {/* ) : ( */}
                         <Tooltip title="View Activity">
                             <IconButton
                                 size="small"
@@ -134,22 +133,7 @@ export const GetActivityColumns = ({ activeTab }: CProps) => {
                                 <VisibilityRounded fontSize="small" />
                             </IconButton>
                         </Tooltip>
-                    )}
-                    <Tooltip title="View Submissions">
-                        <IconButton
-                            size="small"
-                            className="icon-hover"
-                            onClick={() =>
-                                navigate(
-                                    `/activity/submission/${encrypt(
-                                        params.row._id
-                                    )}`
-                                )
-                            }
-                        >
-                            <CropDinRounded fontSize="small" />
-                        </IconButton>
-                    </Tooltip>
+                    {/* )} */}
                 </div>
             ),
         },

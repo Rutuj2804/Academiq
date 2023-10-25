@@ -7,7 +7,8 @@ export interface ActivityInterface extends DocumentInterface {
     isActive?: boolean
     classId?: string
     universityID?: string
-    createdBy?: AuthInterface | string
+    createdBy?: AuthInterface | string;
+    deadline?: string;
     files?: string[]
 }
 
@@ -15,7 +16,7 @@ export interface SubmissionInterface extends DocumentInterface {
     title?: string
     description?: string
     activityID?: string
-    studentID?: AuthInterface | string
+    studentID?: AuthInterface
     files?: string[]
     status?: string
     remarks?: string

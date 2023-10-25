@@ -1,9 +1,10 @@
 import { NavigateFunction } from "react-router-dom";
-import { ActivityInterface, PaginationInterface, SubmissionInterface } from "../../utils/types";
+import { ActivityInterface, AuthInterface, PaginationInterface, SubmissionInterface } from "../../utils/types";
 
 export interface ActivityState {
     activities: ActivityInterface[];
     submissions: SubmissionInterface[];
+    pending: AuthInterface[];
     activity: ActivityInterface;
     display: {
         all: number,
@@ -25,6 +26,16 @@ export interface GetActivitySubmissionsRequest extends GetActivityRequest {
 
 export interface GetActivityFromClassRequest {
     classID: string;
+    universityID: string;
+}
+
+export interface GetActivityByIDRequest {
+    activityID: string;
+    universityID: string;
+}
+
+export interface DeleteActivityRequest {
+    activityID: string[];
     universityID: string;
 }
 

@@ -1,0 +1,19 @@
+.activityCard__Wrapper {
+    box-shadow: $shadow-light;
+    margin-bottom: 10px;
+    padding: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    h6 {
+        margin-bottom: 0%;
+    }
+    p {
+        margin-bottom: 10px;
+        font-size: 14px;
+        color: $gray;
+    }
+    span {
+        color: $blue;
+        font-size: 14px;
+    }
+}

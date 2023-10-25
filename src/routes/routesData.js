@@ -45,16 +45,13 @@ import CourseAssignment from "../pages/assignment/Course";
 import FacultyAssignment from "../pages/assignment/Faculty";
 import AddSubmission from "../pages/activity/AddSubmission";
 import ActivityDetailView from "../pages/activity/DetailView";
-import ActivitySubmission from "../pages/activity/ActivitySubmission";
 import DetailActivitySubmission from "../pages/activity/DetailActivitySubmission";
-import EditActivitySubmission from "../pages/activity/EditActivitySubmission";
+import DetailCourseView from "../pages/course/DetailCourseView";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
 
     { path: "/activities", element: <Activities /> },
-    { path: "/activity/submission/:id", element: <ActivitySubmission /> },
-    { path: "/activity/sub/edit/:id", element: <EditActivitySubmission /> },
     { path: "/activity/sub/:id", element: <DetailActivitySubmission /> },
     { path: "/activity/:id", element: <ActivityDetailView /> },
     { path: "/activities/add", element: <AddActivity /> },
@@ -71,6 +68,7 @@ export const regularRoutes = [
 
     { path: "/courses", element: <Courses /> },
     { path: "/courses/add", element: <CreateCourse /> },
+    { path: "/course/:id", element: <DetailCourseView /> },
     { path: "/course/update/:id", element: <CreateCourse /> },
 
     { path: "/collaborate", element: <Collaborate /> },

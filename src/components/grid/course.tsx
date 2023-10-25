@@ -1,6 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
 import moment from "moment";
-import { GoPrimitiveDot } from "react-icons/go";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useCrypto } from "../../utils/hooks";
@@ -63,17 +62,14 @@ export const GetCourseColumns = ({ activeTab }: Props) => {
     const columns: GridColDef[] = [
         {
             field: "firstName",
-            headerName: "Query",
+            headerName: "Course Name",
             flex: 1,
             disableColumnMenu: true,
             minWidth: 200,
             renderCell: (params) => (
-                <div className="queryBlock">
+                <div className="queryBlock" onClick={()=>navigate(`/course/${encrypt(params.row._id)}`)}>
                     <h6>
-                        {params.row.name}{" "}
-                        <span>
-                            <GoPrimitiveDot />
-                        </span>
+                        {params.row.name}
                     </h6>
                 </div>
             ),
