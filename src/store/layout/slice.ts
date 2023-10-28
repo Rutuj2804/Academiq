@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import {
+    AddUpdateNote,
     AssignmentModal,
     DeleteModal,
     EventPostModal,
@@ -29,6 +30,11 @@ const initialState: LayoutState = {
         isOpen: false,
         id: "",
     },
+    notes: {
+        isOpen: false,
+        type: null,
+        index: -1
+    }
 };
 
 export const layoutSlice = createSlice({
@@ -40,9 +46,13 @@ export const layoutSlice = createSlice({
             else state.background = false;
             state.settings = action.payload;
         },
+        setNotesPopup: (state, action: PayloadAction<AddUpdateNote>) => {
+            state.background_modules = action.payload.isOpen;
+            state.notes = action.payload;
+            state.popup = action.payload.isOpen
+        },
         setSearch: (state, action: PayloadAction<boolean>) => {
-            if (action.payload) state.background_modules = true;
-            else state.background_modules = false;
+            state.background_modules = action.payload;
             state.popup = action.payload;
             state.search = action.payload;
         },
@@ -53,16 +63,14 @@ export const layoutSlice = createSlice({
             state.event.isOpen = action.payload.isOpen;
         },
         setDelete: (state, action: PayloadAction<DeleteModal>) => {
-            if (action.payload.isOpen) state.background_modules = true;
-            else state.background_modules = false;
+            state.background_modules = action.payload.isOpen;
             state.popup = action.payload.isOpen;
             state.delete.isOpen = action.payload.isOpen;
             state.delete.callback = action.payload.callback;
             state.delete.text = action.payload.text;
         },
         setAssignment: (state, action: PayloadAction<AssignmentModal>) => {
-            if (action.payload.isOpen) state.background_modules = true;
-            else state.background_modules = false;
+            state.background_modules = action.payload.isOpen;
             state.popup = action.payload.isOpen;
             state.assignment.isOpen = action.payload.isOpen;
             state.assignment.type = action.payload.type;
@@ -88,6 +96,7 @@ export const {
     setDelete,
     setAssignment,
     setEventPost,
+    setNotesPopup,
 } = layoutSlice.actions;
 
 export default layoutSlice.reducer;

@@ -1,0 +1,21 @@
+.addNotes__Wrapper {
+    min-width: 400px;
+    .addNotes__Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        h5 {
+            margin: 0%;
+        }
+    }
+    .addNotes__Form {
+        button {
+            margin-top: 20px;
+            background-color: $blue;
+            color: $white;
+            text-transform: capitalize;
+            font-size: 14px;
+            padding: 7px 20px;
+        }
+    }
+}

@@ -5,6 +5,7 @@ import Search from "./Search";
 import Delete from "./Delete";
 import AddAssignment from "./AddAssignment";
 import EventPost from "./EventPost";
+import AddNotes from "./AddNotes";
 
 const Popups = () => {
     const layout = useSelector((state: RootState) => state.layout);
@@ -16,6 +17,7 @@ const Popups = () => {
                 {layout.delete.isOpen ? <Delete /> : null}
                 {layout.assignment.isOpen ? <AddAssignment /> : null}
                 {layout.event.isOpen ? <EventPost /> : null}
+                {layout.notes.isOpen ? <AddNotes /> : null}
             </div>
         ) : <></>
     );

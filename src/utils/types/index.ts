@@ -7,3 +7,5 @@ export * from "./pagination"
 export * from "./student"
 
 export * from "./staff"
+
+export * from "./note"

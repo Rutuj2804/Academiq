@@ -1,0 +1,49 @@
+.notes__Wrapper{
+    .notes__Note {
+        background-color: $white;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: $shadow-light;
+        transition: all 0.2s linear;
+        cursor: pointer;
+        max-height: 400px;
+        p{
+            margin: 0%;
+        }
+        .notes__Options {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 7px;
+            transition: all 0.2s linear;
+            visibility: hidden;
+            button {
+                &:nth-of-type(1):hover {
+                    background-color: $blue;
+                    color: $white;
+                }
+                &:nth-of-type(2) {
+                    background-color: $red;
+                    color: $white;
+                }
+            }
+        }
+        &:hover {
+            box-shadow: $shadow;
+            .notes__Options {
+                visibility: visible;
+            }
+        }
+    }
+    .notes__AddNew {
+        position: fixed;
+        bottom: 60px;
+        right: 40px;
+        pointer-events: none;
+        button {
+            background-color: $blue;
+            color: $white;
+            pointer-events: all;
+        }
+    }
+}

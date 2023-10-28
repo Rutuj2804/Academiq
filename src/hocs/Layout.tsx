@@ -33,6 +33,8 @@ const Layout = ({ children }: CProps) => {
 
     const popup = useSelector((state: RootState) => state.layout.popup)
 
+    const messages = useSelector((state: RootState) => state.messages.messages)
+
     useEffect(()=>{
         dispatch(getUniversity())
     }, [dispatch])
@@ -65,7 +67,7 @@ const Layout = ({ children }: CProps) => {
                 }
             >
                 <Navbar />
-                <Messages />
+                {messages.length ? <Messages /> : null}
                 <Popups />
                 <Header />
                 {children}

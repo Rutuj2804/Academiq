@@ -9,7 +9,8 @@ export interface LayoutState {
     notifications: boolean
     delete: DeleteModal
     assignment: AssignmentModal,
-    event: EventPostModal
+    event: EventPostModal,
+    notes: AddUpdateNote;
 }
 
 export interface DeleteModal {
@@ -20,7 +21,13 @@ export interface DeleteModal {
 
 export interface AssignmentModal {
     isOpen: boolean;
-    type: "FACULTY" | "COURSES" | null
+    type: "FACULTY" | "COURSES" | null,
+}
+
+export interface AddUpdateNote {
+    isOpen: boolean;
+    type: "CREATE" | "UPDATE" | null,
+    index: number
 }
 
 export interface EventPostModal {
