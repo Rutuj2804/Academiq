@@ -15,7 +15,7 @@ export interface ActivityInterface extends DocumentInterface {
 export interface SubmissionInterface extends DocumentInterface {
     title?: string
     description?: string
-    activityID?: string
+    activityID?: ActivityInterface
     studentID?: AuthInterface
     files?: string[]
     status?: string

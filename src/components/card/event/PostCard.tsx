@@ -2,6 +2,8 @@ import { MoreVertRounded } from "@mui/icons-material";
 import { Avatar, IconButton } from "@mui/material";
 import { BsChatLeft, BsFillChatLeftFill, BsHeart, BsHeartFill, BsShare } from "react-icons/bs";
 import { useState } from "react"
+import { useDispatch } from "react-redux";
+import { setEventPost } from "../../../store/layout/slice";
 
 const imgArr = [
     "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
@@ -21,6 +23,8 @@ const PostCard = ({ liked, comment }: PostCardCI) => {
 
     const [isLiked, setIsLiked] = useState(liked)
     const [isCommented, setIsCommented] = useState(comment)
+
+    const dispatch = useDispatch()
 
     const getClassname = (l: number) => {
         if (l === 1) {
@@ -55,7 +59,7 @@ const PostCard = ({ liked, comment }: PostCardCI) => {
                         searching for "hamburger" or "logout."
                     </p>
                 </div>
-                <div className={`bottom ${getClassname(imgArr.length)}`}>
+                <div className={`bottom ${getClassname(imgArr.length)}`} onClick={()=>dispatch(setEventPost({ isOpen: true, id: "" }))}>
                     {imgArr.map((r, i) =>
                         i >= 3 ? null : <img src={r} key={i} alt="Post" />
                     )}

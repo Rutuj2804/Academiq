@@ -83,23 +83,23 @@ const Register = () => {
 
     useEffect(() => {
         dispatch(getCountries());
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if(isAuthenticated) navigate("/")
-    }, [isAuthenticated]);
+    }, [isAuthenticated, navigate]);
 
     useEffect(() => {
-        setFormData({ ...formData, countryID: location.country[0] });
+        setFormData(f=>({ ...f, countryID: location.country[0] }));
     }, [location.country]);
 
     useEffect(() => {
-        setFormData({ ...formData, stateID: location.state[0] });
+        setFormData(f=>({ ...f, stateID: location.state[0] }));
     }, [location.state]);
 
     useEffect(() => {
         if (countryID) dispatch(getStates(countryID.value));
-    }, [countryID]);
+    }, [countryID, dispatch]);
 
     return (
         <div className="register__Wrapper">

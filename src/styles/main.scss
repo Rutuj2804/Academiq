@@ -20,4 +20,7 @@ body {
     &.dark {
         background-color: $bg-dark;
     }
+    &.popup_Open{
+        overflow-y: hidden;
+    }
 }

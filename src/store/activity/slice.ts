@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ActivityState } from "./types";
-import { getActivitiesGlobal, getActivity, getActivityCountOnTabNumbers, getActivityPendingSubmissions, getActivitySubmissions, getClassActivity } from "./actions";
+import { getActivitiesGlobal, getActivity, getActivityCountOnTabNumbers, getActivityPendingSubmissions, getActivitySubmissions, getClassActivity, getSubmissionsDetails } from "./actions";
 
 const initialState: ActivityState = {
     activities: [],
     activity: {},
     submissions: [],
+    submission: {},
     pending: [],
     display: {
         all: 0,
@@ -43,6 +44,9 @@ export const activitySlice = createSlice({
         })
         builder.addCase(getActivity.fulfilled, (s, a) => {
             s.activity = a.payload
+        })
+        builder.addCase(getSubmissionsDetails.fulfilled, (s, a) => {
+            s.submission = a.payload
         })
     }
 });

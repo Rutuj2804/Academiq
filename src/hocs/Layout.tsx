@@ -31,9 +31,16 @@ const Layout = ({ children }: CProps) => {
 
     const dispatch = useDispatch<any>()
 
+    const popup = useSelector((state: RootState) => state.layout.popup)
+
     useEffect(()=>{
         dispatch(getUniversity())
     }, [dispatch])
+
+    useEffect(() => {
+        if(popup) document.body.classList.add("popup_Open")
+        else document.body.classList.remove("popup_Open")
+    }, [popup])
 
     useEffect(() => {
         if(universityID) {

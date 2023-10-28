@@ -1,6 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { AssignmentModal, DeleteModal, LayoutState } from "./types";
+import {
+    AssignmentModal,
+    DeleteModal,
+    EventPostModal,
+    LayoutState,
+} from "./types";
 
 const initialState: LayoutState = {
     sidebar: true,
@@ -14,12 +19,16 @@ const initialState: LayoutState = {
     delete: {
         isOpen: false,
         callback: () => {},
-        text: ""
+        text: "",
     },
     assignment: {
         isOpen: false,
-        type: null
-    }
+        type: null,
+    },
+    event: {
+        isOpen: false,
+        id: "",
+    },
 };
 
 export const layoutSlice = createSlice({
@@ -34,13 +43,19 @@ export const layoutSlice = createSlice({
         setSearch: (state, action: PayloadAction<boolean>) => {
             if (action.payload) state.background_modules = true;
             else state.background_modules = false;
-            state.popup = action.payload
+            state.popup = action.payload;
             state.search = action.payload;
+        },
+        setEventPost: (state, action: PayloadAction<EventPostModal>) => {
+            state.background_modules = action.payload.isOpen;
+            state.popup = action.payload.isOpen;
+            state.event.id = action.payload.id;
+            state.event.isOpen = action.payload.isOpen;
         },
         setDelete: (state, action: PayloadAction<DeleteModal>) => {
             if (action.payload.isOpen) state.background_modules = true;
             else state.background_modules = false;
-            state.popup = action.payload.isOpen
+            state.popup = action.payload.isOpen;
             state.delete.isOpen = action.payload.isOpen;
             state.delete.callback = action.payload.callback;
             state.delete.text = action.payload.text;
@@ -48,7 +63,7 @@ export const layoutSlice = createSlice({
         setAssignment: (state, action: PayloadAction<AssignmentModal>) => {
             if (action.payload.isOpen) state.background_modules = true;
             else state.background_modules = false;
-            state.popup = action.payload.isOpen
+            state.popup = action.payload.isOpen;
             state.assignment.isOpen = action.payload.isOpen;
             state.assignment.type = action.payload.type;
         },
@@ -64,6 +79,15 @@ export const layoutSlice = createSlice({
     },
 });
 
-export const { setSettings, setSidebar, setSearch, setProfile, setNotifications, setDelete, setAssignment } = layoutSlice.actions;
+export const {
+    setSettings,
+    setSidebar,
+    setSearch,
+    setProfile,
+    setNotifications,
+    setDelete,
+    setAssignment,
+    setEventPost,
+} = layoutSlice.actions;
 
 export default layoutSlice.reducer;

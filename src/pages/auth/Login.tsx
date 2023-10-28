@@ -33,7 +33,7 @@ const Login = () => {
 
     useEffect(() => {
         if(isAuthenticated) navigate("/")
-    }, [isAuthenticated]);
+    }, [isAuthenticated, navigate]);
 
     return (
         <div className="login__Wrapper">

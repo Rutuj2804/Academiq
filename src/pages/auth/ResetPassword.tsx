@@ -3,8 +3,7 @@ import {Logo} from "../../common/logo";
 import { Input } from "../../common/forms/input";
 import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../../store/auth/actions";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
 const ResetPassword = () => {
@@ -15,8 +14,6 @@ const ResetPassword = () => {
     const isAuthenticated = useSelector((state:RootState) => state.auth.isAuthenticated)
 
     const navigate = useNavigate()
-
-    const dispatch = useDispatch<any>()
 
     const { password } = formData;
 
@@ -32,7 +29,7 @@ const ResetPassword = () => {
 
     useEffect(() => {
         if(isAuthenticated) navigate("/")
-    }, [isAuthenticated]);
+    }, [isAuthenticated, navigate]);
 
     return (
         <div className="login__Wrapper">

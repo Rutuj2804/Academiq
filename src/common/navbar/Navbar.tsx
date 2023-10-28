@@ -15,11 +15,6 @@ import ProfileMenu from "./ProfileMenu";
 import NotificationMenu from "./NotificationMenu";
 import { setUniversity } from "../../store/university/slice";
 
-const optionsArr = [
-    { name: "MIT ADT University", value: "SomeID" },
-    { name: "K V Southern Command", value: "SomeID2" },
-]
-
 const Navbar = () => {
 
     const layout = useSelector((state: RootState) => state.layout);

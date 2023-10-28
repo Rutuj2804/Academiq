@@ -4,6 +4,7 @@ import { ActivityInterface, AuthInterface, PaginationInterface, SubmissionInterf
 export interface ActivityState {
     activities: ActivityInterface[];
     submissions: SubmissionInterface[];
+    submission: SubmissionInterface;
     pending: AuthInterface[];
     activity: ActivityInterface;
     display: {
@@ -18,6 +19,11 @@ export interface GetActivityRequest {
     isActive: string;
     universityID: string;
     page?: number;
+}
+
+export interface GetSubmissionRequest {
+    submissionID: string;
+    universityID: string;
 }
 
 export interface GetActivitySubmissionsRequest extends GetActivityRequest {

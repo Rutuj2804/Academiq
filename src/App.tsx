@@ -24,7 +24,7 @@ const App = () => {
         } else {
             localStorage.setItem("academic-theme", layoutTheme[0]);
         }
-    }, []);
+    }, [dispatch]);
 
     useEffect(() => {
         if (sidebarTheme === layoutTheme[1]) {
@@ -40,7 +40,7 @@ const App = () => {
         var userToken = localStorage.getItem(`${process.env.REACT_APP_AUTHENTICATION_LOCALSTORAGE_KEY}`)
         if(userToken)
         dispatch(getUser())
-    }, [])
+    }, [dispatch])
 
     return (
         <div>

@@ -8,7 +8,8 @@ export interface LayoutState {
     profile: boolean
     notifications: boolean
     delete: DeleteModal
-    assignment: AssignmentModal
+    assignment: AssignmentModal,
+    event: EventPostModal
 }
 
 export interface DeleteModal {
@@ -20,4 +21,9 @@ export interface DeleteModal {
 export interface AssignmentModal {
     isOpen: boolean;
     type: "FACULTY" | "COURSES" | null
+}
+
+export interface EventPostModal {
+    isOpen: boolean;
+    id: string;
 }

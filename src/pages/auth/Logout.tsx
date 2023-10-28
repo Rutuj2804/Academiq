@@ -12,7 +12,7 @@ const Logout = () => {
     useEffect(() => {
         dispatch(logout());
         navigate("/login");
-    }, []);
+    }, [dispatch, navigate]);
     return (
         <div className="logout__Wrapper">
             <Logo />

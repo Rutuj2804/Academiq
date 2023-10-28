@@ -1,0 +1,28 @@
+.eventPost__Wrapper {
+    width: 95%;
+    height: 95vh;
+    background-color: $white;
+    .eventPost__Grid {
+        height: 95vh;
+        .someDiv {
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            .eventPost__Images {
+                background-color: transparent;
+                .eventPost__Carousel {
+                    width: 100%;
+                    img {
+                        height: auto;
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+    .eventPost__DescAndComments {
+        height: 100%;
+        width: 100%;
+    }
+}

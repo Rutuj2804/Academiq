@@ -18,7 +18,7 @@ const MessageUnit = ({ text, id, type }: CMessageUnit) => {
 
     useEffect(()=>{
         setTimeout(()=>dispatch(removeMessage(id)), 10000)
-    }, [])
+    }, [dispatch, id])
 
     return (
         <div
