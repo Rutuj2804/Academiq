@@ -47,6 +47,9 @@ import AddSubmission from "../pages/activity/AddSubmission";
 import ActivityDetailView from "../pages/activity/DetailView";
 import DetailActivitySubmission from "../pages/activity/DetailActivitySubmission";
 import DetailCourseView from "../pages/course/DetailCourseView";
+import Demand from "../pages/configuration/Demand";
+import Basic from "../pages/configuration";
+import AddNewDemandType from "../pages/configuration/AddNewDemandType";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -109,6 +112,11 @@ export const regularRoutes = [
     { path: "/staffs", element: <Staff /> },
     { path: "/staff/create", element: <CreateStaff /> },
     { path: "/staff/update/:id", element: <CreateStaff /> },
+
+    { path: "/configurations/basic", element: <Basic /> },
+    { path: "/configurations/demand-type", element: <Demand /> },
+    { path: "/configurations/demand-type/create", element: <AddNewDemandType /> },
+    { path: "/configurations/demand-type/update/:id", element: <AddNewDemandType /> },
 
     { path: "/change-password", element: <ChangePassword /> },
     { path: "/edit/:username", element: <EditProfile /> },

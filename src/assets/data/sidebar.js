@@ -18,6 +18,8 @@ import {
     BsPersonCheck,
     BsPersonGear,
     BsBookshelf,
+    BsXDiamond,
+    BsWindowSidebar,
 } from "react-icons/bs";
 
 export const sideBarData = [
@@ -164,7 +166,7 @@ export const sideBarData = [
             {
                 name: "Roles Definition",
                 link: "/roles",
-                icon: <BsBricks />,
+                icon: <BsXDiamond />,
                 notifications: 0,
                 matches: ["/roles", "/roles/add"],
             },
@@ -174,6 +176,25 @@ export const sideBarData = [
                 icon: <BsAward />,
                 notifications: 5,
                 matches: ["/assigned"],
+            },
+        ],
+    },
+    {
+        title: "Configurations",
+        links: [
+            {
+                name: "Basic",
+                link: "/configurations/basic",
+                icon: <BsWindowSidebar />,
+                notifications: 0,
+                matches: ["/configurations/basic"],
+            },
+            {
+                name: "Demand Types",
+                link: "/configurations/demand-type",
+                icon: <BsBricks />,
+                notifications: 0,
+                matches: ["/configurations/demand-type"],
             },
         ],
     },

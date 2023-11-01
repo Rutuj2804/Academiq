@@ -1,0 +1,17 @@
+.addNewDemandType__Wrapper {
+    padding: 10px;
+    .addNewDemandType__Body {
+        .addNewDemandType__Buttons {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+            button {
+                background-color: $blue;
+                color: $white;
+                padding: 7px 20px;
+                font-size: 14px;
+                text-transform: capitalize;
+            }
+        }
+    }
+}

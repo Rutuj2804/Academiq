@@ -1,0 +1,27 @@
+.demandTypeConfig__Wrapper {
+    padding: 10px;
+    .demandTypeConfig__Header {
+        margin-bottom: 20px;
+        h4 {
+            margin-bottom: 0%;
+        }
+        .demandTypeConfig__Buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .left, .right {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+            }
+            button {
+                background-color: $blue;
+                color: $white;
+                padding: 7px 20px;
+                font-size: 14px;
+                text-transform: capitalize;
+            }
+        }
+    }
+}

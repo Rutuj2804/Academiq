@@ -12,7 +12,7 @@ const Sample = () => {
                 link: "/Sample",
             })
         );
-    }, [dispatch, setBreadcrumps]);
+    }, [dispatch]);
 
     return (
         <div className="section__Wrapper">

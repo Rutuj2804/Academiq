@@ -17,6 +17,7 @@ import course from "./course/slice"
 import activity from "./activity/slice"
 import assignment from "./assignment/slice"
 import note from "./note/slice"
+import configuration from "./configuration/slice"
 
 export const reducers = combineReducers({ 
     auth,
@@ -36,5 +37,6 @@ export const reducers = combineReducers({
     course,
     activity,
     assignment,
-    note
+    note,
+    configuration,
 })
