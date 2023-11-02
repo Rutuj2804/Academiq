@@ -6,3 +6,10 @@ export interface DemandType extends DocumentInterface {
     description?: string;
     createdBy?: AuthInterface
 }
+
+export interface Demand extends DocumentInterface {
+    demandedBy?: AuthInterface;
+    reason?: string;
+    type?: any;
+    status?: string;
+}

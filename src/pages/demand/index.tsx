@@ -3,93 +3,42 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import { RootState } from "../../store";
 import { useNavigate } from "react-router-dom";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
-import { AddRounded, DeleteRounded } from "@mui/icons-material";
-import { Button, IconButton } from "@mui/material";
-import { GoPrimitiveDot } from "react-icons/go";
+import { DataGrid, GridRowSelectionModel } from "@mui/x-data-grid";
+import { AddRounded } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import { layoutTheme } from "../../store/settings/types";
-
-const columns: GridColDef[] = [
-    {
-        field: "firstName",
-        headerName: "Title",
-        flex: 1,
-        disableColumnMenu: true,
-        minWidth: 200,
-        renderCell: (params) => (
-            <div className="queryBlock">
-                <h6>
-                    {params.row.firstName}{" "}
-                    <span>
-                        <GoPrimitiveDot />
-                    </span>
-                </h6>
-            </div>
-        ),
-    },
-    {
-        field: "Status",
-        headerName: "Status",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <span className="tag active">Active</span>,
-    },
-    {
-        field: "Created At",
-        headerName: "Created At",
-        headerAlign: "center",
-        width: 200,
-        align: "center",
-        disableColumnMenu: true,
-        renderCell: (params) => <p className="mb-0">2 mins ago</p>,
-    },
-    {
-        field: " ",
-        headerName: "Update Class",
-        width: 150,
-        disableColumnMenu: true,
-        align: "center",
-        renderCell: (params) => (
-            <IconButton size="small" className="icon-hover-red">
-                <DeleteRounded fontSize="small" />
-            </IconButton>
-        ),
-    },
-];
-
-const rows = [
-    {
-        id: 1,
-        lastName: "Snow Snow Snow Snow Snow Snow Snow Snow Snow Snow",
-        firstName: "Jon",
-        age: 35,
-    },
-    { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-    { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-    { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-    { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-    { id: 6, lastName: "Melisandre", firstName: "Rutuj", age: 150 },
-    { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-    { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-    { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-];
+import { deleteDemandLetter, getDemandsCount, getDemandsGlobal } from "../../store/demand/actions";
+import { Pagination } from "../../common/pagination";
+import { GetDemandColumns } from "../../components/grid";
 
 enum TabType {
-    ACTIVE = "ACTIVE",
-    PENDING = "PENDING",
-    FULL_FILLED = "FULL_FILLED",
+    ALL = "A",
+    PENDING = "T",
+    FULL_FILLED = "F",
 }
 
 const DemandLetters = () => {
-    const [activeTab, setActiveTab] = useState(TabType.ACTIVE);
+    const [activeTab, setActiveTab] = useState(TabType.ALL);
     const [selectedRow, setSelectedRow] = useState<GridRowSelectionModel>([]);
-    const dispatch = useDispatch();
+
+    const [page, setPage] = useState(0);
+
+    const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    };
+
+    const dispatch = useDispatch<any>();
 
     const navigate = useNavigate();
 
     const theme = useSelector((state: RootState) => state.settings.theme);
+
+    const universityID = useSelector((state: RootState) => state.university.university.value)
+    const pagination = useSelector((state: RootState) => state.demand.pagination)
+    const demands = useSelector((state: RootState) => state.demand.demands)
+    const display = useSelector((state: RootState) => state.demand.display)
+
+    const columns = GetDemandColumns()
 
     useEffect(() => {
         dispatch(
@@ -99,6 +48,18 @@ const DemandLetters = () => {
             })
         );
     }, [dispatch]);
+
+    useEffect(() => {
+        if(universityID) {
+            dispatch(getDemandsGlobal({ universityID, isActive: activeTab, page }))
+        }
+    }, [universityID, dispatch, activeTab, page])
+
+    useEffect(() => {
+        if(universityID) {
+            dispatch(getDemandsCount({ universityID, isActive: "" }))
+        }
+    }, [dispatch, universityID])
 
     return (
         <div className="section__Wrapper">
@@ -110,12 +71,12 @@ const DemandLetters = () => {
                     <div className="classes__Header">
                         <div className="left">
                             <Button
-                                onClick={() => setActiveTab(TabType.ACTIVE)}
+                                onClick={() => setActiveTab(TabType.ALL)}
                                 className={
-                                    TabType.ACTIVE === activeTab ? "active" : ""
+                                    TabType.ALL === activeTab ? "active" : ""
                                 }
                             >
-                                Active (27)
+                                All ({display.all})
                             </Button>
                             <Button
                                 onClick={() => setActiveTab(TabType.PENDING)}
@@ -125,7 +86,7 @@ const DemandLetters = () => {
                                         : ""
                                 }
                             >
-                                Pending (6)
+                                Pending ({display.active})
                             </Button>
                             <Button
                                 onClick={() =>
@@ -137,10 +98,10 @@ const DemandLetters = () => {
                                         : ""
                                 }
                             >
-                                Full Filled (6)
+                                Full Filled ({display.deleted})
                             </Button>
                             {selectedRow.length > 0 ? (
-                                <Button className="red">
+                                <Button className="red" onClick={()=>dispatch(deleteDemandLetter({ universityID, demandID: selectedRow as any }))}>
                                     Delete ({selectedRow.length})
                                 </Button>
                             ) : null}
@@ -156,7 +117,7 @@ const DemandLetters = () => {
                     </div>
                     <div className="data-grid">
                         <DataGrid
-                            rows={rows}
+                            rows={demands}
                             columns={columns}
                             initialState={{
                                 pagination: {
@@ -165,11 +126,27 @@ const DemandLetters = () => {
                                     },
                                 },
                             }}
+                            slots={{
+                                pagination: (paginationProps) => (
+                                    <Pagination
+                                        page={pagination.currentPage}
+                                        pagecount={pagination.totalPages}
+                                        totaldocuments={
+                                            pagination.totalDocuments
+                                        }
+                                        currentdocuments={
+                                            pagination.currentDocuments
+                                        }
+                                        handlepagechange={handlePageChange}
+                                        {...paginationProps}
+                                    />
+                                ),
+                            }}
                             pageSizeOptions={[10]}
                             checkboxSelection
                             onRowSelectionModelChange={(t) => setSelectedRow(t)}
                             disableRowSelectionOnClick
-                            getRowId={(row) => row.id}
+                            getRowId={(row) => row._id}
                             sx={
                                 theme === layoutTheme[0]
                                     ? null

@@ -18,6 +18,7 @@ import activity from "./activity/slice"
 import assignment from "./assignment/slice"
 import note from "./note/slice"
 import configuration from "./configuration/slice"
+import demand from "./demand/slice"
 
 export const reducers = combineReducers({ 
     auth,
@@ -39,4 +40,5 @@ export const reducers = combineReducers({
     assignment,
     note,
     configuration,
+    demand
 })
