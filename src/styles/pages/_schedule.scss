@@ -1,0 +1,20 @@
+.schedule__Wrapper {
+    font-size: 14px;
+    .schedule__Container {
+        padding: 10px;
+    }
+    a {
+        text-decoration: none!important;
+    }
+    button.fc-button-primary {
+        background-color: $blue!important;
+        opacity: 1!important;
+        border: $white;
+        outline: none!important;
+        text-transform: capitalize;
+        font-size: 14px;
+    }
+    .fc-toolbar-chunk h2{
+        font-size: 18px;
+    }
+}

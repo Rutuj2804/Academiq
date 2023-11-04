@@ -6,9 +6,12 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { DateSelectArg } from "@fullcalendar/core";
+import { useNavigate } from "react-router-dom";
 
 const Schedules = () => {
     const dispatch = useDispatch();
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         dispatch(
@@ -20,46 +23,49 @@ const Schedules = () => {
     }, [dispatch]);
 
     const handleDateSelect = (selectInfo: DateSelectArg) => {
-        let title = prompt("Please enter a new title for your event");
-        let calendarApi = selectInfo.view.calendar;
+        navigate("/schedule/event")
+        // let title = prompt("Please enter a new title for your event");
+        // let calendarApi = selectInfo.view.calendar;
 
-        calendarApi.unselect(); // clear date selection
+        // calendarApi.unselect(); // clear date selection
 
-        if (title) {
-            calendarApi.addEvent({
-                id: Date.now().toString(),
-                title,
-                start: selectInfo.startStr,
-                end: selectInfo.endStr,
-                allDay: selectInfo.allDay,
-            });
-        }
+        // if (title) {
+        //     calendarApi.addEvent({
+        //         id: Date.now().toString(),
+        //         title,
+        //         start: selectInfo.startStr,
+        //         end: selectInfo.endStr,
+        //         allDay: selectInfo.allDay,
+        //     });
+        // }
     };
 
     return (
         <div className="section__Wrapper">
-            <main>
+            <main className="schedule__Wrapper">
                 <div className="paper">
-                    <FullCalendar
-                        plugins={[
-                            dayGridPlugin,
-                            interactionPlugin,
-                            timeGridPlugin,
-                        ]}
-                        initialView="timeGridWeek"
-                        headerToolbar={{
-                            start: "prev,dayGridMonth,today,timeGridWeek,next",
-                            center: "",
-                            end: "title",
-                        }}
-                        selectable={true}
-                        editable={true}
-                        select={handleDateSelect}
-                        eventAdd={(e) => console.log(e)}
-                        eventChange={(e) => console.log(e)}
-                        eventRemove={(e) => console.log(e)}
-                        height={'80vh'}
-                    />
+                    <div className="schedule__Container">
+                        <FullCalendar
+                            plugins={[
+                                dayGridPlugin,
+                                interactionPlugin,
+                                timeGridPlugin,
+                            ]}
+                            initialView="timeGridWeek"
+                            headerToolbar={{
+                                start: "prev,dayGridMonth,today,timeGridWeek,next",
+                                center: "",
+                                end: "title",
+                            }}
+                            selectable={true}
+                            editable={true}
+                            select={handleDateSelect}
+                            eventAdd={(e) => console.log(e)}
+                            eventChange={(e) => console.log(e)}
+                            eventRemove={(e) => console.log(e)}
+                            height={"80vh"}
+                        />
+                    </div>
                 </div>
             </main>
         </div>

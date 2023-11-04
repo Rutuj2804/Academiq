@@ -54,6 +54,7 @@ import AddResponse from "../pages/demand/AddResponse";
 import Placements from "../pages/placement";
 import MyApplications from "../pages/placement/MyApplications";
 import MyJobs from "../pages/placement/MyJobs";
+import ScheduleEvent from "../pages/schedule/ScheduleEvent";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -99,6 +100,7 @@ export const regularRoutes = [
     { path: "/assignment/course", element: <CourseAssignment /> },
 
     { path: "/schedules", element: <Schedules /> },
+    { path: "/schedule/event", element: <ScheduleEvent /> },
 
     { path: "/roles", element: <RolesDefinition /> },
     { path: "/roles/create", element: <AddRoleDefinition /> },
