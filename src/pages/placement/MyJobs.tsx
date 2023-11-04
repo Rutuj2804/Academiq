@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 
-const Placements = () => {
+const MyJobs = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(
             setBreadcrumps({
-                name: ["PLACEMENTS", "Apply Jobs"],
-                link: "/placement",
+                name: ["PLACEMENTS", "My Jobs"],
+                link: "/placement/my-jobs",
             })
         );
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -19,11 +19,11 @@ const Placements = () => {
         <div className="section__Wrapper">
             <main>
                 <div className="paper">
-                    Placements
+                    MyJobs
                 </div>
             </main>
         </div>
     );
 };
 
-export default Placements;
+export default MyJobs;

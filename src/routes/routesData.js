@@ -51,6 +51,9 @@ import Demand from "../pages/configuration/Demand";
 import Basic from "../pages/configuration";
 import AddNewDemandType from "../pages/configuration/AddNewDemandType";
 import AddResponse from "../pages/demand/AddResponse";
+import Placements from "../pages/placement";
+import MyApplications from "../pages/placement/MyApplications";
+import MyJobs from "../pages/placement/MyJobs";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -87,6 +90,10 @@ export const regularRoutes = [
     { path: "/demand-letters", element: <DemandLetters /> },
     { path: "/demand-letters/add", element: <AddDemand /> },
     { path: "/demand-letters/response/:id", element: <AddResponse /> },
+
+    { path: "/placement", element: <Placements /> },
+    { path: "/placement/my-applications", element: <MyApplications /> },
+    { path: "/placement/my-jobs", element: <MyJobs /> },
 
     { path: "/assignment/faculty", element: <FacultyAssignment /> },
     { path: "/assignment/course", element: <CourseAssignment /> },

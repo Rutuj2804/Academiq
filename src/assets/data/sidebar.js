@@ -20,6 +20,9 @@ import {
     BsBookshelf,
     BsXDiamond,
     BsWindowSidebar,
+    BsFilesAlt,
+    BsLayers,
+    BsReverseLayoutSidebarReverse,
 } from "react-icons/bs";
 
 export const sideBarData = [
@@ -138,6 +141,32 @@ export const sideBarData = [
                 icon: <BsBook />,
                 notifications: 14,
                 matches: ["/library", "/library/add"],
+            },
+        ],
+    },
+    {
+        title: "Placements",
+        links: [
+            {
+                name: "Apply Jobs",
+                link: "/placement",
+                icon: <BsReverseLayoutSidebarReverse />,
+                notifications: 0,
+                matches: ["/placement"],
+            },
+            {
+                name: "My Applications",
+                link: "/placement/my-applications",
+                icon: <BsFilesAlt />,
+                notifications: 0,
+                matches: ["/placement/my-applications"],
+            },
+            {
+                name: "My Jobs",
+                link: "/placement/my-jobs",
+                icon: <BsLayers />,
+                notifications: 0,
+                matches: ["/placement/my-jobs"],
             },
         ],
     },
