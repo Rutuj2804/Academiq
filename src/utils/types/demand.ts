@@ -10,6 +10,6 @@ export interface DemandType extends DocumentInterface {
 export interface Demand extends DocumentInterface {
     demandedBy?: AuthInterface;
     reason?: string;
-    type?: any;
+    type?: DemandType;
     status?: string;
 }

@@ -6,7 +6,7 @@ import { useCrypto } from "../../utils/hooks";
 import { IconButton, Tooltip } from "@mui/material";
 import { RootState } from "../../store";
 import {
-    DeleteRounded,
+    DeleteRounded, EditRounded,
 } from "@mui/icons-material";
 import { deleteDemandLetter } from "../../store/demand/actions";
 
@@ -63,6 +63,15 @@ export const GetDemandColumns = () => {
             align: "center",
             renderCell: (params) => (
                 <div className="data-grid-actions">
+                    <Tooltip title="Edit">
+                        <IconButton
+                            size="small"
+                            className="icon-hover"
+                            onClick={() => navigate(`/demand-letters/response/${encrypt(params.row._id)}`)}
+                        >
+                            <EditRounded fontSize="small" />
+                        </IconButton>
+                    </Tooltip>
                     <Tooltip title="Delete">
                         <IconButton
                             size="small"

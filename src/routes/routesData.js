@@ -50,6 +50,7 @@ import DetailCourseView from "../pages/course/DetailCourseView";
 import Demand from "../pages/configuration/Demand";
 import Basic from "../pages/configuration";
 import AddNewDemandType from "../pages/configuration/AddNewDemandType";
+import AddResponse from "../pages/demand/AddResponse";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -85,6 +86,7 @@ export const regularRoutes = [
 
     { path: "/demand-letters", element: <DemandLetters /> },
     { path: "/demand-letters/add", element: <AddDemand /> },
+    { path: "/demand-letters/response/:id", element: <AddResponse /> },
 
     { path: "/assignment/faculty", element: <FacultyAssignment /> },
     { path: "/assignment/course", element: <CourseAssignment /> },

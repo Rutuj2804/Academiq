@@ -52,10 +52,10 @@ export const GetActivityColumns = ({ activeTab }: CProps) => {
             renderCell: (params) => (
                 <span
                     className={
-                        params.row.isActive ? "tag pending" : "tag active"
+                        activeTab === TabType.PENDING ? "tag pending" : "tag active"
                     }
                 >
-                    {params.row.isActive ? "Pendind" : "Completed"}
+                    {activeTab === TabType.PENDING ? "Pending" : "Completed"}
                 </span>
             ),
         },

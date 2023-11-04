@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { DemandState } from "./types";
-import { deleteDemandLetter, getDemandTypes, getDemandsCount, getDemandsGlobal } from "./actions";
+import { deleteDemandLetter, getDemandDetails, getDemandTypes, getDemandsCount, getDemandsGlobal, setResponseOnDemand } from "./actions";
 
 const initialState: DemandState = {
     demands: [],
@@ -36,6 +36,12 @@ export const demandSlice = createSlice({
         })
         builder.addCase(deleteDemandLetter.fulfilled, (s, a) => {
             s.demands = s.demands.filter(t=>!a.payload.includes(t._id))
+        })
+        builder.addCase(getDemandDetails.fulfilled, (s, a) => {
+            s.demand = a.payload
+        })
+        builder.addCase(setResponseOnDemand.fulfilled, (s, a) => {
+            s.demand = a.payload
         })
     }
 });

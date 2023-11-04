@@ -30,3 +30,9 @@ export interface DeleteDemandLetterRequest {
     universityID: string;
     demandID: string[];
 }
+
+export interface SetResponseRequest {
+    status: "PENDING" | "FULFILLED",
+    universityID: string; 
+    demandID: string;
+}

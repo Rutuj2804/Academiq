@@ -9,11 +9,6 @@ import { RootState } from "../../store";
 import { useMatch, useNavigate, useParams } from "react-router-dom";
 import { useCrypto } from "../../utils/hooks";
 
-enum ComponentMode {
-    ADD = "ADD",
-    UPDATE = "UPDATE",
-}
-
 const AddNewDemandType = () => {
 
     const [formData, setFormData] = useState({
