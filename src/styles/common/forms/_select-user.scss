@@ -1,11 +1,11 @@
-.input__Container {
+.selectUser__Container {
     width: 100%;
     label {
         font-size: 12px;
         text-transform: uppercase;
         font-weight: 500;
     }
-    .input__Wrapper {
+    div {
         position: relative;
         width: 100%;
         border: 1px solid transparent;
@@ -14,14 +14,15 @@
         background-color: $light-background;
         display: flex;
         align-items: center;
-        input,
-        textarea {
-            padding: 7px 15px;
+        cursor: pointer;
+        p {
             border: none;
             outline: none;
             background-color: transparent;
             flex: 1;
-            resize: none;
+            margin-bottom: 0%;
+            padding: 7px 15px;
+            font-size: 16px;
         }
         span {
             color: $green;

@@ -100,7 +100,7 @@ export const regularRoutes = [
     { path: "/assignment/course", element: <CourseAssignment /> },
 
     { path: "/schedules", element: <Schedules /> },
-    { path: "/schedule/event", element: <ScheduleEvent /> },
+    { path: "/schedule/event/:data", element: <ScheduleEvent /> },
 
     { path: "/roles", element: <RolesDefinition /> },
     { path: "/roles/create", element: <AddRoleDefinition /> },

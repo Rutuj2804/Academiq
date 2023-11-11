@@ -7,11 +7,14 @@ import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { DateSelectArg } from "@fullcalendar/core";
 import { useNavigate } from "react-router-dom";
+import { useCrypto } from "../../utils/hooks";
 
 const Schedules = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate()
+
+    const { encrypt } = useCrypto()
 
     useEffect(() => {
         dispatch(
@@ -23,21 +26,8 @@ const Schedules = () => {
     }, [dispatch]);
 
     const handleDateSelect = (selectInfo: DateSelectArg) => {
-        navigate("/schedule/event")
-        // let title = prompt("Please enter a new title for your event");
-        // let calendarApi = selectInfo.view.calendar;
-
-        // calendarApi.unselect(); // clear date selection
-
-        // if (title) {
-        //     calendarApi.addEvent({
-        //         id: Date.now().toString(),
-        //         title,
-        //         start: selectInfo.startStr,
-        //         end: selectInfo.endStr,
-        //         allDay: selectInfo.allDay,
-        //     });
-        // }
+        const data = JSON.stringify({ start: selectInfo.startStr, end: selectInfo.endStr, allDay: selectInfo.allDay })
+        navigate(`/schedule/event/${encrypt(data)}`)
     };
 
     return (

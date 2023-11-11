@@ -1,0 +1,17 @@
+.scheduleEvent__Wrapper {
+    padding: 10px;
+    form {
+        .scheduleEvent__Buttons {
+            margin: 10px 0;
+            display: flex;
+            justify-content: flex-end;
+            button {
+                background-color: $blue;
+                color: $white;
+                text-transform: capitalize;
+                font-size: 14px;
+                padding: 7px 20px;
+            }
+        }
+    }
+}
