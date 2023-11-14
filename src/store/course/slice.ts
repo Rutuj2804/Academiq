@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CourseState } from "./types";
-import { deleteAllCourse, deleteAllCoursePermanent, deleteCourse, deleteCoursePermanent, getCourse, getCoursesGlobal, getMyCoursesCountOnTabNumbers, reactivateCourse } from "./actions";
+import { deleteAllCourse, deleteAllCoursePermanent, deleteCourse, deleteCoursePermanent, getCourse, getCourseFromClass, getCoursesGlobal, getMyCoursesCountOnTabNumbers, reactivateCourse } from "./actions";
 
 const initialState: CourseState = {
     courses: [],
@@ -32,6 +32,9 @@ export const courseSlice = createSlice({
         })
         builder.addCase(getCourse.fulfilled, (s, a) => {
             s.course = a.payload
+        })
+        builder.addCase(getCourseFromClass.fulfilled, (s, a) => {
+            s.courses = a.payload
         })
         builder.addCase(deleteCourse.fulfilled, (s, a) => {
             s.courses = s.courses.map(t=>{

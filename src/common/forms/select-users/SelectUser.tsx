@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { BsCheckCircleFill, BsExclamationCircleFill } from "react-icons/bs";
+import { useDispatch } from "react-redux";
+import { setSelectUsers } from "../../../store/layout/slice";
 
 interface CProps {
     count: number;
@@ -7,11 +9,12 @@ interface CProps {
 }
 
 const SelectUser = ({ count, placeholder }: CProps) => {
-    const [modalOpen, setModalOpen] = useState(false);
+
+    const dispatch = useDispatch()
 
     return (
         <div className="selectUser__Wrapper">
-            <div className="selectUser__Container" onClick={()=>setModalOpen(t=>!t)}>
+            <div className="selectUser__Container" onClick={()=>dispatch(setSelectUsers({ isOpen: true }))}>
                 <label>Select {placeholder}</label>
                 <div>
                     <p>
@@ -30,11 +33,6 @@ const SelectUser = ({ count, placeholder }: CProps) => {
                     )}
                 </div>
             </div>
-            {modalOpen && (
-                <div className="selectUser__Modal">
-                    <div className="selectUser__Box">Input box</div>
-                </div>
-            )}
         </div>
     );
 };

@@ -6,6 +6,7 @@ import Delete from "./Delete";
 import AddAssignment from "./AddAssignment";
 import EventPost from "./EventPost";
 import AddNotes from "./AddNotes";
+import SelectUser from "./SelectUser";
 
 const Popups = () => {
     const layout = useSelector((state: RootState) => state.layout);
@@ -18,6 +19,7 @@ const Popups = () => {
                 {layout.assignment.isOpen ? <AddAssignment /> : null}
                 {layout.event.isOpen ? <EventPost /> : null}
                 {layout.notes.isOpen ? <AddNotes /> : null}
+                {layout.selectUser.isOpen ? <SelectUser /> : null}
             </div>
         ) : <></>
     );

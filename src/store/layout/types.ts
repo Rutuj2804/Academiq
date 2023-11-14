@@ -11,6 +11,7 @@ export interface LayoutState {
     assignment: AssignmentModal,
     event: EventPostModal,
     notes: AddUpdateNote;
+    selectUser: SelectUserModal;
 }
 
 export interface DeleteModal {
@@ -33,4 +34,8 @@ export interface AddUpdateNote {
 export interface EventPostModal {
     isOpen: boolean;
     id: string;
+}
+
+export interface SelectUserModal {
+    isOpen: boolean
 }

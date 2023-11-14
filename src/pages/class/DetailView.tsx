@@ -18,6 +18,7 @@ import {
 import { getClass } from "../../store/class/actions";
 import { useCrypto } from "../../utils/hooks";
 import { getClassActivity } from "../../store/activity/actions";
+import { getLecturesOfClass } from "../../store/lecture/actions";
 
 const Tabs = [
     { number: "1", name: "Students", view: <StudentView /> },
@@ -57,6 +58,7 @@ const ClassDetailView = () => {
         if(id) {
             dispatch(getClass(decrypt(id)!))
             dispatch(getClassActivity({classID: decrypt(id)!, universityID: universityID }))
+            dispatch(getLecturesOfClass(decrypt(id)!))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, dispatch, universityID])

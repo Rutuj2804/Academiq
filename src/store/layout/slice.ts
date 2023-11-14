@@ -6,6 +6,7 @@ import {
     DeleteModal,
     EventPostModal,
     LayoutState,
+    SelectUserModal,
 } from "./types";
 
 const initialState: LayoutState = {
@@ -34,6 +35,9 @@ const initialState: LayoutState = {
         isOpen: false,
         type: null,
         index: -1
+    },
+    selectUser: {
+        isOpen: false
     }
 };
 
@@ -55,6 +59,11 @@ export const layoutSlice = createSlice({
             state.background_modules = action.payload;
             state.popup = action.payload;
             state.search = action.payload;
+        },
+        setSelectUsers: (state, action: PayloadAction<SelectUserModal>) => {
+            state.background_modules = action.payload.isOpen;
+            state.popup = action.payload.isOpen;
+            state.selectUser = action.payload;
         },
         setEventPost: (state, action: PayloadAction<EventPostModal>) => {
             state.background_modules = action.payload.isOpen;
@@ -97,6 +106,7 @@ export const {
     setAssignment,
     setEventPost,
     setNotesPopup,
+    setSelectUsers
 } = layoutSlice.actions;
 
 export default layoutSlice.reducer;
