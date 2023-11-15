@@ -43,7 +43,7 @@ const LectureCard = ({ liked, comment, createdBy, createdAt, scheduledDate, cour
                 <div className="line"></div>
                 <div className="details">
                     <div className="top">
-                        {moment(scheduledDate).format("HH:MM a")} | {course}
+                        {moment(scheduledDate).format("HH:mm a")} | {course}
                     </div>
                     <div className="bottom">
                         <h4>{title}</h4>

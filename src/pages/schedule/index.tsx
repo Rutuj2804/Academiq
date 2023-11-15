@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setBreadcrumps } from "../../store/breadcrumps/slice";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
@@ -8,13 +8,21 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { DateSelectArg } from "@fullcalendar/core";
 import { useNavigate } from "react-router-dom";
 import { useCrypto } from "../../utils/hooks";
+import { getLectures } from "../../store/lecture/actions";
+import { RootState } from "../../store";
 
 const Schedules = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<any>();
 
     const navigate = useNavigate()
 
     const { encrypt } = useCrypto()
+
+    const universityID = useSelector(
+        (state: RootState) => state.university.university.value
+    );
+
+    const lectures = useSelector((state: RootState) => state.lecture.lectures);
 
     useEffect(() => {
         dispatch(
@@ -24,6 +32,12 @@ const Schedules = () => {
             })
         );
     }, [dispatch]);
+
+    useEffect(() => {
+        if (universityID) {
+            dispatch(getLectures({ universityID }));
+        }
+    }, [dispatch, universityID]);
 
     const handleDateSelect = (selectInfo: DateSelectArg) => {
         const data = JSON.stringify({ start: selectInfo.startStr, end: selectInfo.endStr, allDay: selectInfo.allDay })
@@ -54,6 +68,7 @@ const Schedules = () => {
                             eventChange={(e) => console.log(e)}
                             eventRemove={(e) => console.log(e)}
                             height={"80vh"}
+                            events={lectures}
                         />
                     </div>
                 </div>
