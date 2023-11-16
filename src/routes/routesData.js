@@ -55,6 +55,7 @@ import Placements from "../pages/placement";
 import MyApplications from "../pages/placement/MyApplications";
 import MyJobs from "../pages/placement/MyJobs";
 import ScheduleEvent from "../pages/schedule/ScheduleEvent";
+import AddEventPost from "../pages/event/AddEventPost";
 
 export const regularRoutes = [
     { path: "/dashboard", element: <Dashboard /> },
@@ -82,6 +83,7 @@ export const regularRoutes = [
     { path: "/collaborate", element: <Collaborate /> },
 
     { path: "/events", element: <Events /> },
+    { path: "/event/create", element: <AddEventPost /> },
 
     { path: "/lectures", element: <Lectures /> },
     { path: "/lectures/add", element: <AddLecture /> },

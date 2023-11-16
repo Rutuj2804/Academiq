@@ -11,3 +11,5 @@ export * from "./staff"
 export * from "./note"
 
 export * from "./demand"
+
+export * from "./event"

@@ -1,4 +1,43 @@
 .events__Wrapper {
+    .events__CreateEvent {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color: $white;
+        padding: 15px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        gap: 10px;
+        .top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            input {
+                flex: 1;
+                width: 100%;
+                padding: 10px;
+                outline: none;
+                border: none;
+                background-color: $light-background;
+                border-radius: 8px;
+            }
+        }
+        .bottom {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            .data-type {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                p {
+                    margin-bottom: 0%;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
     .postCard__Wrapper {
         padding: 20px;
         border-radius: 5px;
